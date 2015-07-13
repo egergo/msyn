@@ -100,7 +100,7 @@ function createAttachment(itemId, items) {
 		return fetchItem(itemId);
 	}).then(function(itemDesc) {
 		var text = items[itemId].map(function(item) {
-			var txt = formatPrice(item.buyout) + ': ' + item.owner + '-' + item.ownerRealm;
+			var txt = formatPrice(item.buyout / item.quantity) + ': ' + item.owner + '-' + item.ownerRealm;
 			if (item.owner === 'Perlan') {
 				txt = '*' + txt + '*';
 			}
@@ -126,7 +126,7 @@ function sortAllItems(allItems) {
 
 function sortItems(items) {
 	return items.sort(function(a, b) {
-		return a.buyout - b.buyout;
+		return (a.buyout / a.quantity) - (b.buyout / b.quantity);
 	});
 }
 
