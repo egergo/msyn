@@ -1,0 +1,160 @@
+var request = require('request-promise');
+var urljoin = require('url-join');
+var Promise = require('bluebird');
+
+var xml2js = require('xml2js');
+Promise.promisifyAll(xml2js);
+
+var Redis = require('ioredis');
+var redis = new Redis(process.env.REDIS_URI);
+
+var key = process.env.BLIZZARD_KEY;
+var endpoint = 'https://eu.api.battle.net';
+var locale = 'en_GB';
+var realm = 'Mazrigos';
+
+var slackHook = process.env.SLACK_HOOK;
+
+var watched = {};
+
+var url = urljoin(endpoint, 'wow/auction/data', realm, '?locale=' + encodeURIComponent(locale) + '&apikey=' + encodeURIComponent(key));
+Promise.resolve().then(function() {
+	return request({
+		uri: url,
+		gzip: true
+	});
+}).then(function(res) {
+	res = JSON.parse(res);
+	console.log(res);
+	return Promise.all(res.files.map(function(file) {
+
+		return redis.get('realms:' + realm + ':auc:last').then(function(last) {
+			if (last && last >= file.lastModified) { console.log('already checked'); return null; }
+			redis.set('realms:' + realm + ':auc:last', file.lastModified);
+
+			console.log('fetching', file.url);
+			return request({
+				uri: file.url,
+				gzip: true
+			});
+		});
+	}));
+}).then(function(res) {
+
+	var allItems = {};
+
+	var items = [];
+	res.forEach(function(res) {
+		if (!res) { return; }
+
+		res = JSON.parse(res);
+		res.auctions.auctions.forEach(function(auc) {
+			var arr = allItems[auc.item];
+			if (!arr) {
+				arr = allItems[auc.item] = [];
+			}
+			arr.push(auc);
+
+			if (auc.owner === 'Perlan') {
+				//127716
+				watched[auc.item] = true;
+			}
+		});
+	});
+	return allItems;
+})
+.then(sortAllItems)
+.then(reportToSlack)
+.catch(function(err) {
+	console.log('bazge', err, err.stack);
+}).finally(function() {
+	process.exit();
+});
+
+function reportToSlack(allItems) {
+	return Promise.resolve().then(function() {
+		var promises = [];
+		for (var x in watched) {
+			promises.push(createAttachment(x, allItems));
+		}
+		return Promise.all(promises);
+	}).then(function(attachments) {
+		if (!attachments.length) { return; }
+
+		return request({
+			method: 'post',
+			uri: slackHook,
+			json: {
+				text: 'Undercuts found',
+				channel: '@egergo',
+				attachments: attachments
+			}
+		});
+	}).then(function() {
+		return allItems;
+	});
+}
+
+function createAttachment(itemId, items) {
+	return Promise.resolve().then(function() {
+		return fetchItem(itemId);
+	}).then(function(itemDesc) {
+		var text = items[itemId].map(function(item) {
+			var txt = formatPrice(item.buyout) + ': ' + item.owner + '-' + item.ownerRealm;
+			if (item.owner === 'Perlan') {
+				txt = '*' + txt + '*';
+			}
+			return txt;
+		}).join('\n');
+
+		return {
+			author_name: itemDesc.name,
+			author_link: 'http://www.wowhead.com/item=' + itemId,
+			author_icon: 'https://wow.zamimg.com/images/wow/icons/large/' + itemDesc.icon + '.jpg',
+			text: text,
+			mrkdwn_in: ['text']
+		};
+	});
+}
+
+function sortAllItems(allItems) {
+	for (var x in allItems) {
+		sortItems(allItems[x]);
+	}
+	return allItems;
+}
+
+function sortItems(items) {
+	return items.sort(function(a, b) {
+		return a.buyout - b.buyout;
+	});
+}
+
+var itemCache = {};
+function fetchItem(itemId) {
+	return Promise.resolve().then(function() {
+		if (itemCache[itemId]) {
+			return itemCache[itemId];
+		}
+
+		return request({
+			uri: 'http://www.wowhead.com/item=' + itemId + '&xml'
+		}).then(function(xml) {
+			return xml2js.parseStringAsync(xml);
+		}).then(function(itemRaw) {
+			var item = {
+				name: itemRaw.wowhead.item[0].name[0],
+				icon: itemRaw.wowhead.item[0].icon[0]._
+			};
+			itemCache[itemId] = item;
+			return item;
+		});
+	});
+}
+
+function formatPrice(price) {
+	var gold = Math.floor(price / 10000);
+	var silver = Math.floor(price % 10000 / 100);
+	var copper = Math.floor(price % 100);
+	return gold + 'g ' + silver + 's ' + copper + 'c';
+}

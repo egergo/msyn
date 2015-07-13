@@ -1,0 +1,9 @@
+build
+.DS_Store
+.nbrun
+.vagrant
+.c9
+
+/node_modules
+/*.sqlite
+/coverage
