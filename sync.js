@@ -1,6 +1,7 @@
 var request = require('request-promise');
 var urljoin = require('url-join');
 var Promise = require('bluebird');
+var util = require('util');
 
 var xml2js = require('xml2js');
 Promise.promisifyAll(xml2js);
@@ -41,7 +42,7 @@ Promise.resolve().then(function() {
 	}));
 }).then(function(res) {
 
-	var allItems = {};
+	var allItems = {_ownerIndex:{}};
 
 	var items = [];
 	res.forEach(function(res) {
@@ -53,6 +54,12 @@ Promise.resolve().then(function() {
 			if (!arr) {
 				arr = allItems[auc.item] = [];
 			}
+			auc.fullOwner = auc.owner + '-' + auc.ownerRealm;
+			var ownerIndex = allItems._ownerIndex[auc.fullOwner];
+			if (!ownerIndex) {
+				allItems._ownerIndex[auc.fullOwner] = ownerIndex = {};
+			}
+			ownerIndex[auc.item] = true;
 			arr.push(auc);
 
 			if (auc.owner === 'Perlan') {
@@ -64,7 +71,10 @@ Promise.resolve().then(function() {
 	return allItems;
 })
 .then(sortAllItems)
-.then(reportToSlack)
+//.then(reportToSlack)
+.then(function(allItems) {
+	return sendNotifications('eu', 'Mazrigos', allItems);
+})
 .catch(function(err) {
 	console.log('bazge', err, err.stack);
 }).finally(function() {
@@ -72,6 +82,30 @@ Promise.resolve().then(function() {
 });
 
 function reportToSlack(allItems) {
+	return Promise.resolve().then(function() {
+		var promises = [];
+		for (var x in watched) {
+			promises.push(createAttachment(x, allItems));
+		}
+		return Promise.all(promises);
+	}).then(function(attachments) {
+		if (!attachments.length) { return; }
+
+		return request({
+			method: 'post',
+			uri: slackHook,
+			json: {
+				text: 'Undercuts found',
+				channel: '@egergo',
+				attachments: attachments
+			}
+		});
+	}).then(function() {
+		return allItems;
+	});
+}
+
+function reportToSlack2(allItems, wached) {
 	return Promise.resolve().then(function() {
 		var promises = [];
 		for (var x in watched) {
@@ -119,6 +153,7 @@ function createAttachment(itemId, items) {
 
 function sortAllItems(allItems) {
 	for (var x in allItems) {
+		if (x.charAt(0) === '_') { continue; }
 		sortItems(allItems[x]);
 	}
 	return allItems;
@@ -158,3 +193,34 @@ function formatPrice(price) {
 	var copper = Math.floor(price % 100);
 	return gold + 'g ' + silver + 's ' + copper + 'c';
 }
+
+function sendNotifications(region, realm, items) {
+	return Promise.resolve().then(function() {
+		return redis.smembers(util.format('realms:%s:%s:users', region, realm)).then(function(users) {
+			console.log('all users', users);
+			return Promise.all(users.map(function(userId) {
+				return sendNotificationToUser(region, realm, items, userId);
+			}));
+		});
+	});
+}
+
+function sendNotificationToUser(region, realm, items, userId) {
+	return Promise.resolve().then(function() {
+		return redis.get(util.format('users:%s', userId))
+	}).then(function(user) {
+		user = JSON.parse(user);
+		console.log('using user', user);
+		if (!user || !user.toons) { return; }
+		var futures = [];
+		user.toons.forEach(function(toon) {
+			var ownerIndex = items._ownerIndex[toon.name + '-' + toon.realm]
+			console.log('full name', toon.name + '-' + toon.realm, ownerIndex);
+			if (!ownerIndex) { return; }
+			futures.push(reportToSlack2(items, ownerIndex));
+		});
+		return Promise.all(futures);
+	});
+}
+
+
