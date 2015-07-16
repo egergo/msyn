@@ -51,6 +51,7 @@ Promise.resolve().then(function() {
 				arr = allItems[auc.item] = [];
 			}
 			auc.fullOwner = auc.owner + '-' + auc.ownerRealm + '-' + 'eu';
+			auc.itemPrice = auc.buyout / auc.quantity;
 			var ownerIndex = allItems._ownerIndex[auc.fullOwner];
 			if (!ownerIndex) {
 				allItems._ownerIndex[auc.fullOwner] = ownerIndex = {};
@@ -62,6 +63,7 @@ Promise.resolve().then(function() {
 	return allItems;
 })
 .then(sortAllItems)
+.then(simplifyAllItems)
 .then(function(allItems) {
 	return sendNotifications('eu', 'Mazrigos', allItems);
 })
@@ -107,7 +109,12 @@ function createAttachment(itemId, items, region, ownToons) {
 		return fetchItem(itemId);
 	}).then(function(itemDesc) {
 		var text = items[itemId].map(function(item) {
-			var txt = formatPrice(item.buyout / item.quantity) + ': ' + item.owner + '-' + item.ownerRealm;
+			var stacks = [];
+			for (var x in item.stacks) {
+				var pluralized = item.stacks[x] > 1 ? 'stacks' : 'stack';
+				stacks.push(util.format('%s %s of %s', item.stacks[x], pluralized, x));
+			}
+			var txt = formatPrice(item.itemPrice) + ': ' + item.owner + '-' + item.ownerRealm + ' (' + stacks.join(', ') + ')';
 			if (ownToons[item.fullOwner]) {
 				txt = '*' + txt + '*';
 			}
@@ -134,8 +141,40 @@ function sortAllItems(allItems) {
 
 function sortItems(items) {
 	return items.sort(function(a, b) {
-		return (a.buyout / a.quantity) - (b.buyout / b.quantity);
+		var result = a.itemPrice - b.itemPrice;
+		if (result == 0) {
+			result = a.fullOwner.localeCompare(b);
+		}
+		return result;
 	});
+}
+
+function simplifyAllItems(allItems) {
+	for (var x in allItems) {
+		if (x.charAt(0) === '_') { continue; }
+		allItems[x] = simplifyItems(allItems[x]);
+	}
+	return allItems;
+}
+
+function simplifyItems(items) {
+	var cur;
+	var result = [];
+	items.forEach(function(item) {
+		if (!cur || cur.fullOwner !== item.fullOwner || cur.itemPrice !== item.itemPrice) {
+			cur = item;
+			cur.ids = [item.auc];
+			cur.stacks = {};
+			cur.stacks[item.quantity] = 1;
+			cur.sum = item.quantity;
+			result.push(cur);
+		} else {
+			cur.ids.push(item.auc);
+			cur.stacks[item.quantity] = (cur.stacks[item.quantity] ? cur.stacks[item.quantity] : 0) + 1;
+			cur.sum += item.quantity;
+		}
+	});
+	return result;
 }
 
 var itemCache = {};
