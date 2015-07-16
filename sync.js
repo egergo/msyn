@@ -14,10 +14,6 @@ var endpoint = 'https://eu.api.battle.net';
 var locale = 'en_GB';
 var realm = 'Mazrigos';
 
-var slackHook = process.env.SLACK_HOOK;
-
-var watched = {};
-
 var url = urljoin(endpoint, 'wow/auction/data', realm, '?locale=' + encodeURIComponent(locale) + '&apikey=' + encodeURIComponent(key));
 Promise.resolve().then(function() {
 	return request({
@@ -61,17 +57,11 @@ Promise.resolve().then(function() {
 			}
 			ownerIndex[auc.item] = true;
 			arr.push(auc);
-
-			if (auc.owner === 'Perlan') {
-				//127716
-				watched[auc.item] = true;
-			}
 		});
 	});
 	return allItems;
 })
 .then(sortAllItems)
-//.then(reportToSlack)
 .then(function(allItems) {
 	return sendNotifications('eu', 'Mazrigos', allItems);
 })
@@ -81,31 +71,7 @@ Promise.resolve().then(function() {
 	process.exit();
 });
 
-function reportToSlack(allItems) {
-	return Promise.resolve().then(function() {
-		var promises = [];
-		for (var x in watched) {
-			promises.push(createAttachment(x, allItems, 'eu'));
-		}
-		return Promise.all(promises);
-	}).then(function(attachments) {
-		if (!attachments.length) { return; }
-
-		return request({
-			method: 'post',
-			uri: slackHook,
-			json: {
-				text: 'Undercuts found',
-				channel: '@egergo',
-				attachments: attachments
-			}
-		});
-	}).then(function() {
-		return allItems;
-	});
-}
-
-function reportToSlack2(allItems, wached, region, user) {
+function reportToSlack2(allItems, watched, region, user) {
 	return Promise.resolve().then(function() {
 		if (!user || !user.slackHook) { return; }
 
@@ -217,7 +183,6 @@ function sendNotificationToUser(region, realm, items, userId) {
 		return redis.get(util.format('users:%s', userId))
 	}).then(function(user) {
 		user = JSON.parse(user);
-		console.log('using user', user);
 		if (!user || !user.toons) { return; }
 		var futures = [];
 		user.toons.forEach(function(toon) {
