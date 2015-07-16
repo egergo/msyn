@@ -88,6 +88,7 @@ function reportToSlack2(allItems, watched, region, user) {
 		}
 		return Promise.all(promises);
 	}).then(function(attachments) {
+		attachments = attachments.filter(function(item) { return !!item; });
 		if (!attachments.length) { return; }
 
 		return request({
@@ -108,7 +109,12 @@ function createAttachment(itemId, items, region, ownToons) {
 	return Promise.resolve().then(function() {
 		return fetchItem(itemId);
 	}).then(function(itemDesc) {
+		var first = true;
+		var noNotificationNeeded = false;
+
 		var text = items[itemId].map(function(item) {
+			if (item.itemPrice == 0) { return undefined; }
+
 			var stacks = [];
 			for (var x in item.stacks) {
 				var pluralized = item.stacks[x] > 1 ? 'stacks' : 'stack';
@@ -117,9 +123,13 @@ function createAttachment(itemId, items, region, ownToons) {
 			var txt = formatPrice(item.itemPrice) + ': ' + item.owner + '-' + item.ownerRealm + ' (' + stacks.join(', ') + ')';
 			if (ownToons[item.fullOwner]) {
 				txt = '*' + txt + '*';
+				if (first) { noNotificationNeeded = true; return undefined; }
 			}
+			first = false;
 			return txt;
 		}).join('\n');
+
+		if (noNotificationNeeded || !text) { return undefined; }
 
 		return {
 			author_name: itemDesc.name,
