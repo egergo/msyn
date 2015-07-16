@@ -54,7 +54,7 @@ Promise.resolve().then(function() {
 			if (!arr) {
 				arr = allItems[auc.item] = [];
 			}
-			auc.fullOwner = auc.owner + '-' + auc.ownerRealm;
+			auc.fullOwner = auc.owner + '-' + auc.ownerRealm + '-' + 'eu';
 			var ownerIndex = allItems._ownerIndex[auc.fullOwner];
 			if (!ownerIndex) {
 				allItems._ownerIndex[auc.fullOwner] = ownerIndex = {};
@@ -105,11 +105,18 @@ function reportToSlack(allItems) {
 	});
 }
 
-function reportToSlack2(allItems, wached, region) {
+function reportToSlack2(allItems, wached, region, user) {
 	return Promise.resolve().then(function() {
+		if (!user || !user.slackHook) { return; }
+
+		var ownToons = {};
+		user.toons.forEach(function(toon) {
+			ownToons[toon.name + '-' + toon.realm + '-' + toon.region] = true;;
+		});
+
 		var promises = [];
 		for (var x in watched) {
-			promises.push(createAttachment(x, allItems, region));
+			promises.push(createAttachment(x, allItems, region, ownToons));
 		}
 		return Promise.all(promises);
 	}).then(function(attachments) {
@@ -117,10 +124,10 @@ function reportToSlack2(allItems, wached, region) {
 
 		return request({
 			method: 'post',
-			uri: slackHook,
+			uri: user.slackHook,
 			json: {
-				text: 'Undercuts found',
-				channel: '@egergo',
+				text: 'Undercuts found for ' + user.battletag,
+				channel: user.slackChannel,
 				attachments: attachments
 			}
 		});
@@ -129,13 +136,13 @@ function reportToSlack2(allItems, wached, region) {
 	});
 }
 
-function createAttachment(itemId, items, region) {
+function createAttachment(itemId, items, region, ownToons) {
 	return Promise.resolve().then(function() {
 		return fetchItem(itemId);
 	}).then(function(itemDesc) {
 		var text = items[itemId].map(function(item) {
 			var txt = formatPrice(item.buyout / item.quantity) + ': ' + item.owner + '-' + item.ownerRealm;
-			if (item.owner === 'Perlan') {
+			if (ownToons[item.fullOwner]) {
 				txt = '*' + txt + '*';
 			}
 			return txt;
@@ -214,10 +221,12 @@ function sendNotificationToUser(region, realm, items, userId) {
 		if (!user || !user.toons) { return; }
 		var futures = [];
 		user.toons.forEach(function(toon) {
-			var ownerIndex = items._ownerIndex[toon.name + '-' + toon.realm]
+			if (toon.region !== region) { return; }
+
+			var ownerIndex = items._ownerIndex[toon.name + '-' + toon.realm + '-' + region]
 			console.log('full name', toon.name + '-' + toon.realm, ownerIndex);
 			if (!ownerIndex) { return; }
-			futures.push(reportToSlack2(items, ownerIndex, region));
+			futures.push(reportToSlack2(items, ownerIndex, region, user));
 		});
 		return Promise.all(futures);
 	});
