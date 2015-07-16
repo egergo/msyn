@@ -85,7 +85,7 @@ function reportToSlack(allItems) {
 	return Promise.resolve().then(function() {
 		var promises = [];
 		for (var x in watched) {
-			promises.push(createAttachment(x, allItems));
+			promises.push(createAttachment(x, allItems, 'eu'));
 		}
 		return Promise.all(promises);
 	}).then(function(attachments) {
@@ -105,11 +105,11 @@ function reportToSlack(allItems) {
 	});
 }
 
-function reportToSlack2(allItems, wached) {
+function reportToSlack2(allItems, wached, region) {
 	return Promise.resolve().then(function() {
 		var promises = [];
 		for (var x in watched) {
-			promises.push(createAttachment(x, allItems));
+			promises.push(createAttachment(x, allItems, region));
 		}
 		return Promise.all(promises);
 	}).then(function(attachments) {
@@ -129,7 +129,7 @@ function reportToSlack2(allItems, wached) {
 	});
 }
 
-function createAttachment(itemId, items) {
+function createAttachment(itemId, items, region) {
 	return Promise.resolve().then(function() {
 		return fetchItem(itemId);
 	}).then(function(itemDesc) {
@@ -143,7 +143,7 @@ function createAttachment(itemId, items) {
 
 		return {
 			author_name: itemDesc.name,
-			author_link: 'http://www.wowhead.com/item=' + itemId,
+			author_link: 'https://' + region + '.battle.net/wow/en/vault/character/auction/browse?sort=buyout&reverse=false&itemId=' + itemId,
 			author_icon: 'https://wow.zamimg.com/images/wow/icons/large/' + itemDesc.icon + '.jpg',
 			text: text,
 			mrkdwn_in: ['text']
@@ -217,7 +217,7 @@ function sendNotificationToUser(region, realm, items, userId) {
 			var ownerIndex = items._ownerIndex[toon.name + '-' + toon.realm]
 			console.log('full name', toon.name + '-' + toon.realm, ownerIndex);
 			if (!ownerIndex) { return; }
-			futures.push(reportToSlack2(items, ownerIndex));
+			futures.push(reportToSlack2(items, ownerIndex, region));
 		});
 		return Promise.all(futures);
 	});
