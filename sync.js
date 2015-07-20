@@ -6,6 +6,8 @@ var util = require('util');
 var xml2js = require('xml2js');
 Promise.promisifyAll(xml2js);
 
+var compare = require('./compare');
+
 var Redis = require('ioredis');
 var redis = new Redis(process.env.REDIS_URI);
 
@@ -13,6 +15,10 @@ var key = process.env.BLIZZARD_KEY;
 var endpoint = 'https://eu.api.battle.net';
 var locale = 'en_GB';
 var realm = 'Mazrigos';
+
+var changes;
+var a;
+var b;
 
 var url = urljoin(endpoint, 'wow/auction/data', realm, '?locale=' + encodeURIComponent(locale) + '&apikey=' + encodeURIComponent(key));
 Promise.resolve().then(function() {
@@ -22,43 +28,59 @@ Promise.resolve().then(function() {
 	});
 }).then(function(res) {
 	res = JSON.parse(res);
-	console.log(res);
-	return Promise.all(res.files.map(function(file) {
+	var file = res.files[0];
 
-		return redis.get('realms:' + realm + ':auc:last').then(function(last) {
-			if (last && last >= file.lastModified) { console.log('already checked'); return null; }
-			redis.set('realms:' + realm + ':auc:last', file.lastModified);
+	return redis.get('realms:' + realm + ':auc:last').then(function(last) {
+		if (last && last >= file.lastModified) { console.log('already checked'); process.exit(); return null; } // TODO: fixme
+		redis.set('realms:' + realm + ':auc:last', file.lastModified); // TODO: wait for result
 
-			console.log('fetching', file.url);
-			return request({
-				uri: file.url,
-				gzip: true
-			});
-		});
-	}));
+		return request({
+			uri: file.url,
+			gzip: true
+		}).then(function(res) {
+			return {
+				res: res,
+				lastModified: file.lastModified
+			};
+		})
+	});
+
+}).then(function(opt) {
+	// TODO: remove global context
+
+	b = compare.loadJson(JSON.parse(opt.res), opt.lastModified);
+	return redis.get('realms:' + realm + ':auc:saved').then(function(saved) {
+		if (saved) {
+			a = saved;
+			changes = compare.makeChanged(a, b);
+		}
+
+		return redis.set('realms:' + realm + ':auc:saved', JSON.stringify(b));
+	}).then(function() {
+
+		return opt.res;
+	})
+
 }).then(function(res) {
 
 	var allItems = {_ownerIndex:{}};
 
 	var items = [];
-	res.forEach(function(res) {
-		if (!res) { return; }
 
-		res = JSON.parse(res);
-		res.auctions.auctions.forEach(function(auc) {
-			var arr = allItems[auc.item];
-			if (!arr) {
-				arr = allItems[auc.item] = [];
-			}
-			auc.fullOwner = auc.owner + '-' + auc.ownerRealm + '-' + 'eu';
-			auc.itemPrice = auc.buyout / auc.quantity;
-			var ownerIndex = allItems._ownerIndex[auc.fullOwner];
-			if (!ownerIndex) {
-				allItems._ownerIndex[auc.fullOwner] = ownerIndex = {};
-			}
-			ownerIndex[auc.item] = true;
-			arr.push(auc);
-		});
+	res = JSON.parse(res);
+	res.auctions.auctions.forEach(function(auc) {
+		var arr = allItems[auc.item];
+		if (!arr) {
+			arr = allItems[auc.item] = [];
+		}
+		auc.fullOwner = auc.owner + '-' + auc.ownerRealm + '-' + 'eu';
+		auc.itemPrice = auc.buyout / auc.quantity;
+		var ownerIndex = allItems._ownerIndex[auc.fullOwner];
+		if (!ownerIndex) {
+			allItems._ownerIndex[auc.fullOwner] = ownerIndex = {};
+		}
+		ownerIndex[auc.item] = true;
+		arr.push(auc);
 	});
 	return allItems;
 })
@@ -128,6 +150,24 @@ function createAttachment(itemId, items, region, ownToons) {
 			first = false;
 			return txt;
 		}).join('\n');
+
+		if (changes && changes[itemId]) {
+			noNotificationNeeded = false;
+
+			changes[itemId].forEach(function(owner) {
+				if (changes[itemId][owner].sold) {
+					changes[itemId][owner].sold.forEach(function(auction) {
+						text += util.format('\nSold: %s %sx%s', auction.owner, auction.quantity, formatPrice(auction.buyoutPerItem));
+					});
+				}
+
+				if (changes[itemId][owner].relisted) {
+					changes[itemId][owner].relisted.forEach(function(auction) {
+						text += util.format('\nRelisted: %s %sx%s', auction.owner, auction.quantity, formatPrice(auction.buyoutPerItem));
+					});
+				}
+			});
+		}
 
 		if (noNotificationNeeded || !text) { return undefined; }
 
