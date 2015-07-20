@@ -1,11 +1,10 @@
-var config = require('./config');
 var bunyan = require('bunyan');
 var bunyanLogger = require('express-bunyan-logger');
 var uuid = require('node-uuid');
 
 var log = bunyan.createLogger({
 	name: 'app',
-	level: config.get('log.level')
+	//level: config.get('log.level')
 });
 
 function defaultGenerateRequestId(req) {
@@ -23,7 +22,7 @@ log.requestLogger = function() {
 		name: 'request',
 		parseUA: false,
 		format: ':remote-address :method :url :status-code :response-time ms',
-		excludes: config.get('log.verbose') ? [] : ['body', 'short-body', 'http-version', 'response-hrtime', 'req-headers', 'res-headers', 'req', 'res', 'referer', 'incoming'],
+		//excludes: config.get('log.verbose') ? [] : ['body', 'short-body', 'http-version', 'response-hrtime', 'req-headers', 'res-headers', 'req', 'res', 'referer', 'incoming'],
 		stream: process.stdout,
 		level: config.get('log.level'),
 		genReqId: defaultGenerateRequestId
@@ -41,7 +40,7 @@ log.errorLogger = function() {
 		excludes: ['short-body', 'incoming', 'response-hrtime'],
 		stream: process.stdout,
 		immediate: true,
-		level: config.get('log.level'),
+		//level: config.get('log.level'),
 		genReqId: defaultGenerateRequestId
 	});
 };
