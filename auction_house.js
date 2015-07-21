@@ -41,7 +41,7 @@ AuctionHouse.prototype.load = function(opt) {
 			var redisLastModified = opt.force ? Promise.resolve() : this._redis.get(util.format('realms:%s:%s:auc:lastModified', this._region, this._realm));
 
 			// TODO: format locale
-			var url = util.format('https://%s.api.battle.net/wow/auction/data/%s?locale=%s%apikey=%s', this._region, this._realm, 'en_GB', encodeURIComponent(this._key));
+			var url = util.format('https://%s.api.battle.net/wow/auction/data/%s?locale=%s&apikey=%s', this._region, this._realm, 'en_GB', encodeURIComponent(this._key));
 			var download = request({
 				uri: url,
 				gzip: true
