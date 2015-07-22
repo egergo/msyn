@@ -189,6 +189,8 @@ function fetchItem(itemId) {
 		}).then(function(xml) {
 			return xml2js.parseStringAsync(xml);
 		}).then(function(itemRaw) {
+			if (itemRaw.wowhead.error) { throw new Error('Wowhead error (item=' + itemId + '): ' + itemRaw.wowhead.error[0]); }
+
 			var item = {
 				name: itemRaw.wowhead.item[0].name[0],
 				icon: itemRaw.wowhead.item[0].icon[0]._
