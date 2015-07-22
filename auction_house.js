@@ -122,13 +122,26 @@ Auctions.prototype.getAuction = function(auctionId) {
 	return result;
 };
 
-Auctions.prototype.getOwnerItems = function(owner) {
+/**
+ * Returns an array of item IDs of the items for which the owner
+ * has an active auction.
+ *
+ * @param {string} owner
+ * @returns {number[]}
+ */
+Auctions.prototype.getOwnerItemIds = function(owner) {
 	var ownerIndex = this.index.owners[owner];
 	if (!ownerIndex) { return []; }
 	return Object.keys(ownerIndex);
 };
 
-Auctions.prototype.getItemAuctions = function(itemId) {
+/**
+ * Returns an array of auctions IDs for the given item ID.
+ *
+ * @param {number} itemId
+ * @returns {number[]}
+ */
+Auctions.prototype.getItemAuctionIds = function(itemId) {
 	return this.index.items[itemId] || [];
 };
 

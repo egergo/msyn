@@ -18,6 +18,9 @@ var realm = 'mazrigos';
 
 var itemCache = {};
 
+module.exports.reportToSlack2 = reportToSlack2;
+if (require.main !== module) { return; }
+
 return Promise.resolve().then(function() {
 	var ah = new AuctionHouse({
 		redis: redis,
@@ -27,6 +30,8 @@ return Promise.resolve().then(function() {
 	});
 	return ah.load();
 }).then(function(auctions) {
+	if (!auctions._changes) { throw new Error('no changes detected'); }
+
 	return sendNotifications(region, realm, auctions);
 }).catch(function(err) {
 	log.error({err:err}, 'exception: ' + err.stack);
@@ -39,17 +44,22 @@ function reportToSlack2(auctions, region, user, owner) {
 	return Promise.resolve().then(function() {
 		if (!user || !user.slackHook) { return; }
 
-		var items = auctions.getOwnerItems(owner);
-		if (auctions._changes && auctions._changes.owners[owner]) {
+		var itemsIdsToNotify = {};
+		auctions.getOwnerItemIds(owner).forEach(function(itemId) {
+			// only work on auctions where the min price has changed
+			if (auctions._priceChanges[itemId]) {
+				itemsIdsToNotify[itemId] = true;
+			}
+		});
+
+
+		if (auctions._changes.owners[owner]) {
 			auctions._changes.owners[owner].forEach(function(itemId) {
-				items.push(itemId);
+				itemsIdsToNotify[itemId] = true;
 			});
 		}
 
-		var processed = {};
-		return Promise.all(items.map(function(itemId) {
-			if (processed[itemId]) { return; }
-			processed[itemId] = true;
+		return Promise.all(Object.keys(itemsIdsToNotify).map(function(itemId) {
 			return createAttachment(itemId, auctions, region, owner);
 		}));
 	}).then(function(attachments) {
@@ -76,43 +86,47 @@ function createAttachment(itemId, auctions, region, owner) {
 		return fetchItem(itemId);
 	}).then(function(itemDesc) {
 
-		var render = false;
-		 var itemAuctions = auctions.getItemAuctions(itemId);
-		// if (auctions._priceChanges) {
-		// 	if (auctions._priceChanges[itemId]) {
-		// 		render = true;
-		// 	}
-		// } else {
-		// 	if (itemAuctions.length > 0 && itemAuctions[0].owner !== owner) {
-		// 		render = true;
-		// 	}
-		// }
-		render = true;
-
-		if (!render) { return; }
-
-		//itemAuctions = simplifyItems(itemAuctions);
-		var text = itemAuctions.map(function(auctionId) {
-			var item = auctions.getAuction(auctionId);
-
-			//var txt = formatPrice(item.buyoutPerItem) + ': ' + item.owner + ' (' + stacks.join(', ') + ')';
-			var txt = formatPrice(item.buyoutPerItem) + ': ' + item.owner;
-			if (auctions._changes && auctions._changes.relisted[itemId] && auctions._changes.relisted[itemId][auctionId]) {
-				txt += ' relisted from ' + formatPrice(auctions._changes.relisted[itemId][auctionId].buyoutPerItem);
+		var itemAuctions = auctions.getItemAuctionIds(itemId).map(function(auctionId) {
+			var result = {
+				id: auctionId,
+				auction: auctions.getAuction(auctionId)
+			};
+			if (auctions._changes.relisted[itemId] && auctions._changes.relisted[itemId][auctionId]) {
+				result.relisted = auctions._changes.relisted[itemId][auctionId].buyoutPerItem;
 			}
+			return result;
+		});
+
+		itemAuctions = simplifyItems(itemAuctions);
+		var texts = [];
+
+		if (auctions._changes.sold[itemId]) {
+			auctions._changes.sold[itemId].forEach(function(item) {
+				var pluralized = item.quantity > 1 ? 'stacks' : 'stack';
+				texts.push(util.format('%s sold %s %s for %s each', item.owner, item.quantity, pluralized, formatPrice(item.buyoutPerItem)));
+			});
+		}
+
+		itemAuctions.forEach(function(item) {
+
+			var stacks = [];
+			for (var x in item.stacks) {
+					var pluralized = item.stacks[x] > 1 ? 'stacks' : 'stack';
+					stacks.push(util.format('%s %s of %s', item.stacks[x], pluralized, x));
+			}
+			if (item.relisted) {
+				stacks.push('relisted');
+			}
+
+			var txt = formatPrice(item.buyoutPerItem) + ': ' + item.owner + ' (' + stacks.join(', ') + ')';
 			if (item.owner === owner) {
 				txt = '*' + txt + '*';
 			}
-			return txt;
-		}).join('\n');
+			texts.push(txt);
+		});
 
-		if (auctions._changes) {
-			if (auctions._changes.sold[itemId]) {
-				text += auctions._changes.sold[itemId].map(function(item) {
-					return util.format('\n%s items sold by %s for %s each', item.quantity, item.owner, formatPrice(item.buyoutPerItem));
-				}).join('');
-			}
-		}
+
+		var text = texts.join('\n');
 
 		return {
 			author_name: itemDesc.name,
@@ -132,21 +146,33 @@ function simplifyAllItems(allItems) {
 	return allItems;
 }
 
+/**
+ * Simplifies a list of auctions buy merging stacks with the same price
+ *
+ * @param {object[]} items
+ * @param {number} items[].id
+ * @param {Auction} items[].auction
+ * @param {number?} items[].relisted
+ * @returns {SimplifiedAuction[]}
+ */
 function simplifyItems(items) {
 	var cur;
 	var result = [];
-	items.forEach(function(item) {
-		if (!cur || cur.fullOwner !== item.fullOwner || cur.itemPrice !== item.itemPrice) {
+	items.forEach(function(o) {
+		var item = o.auction;
+		if (!cur || cur.owner !== item.owner || cur.buyoutPerItem !== item.buyoutPerItem) {
 			cur = item;
-			cur.ids = [item.auc];
+			cur.ids = [o.id];
 			cur.stacks = {};
 			cur.stacks[item.quantity] = 1;
 			cur.sum = item.quantity;
+			cur.relisted = o.relisted;
 			result.push(cur);
 		} else {
-			cur.ids.push(item.auc);
+			cur.ids.push(o.id);
 			cur.stacks[item.quantity] = (cur.stacks[item.quantity] ? cur.stacks[item.quantity] : 0) + 1;
 			cur.sum += item.quantity;
+			cur.relisted = cur.relisted || o.relisted;
 		}
 	});
 	return result;
@@ -202,5 +228,3 @@ function sendNotificationToUser(region, realm, auctions, userId) {
 		}));
 	});
 }
-
-
