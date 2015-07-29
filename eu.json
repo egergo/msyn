@@ -1,0 +1,2736 @@
+{
+	"aegwynn": {
+		"name": "Aegwynn",
+		"slug": "aegwynn",
+		"ah": "Aegwynn",
+		"connections": [
+			"aegwynn",
+			"internal-record-3679"
+		]
+	},
+	"aerie-peak": {
+		"name": "Aerie Peak",
+		"slug": "aerie-peak",
+		"ah": "AeriePeak",
+		"connections": [
+			"bronzebeard",
+			"aerie-peak"
+		]
+	},
+	"agamaggan": {
+		"name": "Agamaggan",
+		"slug": "agamaggan",
+		"ah": "Agamaggan",
+		"connections": [
+			"agamaggan",
+			"crushridge",
+			"bloodscalp",
+			"twilights-hammer",
+			"hakkar",
+			"emeriss"
+		]
+	},
+	"aggra-portugues": {
+		"name": "Aggra (Português)",
+		"slug": "aggra-portugues",
+		"ah": "Aggra(Português)",
+		"connections": [
+			"aggra-portugues",
+			"grim-batol"
+		]
+	},
+	"aggramar": {
+		"name": "Aggramar",
+		"slug": "aggramar",
+		"ah": "Aggramar",
+		"connections": [
+			"aggramar",
+			"hellscream",
+			"grizzlyhugel"
+		]
+	},
+	"ahnqiraj": {
+		"name": "Ahn'Qiraj",
+		"slug": "ahnqiraj",
+		"ah": "Ahn'Qiraj",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"alakir": {
+		"name": "Al'Akir",
+		"slug": "alakir",
+		"ah": "Al'Akir",
+		"connections": [
+			"alakir",
+			"xavius",
+			"skullcrusher"
+		]
+	},
+	"alexstrasza": {
+		"name": "Alexstrasza",
+		"slug": "alexstrasza",
+		"ah": "Alexstrasza",
+		"connections": [
+			"alexstrasza",
+			"nethersturm"
+		]
+	},
+	"alleria": {
+		"name": "Alleria",
+		"slug": "alleria",
+		"ah": "Alleria",
+		"connections": [
+			"rexxar",
+			"alleria"
+		]
+	},
+	"alonsus": {
+		"name": "Alonsus",
+		"slug": "alonsus",
+		"ah": "Alonsus",
+		"connections": [
+			"kul-tiras",
+			"anachronos",
+			"alonsus"
+		]
+	},
+	"amanthul": {
+		"name": "Aman'Thul",
+		"slug": "amanthul",
+		"ah": "Aman'Thul",
+		"connections": [
+			"internal-record-3680",
+			"amanthul"
+		]
+	},
+	"ambossar": {
+		"name": "Ambossar",
+		"slug": "ambossar",
+		"ah": "Ambossar",
+		"connections": [
+			"kargath",
+			"ambossar"
+		]
+	},
+	"anachronos": {
+		"name": "Anachronos",
+		"slug": "anachronos",
+		"ah": "Anachronos",
+		"connections": [
+			"kul-tiras",
+			"anachronos",
+			"alonsus"
+		]
+	},
+	"anetheron": {
+		"name": "Anetheron",
+		"slug": "anetheron",
+		"ah": "Anetheron",
+		"connections": [
+			"anetheron",
+			"nathrezim",
+			"guldan",
+			"kiljaeden",
+			"festung-der-sturme",
+			"rajaxx"
+		]
+	},
+	"antonidas": {
+		"name": "Antonidas",
+		"slug": "antonidas",
+		"ah": "Antonidas",
+		"connections": [
+			"antonidas",
+			"internal-record-3686"
+		]
+	},
+	"anubarak": {
+		"name": "Anub'arak",
+		"slug": "anubarak",
+		"ah": "Anub'arak",
+		"connections": [
+			"nazjatar",
+			"frostmourne",
+			"zuluhed",
+			"anubarak",
+			"dalvengyr"
+		]
+	},
+	"arakarahm": {
+		"name": "Arak-arahm",
+		"slug": "arakarahm",
+		"ah": "Arak-arahm",
+		"connections": [
+			"kaelthas",
+			"arakarahm",
+			"throkferoth",
+			"rashgarroth"
+		]
+	},
+	"arathi": {
+		"name": "Arathi",
+		"slug": "arathi",
+		"ah": "Arathi",
+		"connections": [
+			"illidan",
+			"temple-noir",
+			"naxxramas",
+			"arathi"
+		]
+	},
+	"arathor": {
+		"name": "Arathor",
+		"slug": "arathor",
+		"ah": "Arathor",
+		"connections": [
+			"arathor",
+			"hellfire"
+		]
+	},
+	"archimonde": {
+		"name": "Archimonde",
+		"slug": "archimonde",
+		"ah": "Archimonde",
+		"connections": [
+			"archimonde",
+			"stonemaul"
+		]
+	},
+	"area-52": {
+		"name": "Area 52",
+		"slug": "area-52",
+		"ah": "Area52",
+		"connections": [
+			"area-52",
+			"ungoro",
+			"senjin"
+		]
+	},
+	"argent-dawn": {
+		"name": "Argent Dawn",
+		"slug": "argent-dawn",
+		"ah": "ArgentDawn",
+		"connections": [
+			"argent-dawn",
+			"internal-record-3702"
+		]
+	},
+	"arthas": {
+		"name": "Arthas",
+		"slug": "arthas",
+		"ah": "Arthas",
+		"connections": [
+			"arthas",
+			"kelthuzad",
+			"wrathbringer",
+			"blutkessel",
+			"veklor"
+		]
+	},
+	"arygos": {
+		"name": "Arygos",
+		"slug": "arygos",
+		"ah": "Arygos",
+		"connections": [
+			"khazgoroth",
+			"arygos"
+		]
+	},
+	"ashenvale": {
+		"name": "Ashenvale",
+		"slug": "ashenvale",
+		"ah": "Ashenvale",
+		"connections": [
+			"ashenvale"
+		]
+	},
+	"aszune": {
+		"name": "Aszune",
+		"slug": "aszune",
+		"ah": "Aszune",
+		"connections": [
+			"aszune",
+			"internal-record-3666",
+			"shadowsong"
+		]
+	},
+	"auchindoun": {
+		"name": "Auchindoun",
+		"slug": "auchindoun",
+		"ah": "Auchindoun",
+		"connections": [
+			"dunemaul",
+			"auchindoun",
+			"jaedenar"
+		]
+	},
+	"azjolnerub": {
+		"name": "Azjol-Nerub",
+		"slug": "azjolnerub",
+		"ah": "Azjol-Nerub",
+		"connections": [
+			"azjolnerub",
+			"molten-core",
+			"quelthalas"
+		]
+	},
+	"azshara": {
+		"name": "Azshara",
+		"slug": "azshara",
+		"ah": "Azshara",
+		"connections": [
+			"azshara",
+			"kragjin"
+		]
+	},
+	"azuregos": {
+		"name": "Azuregos",
+		"slug": "azuregos",
+		"ah": "Azuregos",
+		"connections": [
+			"azuregos"
+		]
+	},
+	"azuremyst": {
+		"name": "Azuremyst",
+		"slug": "azuremyst",
+		"ah": "Azuremyst",
+		"connections": [
+			"azuremyst",
+			"stormrage"
+		]
+	},
+	"baelgun": {
+		"name": "Baelgun",
+		"slug": "baelgun",
+		"ah": "Baelgun",
+		"connections": [
+			"lothar",
+			"baelgun"
+		]
+	},
+	"balnazzar": {
+		"name": "Balnazzar",
+		"slug": "balnazzar",
+		"ah": "Balnazzar",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"blackhand": {
+		"name": "Blackhand",
+		"slug": "blackhand",
+		"ah": "Blackhand",
+		"connections": [
+			"blackhand",
+			"internal-record-3691"
+		]
+	},
+	"blackmoore": {
+		"name": "Blackmoore",
+		"slug": "blackmoore",
+		"ah": "Blackmoore",
+		"connections": [
+			"blackmoore"
+		]
+	},
+	"blackrock": {
+		"name": "Blackrock",
+		"slug": "blackrock",
+		"ah": "Blackrock",
+		"connections": [
+			"blackrock"
+		]
+	},
+	"blackscar": {
+		"name": "Blackscar",
+		"slug": "blackscar",
+		"ah": "Blackscar",
+		"connections": [
+			"blackscar"
+		]
+	},
+	"blades-edge": {
+		"name": "Blade's Edge",
+		"slug": "blades-edge",
+		"ah": "Blade'sEdge",
+		"connections": [
+			"blades-edge",
+			"veknilash",
+			"eonar"
+		]
+	},
+	"bladefist": {
+		"name": "Bladefist",
+		"slug": "bladefist",
+		"ah": "Bladefist",
+		"connections": [
+			"bladefist",
+			"zenedar",
+			"internal-record-3657",
+			"frostwhisper"
+		]
+	},
+	"bloodfeather": {
+		"name": "Bloodfeather",
+		"slug": "bloodfeather",
+		"ah": "Bloodfeather",
+		"connections": [
+			"executus",
+			"shattered-hand",
+			"burning-steppes",
+			"korgall",
+			"bloodfeather"
+		]
+	},
+	"bloodhoof": {
+		"name": "Bloodhoof",
+		"slug": "bloodhoof",
+		"ah": "Bloodhoof",
+		"connections": [
+			"bloodhoof",
+			"khadgar"
+		]
+	},
+	"bloodscalp": {
+		"name": "Bloodscalp",
+		"slug": "bloodscalp",
+		"ah": "Bloodscalp",
+		"connections": [
+			"agamaggan",
+			"crushridge",
+			"bloodscalp",
+			"twilights-hammer",
+			"hakkar",
+			"emeriss"
+		]
+	},
+	"blutkessel": {
+		"name": "Blutkessel",
+		"slug": "blutkessel",
+		"ah": "Blutkessel",
+		"connections": [
+			"arthas",
+			"kelthuzad",
+			"wrathbringer",
+			"blutkessel",
+			"veklor"
+		]
+	},
+	"booty-bay": {
+		"name": "Booty Bay",
+		"slug": "booty-bay",
+		"ah": "BootyBay",
+		"connections": [
+			"booty-bay",
+			"deathweaver"
+		]
+	},
+	"borean-tundra": {
+		"name": "Borean Tundra",
+		"slug": "borean-tundra",
+		"ah": "BoreanTundra",
+		"connections": [
+			"borean-tundra"
+		]
+	},
+	"boulderfist": {
+		"name": "Boulderfist",
+		"slug": "boulderfist",
+		"ah": "Boulderfist",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"bronze-dragonflight": {
+		"name": "Bronze Dragonflight",
+		"slug": "bronze-dragonflight",
+		"ah": "BronzeDragonflight",
+		"connections": [
+			"bronze-dragonflight",
+			"nordrassil"
+		]
+	},
+	"bronzebeard": {
+		"name": "Bronzebeard",
+		"slug": "bronzebeard",
+		"ah": "Bronzebeard",
+		"connections": [
+			"bronzebeard",
+			"aerie-peak"
+		]
+	},
+	"burning-blade": {
+		"name": "Burning Blade",
+		"slug": "burning-blade",
+		"ah": "BurningBlade",
+		"connections": [
+			"burning-blade",
+			"drakthul"
+		]
+	},
+	"burning-steppes": {
+		"name": "Burning Steppes",
+		"slug": "burning-steppes",
+		"ah": "BurningSteppes",
+		"connections": [
+			"executus",
+			"shattered-hand",
+			"burning-steppes",
+			"korgall",
+			"bloodfeather"
+		]
+	},
+	"cthun": {
+		"name": "C'Thun",
+		"slug": "cthun",
+		"ah": "C'Thun",
+		"connections": [
+			"cthun"
+		]
+	},
+	"chamber-of-aspects": {
+		"name": "Chamber of Aspects",
+		"slug": "chamber-of-aspects",
+		"ah": "ChamberofAspects",
+		"connections": [
+			"chamber-of-aspects"
+		]
+	},
+	"chants-eternels": {
+		"name": "Chants éternels",
+		"slug": "chants-eternels",
+		"ah": "Chantséternels",
+		"connections": [
+			"voljin",
+			"chants-eternels"
+		]
+	},
+	"chogall": {
+		"name": "Cho'gall",
+		"slug": "chogall",
+		"ah": "Cho'gall",
+		"connections": [
+			"sinstralis",
+			"chogall",
+			"eldrethalas"
+		]
+	},
+	"chromaggus": {
+		"name": "Chromaggus",
+		"slug": "chromaggus",
+		"ah": "Chromaggus",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"colinas-pardas": {
+		"name": "Colinas Pardas",
+		"slug": "colinas-pardas",
+		"ah": "ColinasPardas",
+		"connections": [
+			"colinas-pardas",
+			"los-errantes",
+			"tyrande"
+		]
+	},
+	"confrerie-du-thorium": {
+		"name": "Confrérie du Thorium",
+		"slug": "confrerie-du-thorium",
+		"ah": "ConfrérieduThorium",
+		"connections": [
+			"confrerie-du-thorium",
+			"les-sentinelles",
+			"les-clairvoyants"
+		]
+	},
+	"conseil-des-ombres": {
+		"name": "Conseil des Ombres",
+		"slug": "conseil-des-ombres",
+		"ah": "ConseildesOmbres",
+		"connections": [
+			"la-croisade-ecarlate",
+			"conseil-des-ombres",
+			"culte-de-la-rive-noire"
+		]
+	},
+	"crushridge": {
+		"name": "Crushridge",
+		"slug": "crushridge",
+		"ah": "Crushridge",
+		"connections": [
+			"agamaggan",
+			"crushridge",
+			"bloodscalp",
+			"twilights-hammer",
+			"hakkar",
+			"emeriss"
+		]
+	},
+	"culte-de-la-rive-noire": {
+		"name": "Culte de la Rive noire",
+		"slug": "culte-de-la-rive-noire",
+		"ah": "CultedelaRivenoire",
+		"connections": [
+			"la-croisade-ecarlate",
+			"conseil-des-ombres",
+			"culte-de-la-rive-noire"
+		]
+	},
+	"daggerspine": {
+		"name": "Daggerspine",
+		"slug": "daggerspine",
+		"ah": "Daggerspine",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"dalaran": {
+		"name": "Dalaran",
+		"slug": "dalaran",
+		"ah": "Dalaran",
+		"connections": [
+			"dalaran",
+			"marecage-de-zangar"
+		]
+	},
+	"dalvengyr": {
+		"name": "Dalvengyr",
+		"slug": "dalvengyr",
+		"ah": "Dalvengyr",
+		"connections": [
+			"nazjatar",
+			"frostmourne",
+			"zuluhed",
+			"anubarak",
+			"dalvengyr"
+		]
+	},
+	"darkmoon-faire": {
+		"name": "Darkmoon Faire",
+		"slug": "darkmoon-faire",
+		"ah": "DarkmoonFaire",
+		"connections": [
+			"earthen-ring",
+			"darkmoon-faire"
+		]
+	},
+	"darksorrow": {
+		"name": "Darksorrow",
+		"slug": "darksorrow",
+		"ah": "Darksorrow",
+		"connections": [
+			"internal-record-3660",
+			"darksorrow",
+			"neptulon",
+			"genjuros"
+		]
+	},
+	"darkspear": {
+		"name": "Darkspear",
+		"slug": "darkspear",
+		"ah": "Darkspear",
+		"connections": [
+			"terokkar",
+			"darkspear",
+			"saurfang"
+		]
+	},
+	"das-konsortium": {
+		"name": "Das Konsortium",
+		"slug": "das-konsortium",
+		"ah": "DasKonsortium",
+		"connections": [
+			"die-arguswacht",
+			"die-todeskrallen",
+			"kult-der-verdammten",
+			"das-syndikat",
+			"das-konsortium",
+			"der-abyssische-rat"
+		]
+	},
+	"das-syndikat": {
+		"name": "Das Syndikat",
+		"slug": "das-syndikat",
+		"ah": "DasSyndikat",
+		"connections": [
+			"die-arguswacht",
+			"die-todeskrallen",
+			"kult-der-verdammten",
+			"das-syndikat",
+			"das-konsortium",
+			"der-abyssische-rat"
+		]
+	},
+	"deathguard": {
+		"name": "Deathguard",
+		"slug": "deathguard",
+		"ah": "Deathguard",
+		"connections": [
+			"deathguard"
+		]
+	},
+	"deathweaver": {
+		"name": "Deathweaver",
+		"slug": "deathweaver",
+		"ah": "Deathweaver",
+		"connections": [
+			"booty-bay",
+			"deathweaver"
+		]
+	},
+	"deathwing": {
+		"name": "Deathwing",
+		"slug": "deathwing",
+		"ah": "Deathwing",
+		"connections": [
+			"deathwing",
+			"lightnings-blade",
+			"the-maelstrom",
+			"karazhan"
+		]
+	},
+	"deepholm": {
+		"name": "Deepholm",
+		"slug": "deepholm",
+		"ah": "Deepholm",
+		"connections": [
+			"razuvious",
+			"deepholm"
+		]
+	},
+	"defias-brotherhood": {
+		"name": "Defias Brotherhood",
+		"slug": "defias-brotherhood",
+		"ah": "DefiasBrotherhood",
+		"connections": [
+			"scarshield-legion",
+			"the-venture-co",
+			"defias-brotherhood",
+			"sporeggar",
+			"ravenholdt"
+		]
+	},
+	"dentarg": {
+		"name": "Dentarg",
+		"slug": "dentarg",
+		"ah": "Dentarg",
+		"connections": [
+			"dentarg",
+			"tarren-mill"
+		]
+	},
+	"der-mithrilorden": {
+		"name": "Der Mithrilorden",
+		"slug": "der-mithrilorden",
+		"ah": "DerMithrilorden",
+		"connections": [
+			"der-mithrilorden",
+			"der-rat-von-dalaran"
+		]
+	},
+	"der-rat-von-dalaran": {
+		"name": "Der Rat von Dalaran",
+		"slug": "der-rat-von-dalaran",
+		"ah": "DerRatvonDalaran",
+		"connections": [
+			"der-mithrilorden",
+			"der-rat-von-dalaran"
+		]
+	},
+	"der-abyssische-rat": {
+		"name": "Der abyssische Rat",
+		"slug": "der-abyssische-rat",
+		"ah": "DerabyssischeRat",
+		"connections": [
+			"die-arguswacht",
+			"die-todeskrallen",
+			"kult-der-verdammten",
+			"das-syndikat",
+			"das-konsortium",
+			"der-abyssische-rat"
+		]
+	},
+	"destromath": {
+		"name": "Destromath",
+		"slug": "destromath",
+		"ah": "Destromath",
+		"connections": [
+			"nefarian",
+			"gorgonnash",
+			"mannoroth",
+			"destromath",
+			"nerathor"
+		]
+	},
+	"dethecus": {
+		"name": "Dethecus",
+		"slug": "dethecus",
+		"ah": "Dethecus",
+		"connections": [
+			"dethecus",
+			"terrordar",
+			"onyxia",
+			"theradras",
+			"mugthol"
+		]
+	},
+	"die-aldor": {
+		"name": "Die Aldor",
+		"slug": "die-aldor",
+		"ah": "DieAldor",
+		"connections": [
+			"die-aldor"
+		]
+	},
+	"die-arguswacht": {
+		"name": "Die Arguswacht",
+		"slug": "die-arguswacht",
+		"ah": "DieArguswacht",
+		"connections": [
+			"die-arguswacht",
+			"die-todeskrallen",
+			"kult-der-verdammten",
+			"das-syndikat",
+			"das-konsortium",
+			"der-abyssische-rat"
+		]
+	},
+	"die-nachtwache": {
+		"name": "Die Nachtwache",
+		"slug": "die-nachtwache",
+		"ah": "DieNachtwache",
+		"connections": [
+			"forscherliga",
+			"die-nachtwache"
+		]
+	},
+	"die-silberne-hand": {
+		"name": "Die Silberne Hand",
+		"slug": "die-silberne-hand",
+		"ah": "DieSilberneHand",
+		"connections": [
+			"die-ewige-wacht",
+			"die-silberne-hand"
+		]
+	},
+	"die-todeskrallen": {
+		"name": "Die Todeskrallen",
+		"slug": "die-todeskrallen",
+		"ah": "DieTodeskrallen",
+		"connections": [
+			"die-arguswacht",
+			"die-todeskrallen",
+			"kult-der-verdammten",
+			"das-syndikat",
+			"das-konsortium",
+			"der-abyssische-rat"
+		]
+	},
+	"die-ewige-wacht": {
+		"name": "Die ewige Wacht",
+		"slug": "die-ewige-wacht",
+		"ah": "DieewigeWacht",
+		"connections": [
+			"die-ewige-wacht",
+			"die-silberne-hand"
+		]
+	},
+	"doomhammer": {
+		"name": "Doomhammer",
+		"slug": "doomhammer",
+		"ah": "Doomhammer",
+		"connections": [
+			"doomhammer",
+			"turalyon",
+			"menethil"
+		]
+	},
+	"draenor": {
+		"name": "Draenor",
+		"slug": "draenor",
+		"ah": "Draenor",
+		"connections": [
+			"draenor",
+			"gnomeregan"
+		]
+	},
+	"dragonblight": {
+		"name": "Dragonblight",
+		"slug": "dragonblight",
+		"ah": "Dragonblight",
+		"connections": [
+			"dragonblight",
+			"ghostlands"
+		]
+	},
+	"dragonmaw": {
+		"name": "Dragonmaw",
+		"slug": "dragonmaw",
+		"ah": "Dragonmaw",
+		"connections": [
+			"dragonmaw",
+			"internal-record-3656",
+			"stormreaver",
+			"spinebreaker",
+			"haomarush",
+			"vashj"
+		]
+	},
+	"drakthul": {
+		"name": "Drak'thul",
+		"slug": "drakthul",
+		"ah": "Drak'thul",
+		"connections": [
+			"burning-blade",
+			"drakthul"
+		]
+	},
+	"drekthar": {
+		"name": "Drek'Thar",
+		"slug": "drekthar",
+		"ah": "Drek'Thar",
+		"connections": [
+			"uldaman",
+			"drekthar"
+		]
+	},
+	"dun-modr": {
+		"name": "Dun Modr",
+		"slug": "dun-modr",
+		"ah": "DunModr",
+		"connections": [
+			"dun-modr"
+		]
+	},
+	"dun-morogh": {
+		"name": "Dun Morogh",
+		"slug": "dun-morogh",
+		"ah": "DunMorogh",
+		"connections": [
+			"norgannon",
+			"dun-morogh"
+		]
+	},
+	"dunemaul": {
+		"name": "Dunemaul",
+		"slug": "dunemaul",
+		"ah": "Dunemaul",
+		"connections": [
+			"dunemaul",
+			"auchindoun",
+			"jaedenar"
+		]
+	},
+	"durotan": {
+		"name": "Durotan",
+		"slug": "durotan",
+		"ah": "Durotan",
+		"connections": [
+			"durotan",
+			"tirion"
+		]
+	},
+	"earthen-ring": {
+		"name": "Earthen Ring",
+		"slug": "earthen-ring",
+		"ah": "EarthenRing",
+		"connections": [
+			"earthen-ring",
+			"darkmoon-faire"
+		]
+	},
+	"echsenkessel": {
+		"name": "Echsenkessel",
+		"slug": "echsenkessel",
+		"ah": "Echsenkessel",
+		"connections": [
+			"malganis",
+			"echsenkessel",
+			"taerar"
+		]
+	},
+	"eitrigg": {
+		"name": "Eitrigg",
+		"slug": "eitrigg",
+		"ah": "Eitrigg",
+		"connections": [
+			"eitrigg",
+			"krasus"
+		]
+	},
+	"eldrethalas": {
+		"name": "Eldre'Thalas",
+		"slug": "eldrethalas",
+		"ah": "Eldre'Thalas",
+		"connections": [
+			"sinstralis",
+			"chogall",
+			"eldrethalas"
+		]
+	},
+	"elune": {
+		"name": "Elune",
+		"slug": "elune",
+		"ah": "Elune",
+		"connections": [
+			"elune",
+			"varimathras",
+			"caduta-dei-draghi"
+		]
+	},
+	"emerald-dream": {
+		"name": "Emerald Dream",
+		"slug": "emerald-dream",
+		"ah": "EmeraldDream",
+		"connections": [
+			"emerald-dream",
+			"terenas",
+			"schwarznarbe"
+		]
+	},
+	"emeriss": {
+		"name": "Emeriss",
+		"slug": "emeriss",
+		"ah": "Emeriss",
+		"connections": [
+			"agamaggan",
+			"crushridge",
+			"bloodscalp",
+			"twilights-hammer",
+			"hakkar",
+			"emeriss"
+		]
+	},
+	"eonar": {
+		"name": "Eonar",
+		"slug": "eonar",
+		"ah": "Eonar",
+		"connections": [
+			"blades-edge",
+			"veknilash",
+			"eonar"
+		]
+	},
+	"eredar": {
+		"name": "Eredar",
+		"slug": "eredar",
+		"ah": "Eredar",
+		"connections": [
+			"eredar",
+			"internal-record-3692"
+		]
+	},
+	"eversong": {
+		"name": "Eversong",
+		"slug": "eversong",
+		"ah": "Eversong",
+		"connections": [
+			"eversong"
+		]
+	},
+	"executus": {
+		"name": "Executus",
+		"slug": "executus",
+		"ah": "Executus",
+		"connections": [
+			"executus",
+			"shattered-hand",
+			"burning-steppes",
+			"korgall",
+			"bloodfeather"
+		]
+	},
+	"exodar": {
+		"name": "Exodar",
+		"slug": "exodar",
+		"ah": "Exodar",
+		"connections": [
+			"minahonda",
+			"exodar"
+		]
+	},
+	"festung-der-sturme": {
+		"name": "Festung der Stürme",
+		"slug": "festung-der-sturme",
+		"ah": "FestungderStürme",
+		"connections": [
+			"anetheron",
+			"nathrezim",
+			"guldan",
+			"kiljaeden",
+			"festung-der-sturme",
+			"rajaxx"
+		]
+	},
+	"fordragon": {
+		"name": "Fordragon",
+		"slug": "fordragon",
+		"ah": "Fordragon",
+		"connections": [
+			"fordragon"
+		]
+	},
+	"forscherliga": {
+		"name": "Forscherliga",
+		"slug": "forscherliga",
+		"ah": "Forscherliga",
+		"connections": [
+			"forscherliga",
+			"die-nachtwache"
+		]
+	},
+	"frostmane": {
+		"name": "Frostmane",
+		"slug": "frostmane",
+		"ah": "Frostmane",
+		"connections": [
+			"frostmane"
+		]
+	},
+	"frostmourne": {
+		"name": "Frostmourne",
+		"slug": "frostmourne",
+		"ah": "Frostmourne",
+		"connections": [
+			"nazjatar",
+			"frostmourne",
+			"zuluhed",
+			"anubarak",
+			"dalvengyr"
+		]
+	},
+	"frostwhisper": {
+		"name": "Frostwhisper",
+		"slug": "frostwhisper",
+		"ah": "Frostwhisper",
+		"connections": [
+			"bladefist",
+			"zenedar",
+			"internal-record-3657",
+			"frostwhisper"
+		]
+	},
+	"frostwolf": {
+		"name": "Frostwolf",
+		"slug": "frostwolf",
+		"ah": "Frostwolf",
+		"connections": [
+			"frostwolf",
+			"internal-record-3703"
+		]
+	},
+	"galakrond": {
+		"name": "Galakrond",
+		"slug": "galakrond",
+		"ah": "Galakrond",
+		"connections": [
+			"galakrond"
+		]
+	},
+	"garona": {
+		"name": "Garona",
+		"slug": "garona",
+		"ah": "Garona",
+		"connections": [
+			"nerzhul",
+			"sargeras",
+			"garona"
+		]
+	},
+	"garrosh": {
+		"name": "Garrosh",
+		"slug": "garrosh",
+		"ah": "Garrosh",
+		"connections": [
+			"nozdormu",
+			"garrosh",
+			"shattrath"
+		]
+	},
+	"genjuros": {
+		"name": "Genjuros",
+		"slug": "genjuros",
+		"ah": "Genjuros",
+		"connections": [
+			"internal-record-3660",
+			"darksorrow",
+			"neptulon",
+			"genjuros"
+		]
+	},
+	"ghostlands": {
+		"name": "Ghostlands",
+		"slug": "ghostlands",
+		"ah": "Ghostlands",
+		"connections": [
+			"dragonblight",
+			"ghostlands"
+		]
+	},
+	"gilneas": {
+		"name": "Gilneas",
+		"slug": "gilneas",
+		"ah": "Gilneas",
+		"connections": [
+			"gilneas",
+			"ulduar"
+		]
+	},
+	"goldrinn": {
+		"name": "Goldrinn",
+		"slug": "goldrinn",
+		"ah": "Goldrinn",
+		"connections": [
+			"goldrinn"
+		]
+	},
+	"gordunni": {
+		"name": "Gordunni",
+		"slug": "gordunni",
+		"ah": "Gordunni",
+		"connections": [
+			"gordunni"
+		]
+	},
+	"gorgonnash": {
+		"name": "Gorgonnash",
+		"slug": "gorgonnash",
+		"ah": "Gorgonnash",
+		"connections": [
+			"nefarian",
+			"gorgonnash",
+			"mannoroth",
+			"destromath",
+			"nerathor"
+		]
+	},
+	"greymane": {
+		"name": "Greymane",
+		"slug": "greymane",
+		"ah": "Greymane",
+		"connections": [
+			"greymane",
+			"lich-king"
+		]
+	},
+	"grim-batol": {
+		"name": "Grim Batol",
+		"slug": "grim-batol",
+		"ah": "GrimBatol",
+		"connections": [
+			"aggra-portugues",
+			"grim-batol"
+		]
+	},
+	"grom": {
+		"name": "Grom",
+		"slug": "grom",
+		"ah": "Grom",
+		"connections": [
+			"grom",
+			"thermaplugg"
+		]
+	},
+	"guldan": {
+		"name": "Gul'dan",
+		"slug": "guldan",
+		"ah": "Gul'dan",
+		"connections": [
+			"anetheron",
+			"nathrezim",
+			"guldan",
+			"kiljaeden",
+			"festung-der-sturme",
+			"rajaxx"
+		]
+	},
+	"hakkar": {
+		"name": "Hakkar",
+		"slug": "hakkar",
+		"ah": "Hakkar",
+		"connections": [
+			"agamaggan",
+			"crushridge",
+			"bloodscalp",
+			"twilights-hammer",
+			"hakkar",
+			"emeriss"
+		]
+	},
+	"haomarush": {
+		"name": "Haomarush",
+		"slug": "haomarush",
+		"ah": "Haomarush",
+		"connections": [
+			"dragonmaw",
+			"internal-record-3656",
+			"stormreaver",
+			"spinebreaker",
+			"haomarush",
+			"vashj"
+		]
+	},
+	"hellfire": {
+		"name": "Hellfire",
+		"slug": "hellfire",
+		"ah": "Hellfire",
+		"connections": [
+			"arathor",
+			"hellfire"
+		]
+	},
+	"hellscream": {
+		"name": "Hellscream",
+		"slug": "hellscream",
+		"ah": "Hellscream",
+		"connections": [
+			"aggramar",
+			"hellscream",
+			"grizzlyhugel"
+		]
+	},
+	"howling-fjord": {
+		"name": "Howling Fjord",
+		"slug": "howling-fjord",
+		"ah": "HowlingFjord",
+		"connections": [
+			"howling-fjord"
+		]
+	},
+	"hyjal": {
+		"name": "Hyjal",
+		"slug": "hyjal",
+		"ah": "Hyjal",
+		"connections": [
+			"hyjal",
+			"gm-test-realm-2"
+		]
+	},
+	"illidan": {
+		"name": "Illidan",
+		"slug": "illidan",
+		"ah": "Illidan",
+		"connections": [
+			"illidan",
+			"temple-noir",
+			"naxxramas",
+			"arathi"
+		]
+	},
+	"internal-record-3713": {
+		"name": "Internal Record 3713",
+		"slug": "internal-record-3713",
+		"ah": "InternalRecord3713",
+		"connections": [
+			"burning-legion",
+			"internal-record-3713"
+		]
+	},
+	"jaedenar": {
+		"name": "Jaedenar",
+		"slug": "jaedenar",
+		"ah": "Jaedenar",
+		"connections": [
+			"dunemaul",
+			"auchindoun",
+			"jaedenar"
+		]
+	},
+	"kaelthas": {
+		"name": "Kael'thas",
+		"slug": "kaelthas",
+		"ah": "Kael'thas",
+		"connections": [
+			"kaelthas",
+			"arakarahm",
+			"throkferoth",
+			"rashgarroth"
+		]
+	},
+	"karazhan": {
+		"name": "Karazhan",
+		"slug": "karazhan",
+		"ah": "Karazhan",
+		"connections": [
+			"deathwing",
+			"lightnings-blade",
+			"the-maelstrom",
+			"karazhan"
+		]
+	},
+	"kargath": {
+		"name": "Kargath",
+		"slug": "kargath",
+		"ah": "Kargath",
+		"connections": [
+			"kargath",
+			"ambossar"
+		]
+	},
+	"kazzak": {
+		"name": "Kazzak",
+		"slug": "kazzak",
+		"ah": "Kazzak",
+		"connections": [
+			"kazzak"
+		]
+	},
+	"kelthuzad": {
+		"name": "Kel'Thuzad",
+		"slug": "kelthuzad",
+		"ah": "Kel'Thuzad",
+		"connections": [
+			"arthas",
+			"kelthuzad",
+			"wrathbringer",
+			"blutkessel",
+			"veklor"
+		]
+	},
+	"khadgar": {
+		"name": "Khadgar",
+		"slug": "khadgar",
+		"ah": "Khadgar",
+		"connections": [
+			"bloodhoof",
+			"khadgar"
+		]
+	},
+	"khaz-modan": {
+		"name": "Khaz Modan",
+		"slug": "khaz-modan",
+		"ah": "KhazModan",
+		"connections": [
+			"khaz-modan",
+			"internal-record-3690"
+		]
+	},
+	"khazgoroth": {
+		"name": "Khaz'goroth",
+		"slug": "khazgoroth",
+		"ah": "Khaz'goroth",
+		"connections": [
+			"khazgoroth",
+			"arygos"
+		]
+	},
+	"kiljaeden": {
+		"name": "Kil'jaeden",
+		"slug": "kiljaeden",
+		"ah": "Kil'jaeden",
+		"connections": [
+			"anetheron",
+			"nathrezim",
+			"guldan",
+			"kiljaeden",
+			"festung-der-sturme",
+			"rajaxx"
+		]
+	},
+	"kilrogg": {
+		"name": "Kilrogg",
+		"slug": "kilrogg",
+		"ah": "Kilrogg",
+		"connections": [
+			"runetotem",
+			"nagrand",
+			"kilrogg"
+		]
+	},
+	"kirin-tor": {
+		"name": "Kirin Tor",
+		"slug": "kirin-tor",
+		"ah": "KirinTor",
+		"connections": [
+			"kirin-tor",
+			"internal-record-3714"
+		]
+	},
+	"korgall": {
+		"name": "Kor'gall",
+		"slug": "korgall",
+		"ah": "Kor'gall",
+		"connections": [
+			"executus",
+			"shattered-hand",
+			"burning-steppes",
+			"korgall",
+			"bloodfeather"
+		]
+	},
+	"kragjin": {
+		"name": "Krag'jin",
+		"slug": "kragjin",
+		"ah": "Krag'jin",
+		"connections": [
+			"azshara",
+			"kragjin"
+		]
+	},
+	"krasus": {
+		"name": "Krasus",
+		"slug": "krasus",
+		"ah": "Krasus",
+		"connections": [
+			"eitrigg",
+			"krasus"
+		]
+	},
+	"kul-tiras": {
+		"name": "Kul Tiras",
+		"slug": "kul-tiras",
+		"ah": "KulTiras",
+		"connections": [
+			"kul-tiras",
+			"anachronos",
+			"alonsus"
+		]
+	},
+	"kult-der-verdammten": {
+		"name": "Kult der Verdammten",
+		"slug": "kult-der-verdammten",
+		"ah": "KultderVerdammten",
+		"connections": [
+			"die-arguswacht",
+			"die-todeskrallen",
+			"kult-der-verdammten",
+			"das-syndikat",
+			"das-konsortium",
+			"der-abyssische-rat"
+		]
+	},
+	"la-croisade-ecarlate": {
+		"name": "La Croisade écarlate",
+		"slug": "la-croisade-ecarlate",
+		"ah": "LaCroisadeécarlate",
+		"connections": [
+			"la-croisade-ecarlate",
+			"conseil-des-ombres",
+			"culte-de-la-rive-noire"
+		]
+	},
+	"laughing-skull": {
+		"name": "Laughing Skull",
+		"slug": "laughing-skull",
+		"ah": "LaughingSkull",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"les-clairvoyants": {
+		"name": "Les Clairvoyants",
+		"slug": "les-clairvoyants",
+		"ah": "LesClairvoyants",
+		"connections": [
+			"confrerie-du-thorium",
+			"les-sentinelles",
+			"les-clairvoyants"
+		]
+	},
+	"les-sentinelles": {
+		"name": "Les Sentinelles",
+		"slug": "les-sentinelles",
+		"ah": "LesSentinelles",
+		"connections": [
+			"confrerie-du-thorium",
+			"les-sentinelles",
+			"les-clairvoyants"
+		]
+	},
+	"lich-king": {
+		"name": "Lich King",
+		"slug": "lich-king",
+		"ah": "LichKing",
+		"connections": [
+			"greymane",
+			"lich-king"
+		]
+	},
+	"lightbringer": {
+		"name": "Lightbringer",
+		"slug": "lightbringer",
+		"ah": "Lightbringer",
+		"connections": [
+			"mazrigos",
+			"lightbringer"
+		]
+	},
+	"lightnings-blade": {
+		"name": "Lightning's Blade",
+		"slug": "lightnings-blade",
+		"ah": "Lightning'sBlade",
+		"connections": [
+			"deathwing",
+			"lightnings-blade",
+			"the-maelstrom",
+			"karazhan"
+		]
+	},
+	"lordaeron": {
+		"name": "Lordaeron",
+		"slug": "lordaeron",
+		"ah": "Lordaeron",
+		"connections": [
+			"tichondrius",
+			"lordaeron"
+		]
+	},
+	"los-errantes": {
+		"name": "Los Errantes",
+		"slug": "los-errantes",
+		"ah": "LosErrantes",
+		"connections": [
+			"colinas-pardas",
+			"los-errantes",
+			"tyrande"
+		]
+	},
+	"lothar": {
+		"name": "Lothar",
+		"slug": "lothar",
+		"ah": "Lothar",
+		"connections": [
+			"lothar",
+			"baelgun"
+		]
+	},
+	"madmortem": {
+		"name": "Madmortem",
+		"slug": "madmortem",
+		"ah": "Madmortem",
+		"connections": [
+			"proudmoore",
+			"madmortem",
+			"internal-record-3696"
+		]
+	},
+	"magtheridon": {
+		"name": "Magtheridon",
+		"slug": "magtheridon",
+		"ah": "Magtheridon",
+		"connections": [
+			"internal-record-3681",
+			"magtheridon"
+		]
+	},
+	"malganis": {
+		"name": "Mal'Ganis",
+		"slug": "malganis",
+		"ah": "Mal'Ganis",
+		"connections": [
+			"malganis",
+			"echsenkessel",
+			"taerar"
+		]
+	},
+	"malfurion": {
+		"name": "Malfurion",
+		"slug": "malfurion",
+		"ah": "Malfurion",
+		"connections": [
+			"malygos",
+			"malfurion"
+		]
+	},
+	"malorne": {
+		"name": "Malorne",
+		"slug": "malorne",
+		"ah": "Malorne",
+		"connections": [
+			"ysera",
+			"malorne"
+		]
+	},
+	"malygos": {
+		"name": "Malygos",
+		"slug": "malygos",
+		"ah": "Malygos",
+		"connections": [
+			"malygos",
+			"malfurion"
+		]
+	},
+	"mannoroth": {
+		"name": "Mannoroth",
+		"slug": "mannoroth",
+		"ah": "Mannoroth",
+		"connections": [
+			"nefarian",
+			"gorgonnash",
+			"mannoroth",
+			"destromath",
+			"nerathor"
+		]
+	},
+	"marecage-de-zangar": {
+		"name": "Marécage de Zangar",
+		"slug": "marecage-de-zangar",
+		"ah": "MarécagedeZangar",
+		"connections": [
+			"dalaran",
+			"marecage-de-zangar"
+		]
+	},
+	"mazrigos": {
+		"name": "Mazrigos",
+		"slug": "mazrigos",
+		"ah": "Mazrigos",
+		"connections": [
+			"mazrigos",
+			"lightbringer"
+		]
+	},
+	"medivh": {
+		"name": "Medivh",
+		"slug": "medivh",
+		"ah": "Medivh",
+		"connections": [
+			"medivh",
+			"suramar"
+		]
+	},
+	"minahonda": {
+		"name": "Minahonda",
+		"slug": "minahonda",
+		"ah": "Minahonda",
+		"connections": [
+			"minahonda",
+			"exodar"
+		]
+	},
+	"moonglade": {
+		"name": "Moonglade",
+		"slug": "moonglade",
+		"ah": "Moonglade",
+		"connections": [
+			"moonglade",
+			"steamwheedle-cartel",
+			"the-shatar"
+		]
+	},
+	"mugthol": {
+		"name": "Mug'thol",
+		"slug": "mugthol",
+		"ah": "Mug'thol",
+		"connections": [
+			"dethecus",
+			"terrordar",
+			"onyxia",
+			"theradras",
+			"mugthol"
+		]
+	},
+	"nagrand": {
+		"name": "Nagrand",
+		"slug": "nagrand",
+		"ah": "Nagrand",
+		"connections": [
+			"runetotem",
+			"nagrand",
+			"kilrogg"
+		]
+	},
+	"nathrezim": {
+		"name": "Nathrezim",
+		"slug": "nathrezim",
+		"ah": "Nathrezim",
+		"connections": [
+			"anetheron",
+			"nathrezim",
+			"guldan",
+			"kiljaeden",
+			"festung-der-sturme",
+			"rajaxx"
+		]
+	},
+	"naxxramas": {
+		"name": "Naxxramas",
+		"slug": "naxxramas",
+		"ah": "Naxxramas",
+		"connections": [
+			"illidan",
+			"temple-noir",
+			"naxxramas",
+			"arathi"
+		]
+	},
+	"nazjatar": {
+		"name": "Nazjatar",
+		"slug": "nazjatar",
+		"ah": "Nazjatar",
+		"connections": [
+			"nazjatar",
+			"frostmourne",
+			"zuluhed",
+			"anubarak",
+			"dalvengyr"
+		]
+	},
+	"nefarian": {
+		"name": "Nefarian",
+		"slug": "nefarian",
+		"ah": "Nefarian",
+		"connections": [
+			"nefarian",
+			"gorgonnash",
+			"mannoroth",
+			"destromath",
+			"nerathor"
+		]
+	},
+	"nemesis": {
+		"name": "Nemesis",
+		"slug": "nemesis",
+		"ah": "Nemesis",
+		"connections": [
+			"nemesis"
+		]
+	},
+	"neptulon": {
+		"name": "Neptulon",
+		"slug": "neptulon",
+		"ah": "Neptulon",
+		"connections": [
+			"internal-record-3660",
+			"darksorrow",
+			"neptulon",
+			"genjuros"
+		]
+	},
+	"nerzhul": {
+		"name": "Ner'zhul",
+		"slug": "nerzhul",
+		"ah": "Ner'zhul",
+		"connections": [
+			"nerzhul",
+			"sargeras",
+			"garona"
+		]
+	},
+	"nerathor": {
+		"name": "Nera'thor",
+		"slug": "nerathor",
+		"ah": "Nera'thor",
+		"connections": [
+			"nefarian",
+			"gorgonnash",
+			"mannoroth",
+			"destromath",
+			"nerathor"
+		]
+	},
+	"nethersturm": {
+		"name": "Nethersturm",
+		"slug": "nethersturm",
+		"ah": "Nethersturm",
+		"connections": [
+			"alexstrasza",
+			"nethersturm"
+		]
+	},
+	"nordrassil": {
+		"name": "Nordrassil",
+		"slug": "nordrassil",
+		"ah": "Nordrassil",
+		"connections": [
+			"bronze-dragonflight",
+			"nordrassil"
+		]
+	},
+	"norgannon": {
+		"name": "Norgannon",
+		"slug": "norgannon",
+		"ah": "Norgannon",
+		"connections": [
+			"norgannon",
+			"dun-morogh"
+		]
+	},
+	"nozdormu": {
+		"name": "Nozdormu",
+		"slug": "nozdormu",
+		"ah": "Nozdormu",
+		"connections": [
+			"nozdormu",
+			"garrosh",
+			"shattrath"
+		]
+	},
+	"onyxia": {
+		"name": "Onyxia",
+		"slug": "onyxia",
+		"ah": "Onyxia",
+		"connections": [
+			"dethecus",
+			"terrordar",
+			"onyxia",
+			"theradras",
+			"mugthol"
+		]
+	},
+	"outland": {
+		"name": "Outland",
+		"slug": "outland",
+		"ah": "Outland",
+		"connections": [
+			"outland"
+		]
+	},
+	"perenolde": {
+		"name": "Perenolde",
+		"slug": "perenolde",
+		"ah": "Perenolde",
+		"connections": [
+			"perenolde",
+			"teldrassil"
+		]
+	},
+	"pozzo-delleternita": {
+		"name": "Pozzo dell'Eternità",
+		"slug": "pozzo-delleternita",
+		"ah": "Pozzodell'Eternità",
+		"connections": [
+			"pozzo-delleternita"
+		]
+	},
+	"proudmoore": {
+		"name": "Proudmoore",
+		"slug": "proudmoore",
+		"ah": "Proudmoore",
+		"connections": [
+			"proudmoore",
+			"madmortem",
+			"internal-record-3696"
+		]
+	},
+	"quelthalas": {
+		"name": "Quel'Thalas",
+		"slug": "quelthalas",
+		"ah": "Quel'Thalas",
+		"connections": [
+			"azjolnerub",
+			"molten-core",
+			"quelthalas"
+		]
+	},
+	"ragnaros": {
+		"name": "Ragnaros",
+		"slug": "ragnaros",
+		"ah": "Ragnaros",
+		"connections": [
+			"ragnaros",
+			"internal-record-3682"
+		]
+	},
+	"rajaxx": {
+		"name": "Rajaxx",
+		"slug": "rajaxx",
+		"ah": "Rajaxx",
+		"connections": [
+			"anetheron",
+			"nathrezim",
+			"guldan",
+			"kiljaeden",
+			"festung-der-sturme",
+			"rajaxx"
+		]
+	},
+	"rashgarroth": {
+		"name": "Rashgarroth",
+		"slug": "rashgarroth",
+		"ah": "Rashgarroth",
+		"connections": [
+			"kaelthas",
+			"arakarahm",
+			"throkferoth",
+			"rashgarroth"
+		]
+	},
+	"ravencrest": {
+		"name": "Ravencrest",
+		"slug": "ravencrest",
+		"ah": "Ravencrest",
+		"connections": [
+			"ravencrest",
+			"muradin"
+		]
+	},
+	"ravenholdt": {
+		"name": "Ravenholdt",
+		"slug": "ravenholdt",
+		"ah": "Ravenholdt",
+		"connections": [
+			"scarshield-legion",
+			"the-venture-co",
+			"defias-brotherhood",
+			"sporeggar",
+			"ravenholdt"
+		]
+	},
+	"razuvious": {
+		"name": "Razuvious",
+		"slug": "razuvious",
+		"ah": "Razuvious",
+		"connections": [
+			"razuvious",
+			"deepholm"
+		]
+	},
+	"rexxar": {
+		"name": "Rexxar",
+		"slug": "rexxar",
+		"ah": "Rexxar",
+		"connections": [
+			"rexxar",
+			"alleria"
+		]
+	},
+	"runetotem": {
+		"name": "Runetotem",
+		"slug": "runetotem",
+		"ah": "Runetotem",
+		"connections": [
+			"runetotem",
+			"nagrand",
+			"kilrogg"
+		]
+	},
+	"sanguino": {
+		"name": "Sanguino",
+		"slug": "sanguino",
+		"ah": "Sanguino",
+		"connections": [
+			"shendralar",
+			"sanguino",
+			"uldum",
+			"zuljin"
+		]
+	},
+	"sargeras": {
+		"name": "Sargeras",
+		"slug": "sargeras",
+		"ah": "Sargeras",
+		"connections": [
+			"nerzhul",
+			"sargeras",
+			"garona"
+		]
+	},
+	"saurfang": {
+		"name": "Saurfang",
+		"slug": "saurfang",
+		"ah": "Saurfang",
+		"connections": [
+			"terokkar",
+			"darkspear",
+			"saurfang"
+		]
+	},
+	"scarshield-legion": {
+		"name": "Scarshield Legion",
+		"slug": "scarshield-legion",
+		"ah": "ScarshieldLegion",
+		"connections": [
+			"scarshield-legion",
+			"the-venture-co",
+			"defias-brotherhood",
+			"sporeggar",
+			"ravenholdt"
+		]
+	},
+	"senjin": {
+		"name": "Sen'jin",
+		"slug": "senjin",
+		"ah": "Sen'jin",
+		"connections": [
+			"area-52",
+			"ungoro",
+			"senjin"
+		]
+	},
+	"shadowsong": {
+		"name": "Shadowsong",
+		"slug": "shadowsong",
+		"ah": "Shadowsong",
+		"connections": [
+			"aszune",
+			"internal-record-3666",
+			"shadowsong"
+		]
+	},
+	"shattered-halls": {
+		"name": "Shattered Halls",
+		"slug": "shattered-halls",
+		"ah": "ShatteredHalls",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"shattered-hand": {
+		"name": "Shattered Hand",
+		"slug": "shattered-hand",
+		"ah": "ShatteredHand",
+		"connections": [
+			"executus",
+			"shattered-hand",
+			"burning-steppes",
+			"korgall",
+			"bloodfeather"
+		]
+	},
+	"shattrath": {
+		"name": "Shattrath",
+		"slug": "shattrath",
+		"ah": "Shattrath",
+		"connections": [
+			"nozdormu",
+			"garrosh",
+			"shattrath"
+		]
+	},
+	"shendralar": {
+		"name": "Shen'dralar",
+		"slug": "shendralar",
+		"ah": "Shen'dralar",
+		"connections": [
+			"shendralar",
+			"sanguino",
+			"uldum",
+			"zuljin"
+		]
+	},
+	"silvermoon": {
+		"name": "Silvermoon",
+		"slug": "silvermoon",
+		"ah": "Silvermoon",
+		"connections": [
+			"silvermoon",
+			"cerchio-del-sangue"
+		]
+	},
+	"sinstralis": {
+		"name": "Sinstralis",
+		"slug": "sinstralis",
+		"ah": "Sinstralis",
+		"connections": [
+			"sinstralis",
+			"chogall",
+			"eldrethalas"
+		]
+	},
+	"skullcrusher": {
+		"name": "Skullcrusher",
+		"slug": "skullcrusher",
+		"ah": "Skullcrusher",
+		"connections": [
+			"alakir",
+			"xavius",
+			"skullcrusher"
+		]
+	},
+	"soulflayer": {
+		"name": "Soulflayer",
+		"slug": "soulflayer",
+		"ah": "Soulflayer",
+		"connections": [
+			"soulflayer"
+		]
+	},
+	"spinebreaker": {
+		"name": "Spinebreaker",
+		"slug": "spinebreaker",
+		"ah": "Spinebreaker",
+		"connections": [
+			"dragonmaw",
+			"internal-record-3656",
+			"stormreaver",
+			"spinebreaker",
+			"haomarush",
+			"vashj"
+		]
+	},
+	"sporeggar": {
+		"name": "Sporeggar",
+		"slug": "sporeggar",
+		"ah": "Sporeggar",
+		"connections": [
+			"scarshield-legion",
+			"the-venture-co",
+			"defias-brotherhood",
+			"sporeggar",
+			"ravenholdt"
+		]
+	},
+	"steamwheedle-cartel": {
+		"name": "Steamwheedle Cartel",
+		"slug": "steamwheedle-cartel",
+		"ah": "SteamwheedleCartel",
+		"connections": [
+			"moonglade",
+			"steamwheedle-cartel",
+			"the-shatar"
+		]
+	},
+	"stormrage": {
+		"name": "Stormrage",
+		"slug": "stormrage",
+		"ah": "Stormrage",
+		"connections": [
+			"azuremyst",
+			"stormrage"
+		]
+	},
+	"stormreaver": {
+		"name": "Stormreaver",
+		"slug": "stormreaver",
+		"ah": "Stormreaver",
+		"connections": [
+			"dragonmaw",
+			"internal-record-3656",
+			"stormreaver",
+			"spinebreaker",
+			"haomarush",
+			"vashj"
+		]
+	},
+	"stormscale": {
+		"name": "Stormscale",
+		"slug": "stormscale",
+		"ah": "Stormscale",
+		"connections": [
+			"stormscale",
+			"winterhuf"
+		]
+	},
+	"sunstrider": {
+		"name": "Sunstrider",
+		"slug": "sunstrider",
+		"ah": "Sunstrider",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"sylvanas": {
+		"name": "Sylvanas",
+		"slug": "sylvanas",
+		"ah": "Sylvanas",
+		"connections": [
+			"sylvanas",
+			"internal-record-3687"
+		]
+	},
+	"taerar": {
+		"name": "Taerar",
+		"slug": "taerar",
+		"ah": "Taerar",
+		"connections": [
+			"malganis",
+			"echsenkessel",
+			"taerar"
+		]
+	},
+	"talnivarr": {
+		"name": "Talnivarr",
+		"slug": "talnivarr",
+		"ah": "Talnivarr",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"tarren-mill": {
+		"name": "Tarren Mill",
+		"slug": "tarren-mill",
+		"ah": "TarrenMill",
+		"connections": [
+			"dentarg",
+			"tarren-mill"
+		]
+	},
+	"teldrassil": {
+		"name": "Teldrassil",
+		"slug": "teldrassil",
+		"ah": "Teldrassil",
+		"connections": [
+			"perenolde",
+			"teldrassil"
+		]
+	},
+	"temple-noir": {
+		"name": "Temple noir",
+		"slug": "temple-noir",
+		"ah": "Templenoir",
+		"connections": [
+			"illidan",
+			"temple-noir",
+			"naxxramas",
+			"arathi"
+		]
+	},
+	"terenas": {
+		"name": "Terenas",
+		"slug": "terenas",
+		"ah": "Terenas",
+		"connections": [
+			"emerald-dream",
+			"terenas",
+			"schwarznarbe"
+		]
+	},
+	"terokkar": {
+		"name": "Terokkar",
+		"slug": "terokkar",
+		"ah": "Terokkar",
+		"connections": [
+			"terokkar",
+			"darkspear",
+			"saurfang"
+		]
+	},
+	"terrordar": {
+		"name": "Terrordar",
+		"slug": "terrordar",
+		"ah": "Terrordar",
+		"connections": [
+			"dethecus",
+			"terrordar",
+			"onyxia",
+			"theradras",
+			"mugthol"
+		]
+	},
+	"the-maelstrom": {
+		"name": "The Maelstrom",
+		"slug": "the-maelstrom",
+		"ah": "TheMaelstrom",
+		"connections": [
+			"deathwing",
+			"lightnings-blade",
+			"the-maelstrom",
+			"karazhan"
+		]
+	},
+	"the-shatar": {
+		"name": "The Sha'tar",
+		"slug": "the-shatar",
+		"ah": "TheSha'tar",
+		"connections": [
+			"moonglade",
+			"steamwheedle-cartel",
+			"the-shatar"
+		]
+	},
+	"the-venture-co": {
+		"name": "The Venture Co",
+		"slug": "the-venture-co",
+		"ah": "TheVentureCo",
+		"connections": [
+			"scarshield-legion",
+			"the-venture-co",
+			"defias-brotherhood",
+			"sporeggar",
+			"ravenholdt"
+		]
+	},
+	"theradras": {
+		"name": "Theradras",
+		"slug": "theradras",
+		"ah": "Theradras",
+		"connections": [
+			"dethecus",
+			"terrordar",
+			"onyxia",
+			"theradras",
+			"mugthol"
+		]
+	},
+	"thermaplugg": {
+		"name": "Thermaplugg",
+		"slug": "thermaplugg",
+		"ah": "Thermaplugg",
+		"connections": [
+			"grom",
+			"thermaplugg"
+		]
+	},
+	"thrall": {
+		"name": "Thrall",
+		"slug": "thrall",
+		"ah": "Thrall",
+		"connections": [
+			"thrall"
+		]
+	},
+	"throkferoth": {
+		"name": "Throk'Feroth",
+		"slug": "throkferoth",
+		"ah": "Throk'Feroth",
+		"connections": [
+			"kaelthas",
+			"arakarahm",
+			"throkferoth",
+			"rashgarroth"
+		]
+	},
+	"thunderhorn": {
+		"name": "Thunderhorn",
+		"slug": "thunderhorn",
+		"ah": "Thunderhorn",
+		"connections": [
+			"thunderhorn",
+			"wildhammer"
+		]
+	},
+	"tichondrius": {
+		"name": "Tichondrius",
+		"slug": "tichondrius",
+		"ah": "Tichondrius",
+		"connections": [
+			"tichondrius",
+			"lordaeron"
+		]
+	},
+	"tirion": {
+		"name": "Tirion",
+		"slug": "tirion",
+		"ah": "Tirion",
+		"connections": [
+			"durotan",
+			"tirion"
+		]
+	},
+	"todeswache": {
+		"name": "Todeswache",
+		"slug": "todeswache",
+		"ah": "Todeswache",
+		"connections": [
+			"zirkel-des-cenarius",
+			"todeswache"
+		]
+	},
+	"trollbane": {
+		"name": "Trollbane",
+		"slug": "trollbane",
+		"ah": "Trollbane",
+		"connections": [
+			"daggerspine",
+			"sunstrider",
+			"trollbane",
+			"ahnqiraj",
+			"talnivarr",
+			"chromaggus",
+			"laughing-skull",
+			"balnazzar",
+			"shattered-halls",
+			"boulderfist"
+		]
+	},
+	"turalyon": {
+		"name": "Turalyon",
+		"slug": "turalyon",
+		"ah": "Turalyon",
+		"connections": [
+			"doomhammer",
+			"turalyon",
+			"menethil"
+		]
+	},
+	"twilights-hammer": {
+		"name": "Twilight's Hammer",
+		"slug": "twilights-hammer",
+		"ah": "Twilight'sHammer",
+		"connections": [
+			"agamaggan",
+			"crushridge",
+			"bloodscalp",
+			"twilights-hammer",
+			"hakkar",
+			"emeriss"
+		]
+	},
+	"twisting-nether": {
+		"name": "Twisting Nether",
+		"slug": "twisting-nether",
+		"ah": "TwistingNether",
+		"connections": [
+			"twisting-nether",
+			"internal-record-3674"
+		]
+	},
+	"tyrande": {
+		"name": "Tyrande",
+		"slug": "tyrande",
+		"ah": "Tyrande",
+		"connections": [
+			"colinas-pardas",
+			"los-errantes",
+			"tyrande"
+		]
+	},
+	"uldaman": {
+		"name": "Uldaman",
+		"slug": "uldaman",
+		"ah": "Uldaman",
+		"connections": [
+			"uldaman",
+			"drekthar"
+		]
+	},
+	"ulduar": {
+		"name": "Ulduar",
+		"slug": "ulduar",
+		"ah": "Ulduar",
+		"connections": [
+			"gilneas",
+			"ulduar"
+		]
+	},
+	"uldum": {
+		"name": "Uldum",
+		"slug": "uldum",
+		"ah": "Uldum",
+		"connections": [
+			"shendralar",
+			"sanguino",
+			"uldum",
+			"zuljin"
+		]
+	},
+	"ungoro": {
+		"name": "Un'Goro",
+		"slug": "ungoro",
+		"ah": "Un'Goro",
+		"connections": [
+			"area-52",
+			"ungoro",
+			"senjin"
+		]
+	},
+	"varimathras": {
+		"name": "Varimathras",
+		"slug": "varimathras",
+		"ah": "Varimathras",
+		"connections": [
+			"elune",
+			"varimathras",
+			"caduta-dei-draghi"
+		]
+	},
+	"vashj": {
+		"name": "Vashj",
+		"slug": "vashj",
+		"ah": "Vashj",
+		"connections": [
+			"dragonmaw",
+			"internal-record-3656",
+			"stormreaver",
+			"spinebreaker",
+			"haomarush",
+			"vashj"
+		]
+	},
+	"veklor": {
+		"name": "Vek'lor",
+		"slug": "veklor",
+		"ah": "Vek'lor",
+		"connections": [
+			"arthas",
+			"kelthuzad",
+			"wrathbringer",
+			"blutkessel",
+			"veklor"
+		]
+	},
+	"veknilash": {
+		"name": "Vek'nilash",
+		"slug": "veknilash",
+		"ah": "Vek'nilash",
+		"connections": [
+			"blades-edge",
+			"veknilash",
+			"eonar"
+		]
+	},
+	"voljin": {
+		"name": "Vol'jin",
+		"slug": "voljin",
+		"ah": "Vol'jin",
+		"connections": [
+			"voljin",
+			"chants-eternels"
+		]
+	},
+	"wildhammer": {
+		"name": "Wildhammer",
+		"slug": "wildhammer",
+		"ah": "Wildhammer",
+		"connections": [
+			"thunderhorn",
+			"wildhammer"
+		]
+	},
+	"wrathbringer": {
+		"name": "Wrathbringer",
+		"slug": "wrathbringer",
+		"ah": "Wrathbringer",
+		"connections": [
+			"arthas",
+			"kelthuzad",
+			"wrathbringer",
+			"blutkessel",
+			"veklor"
+		]
+	},
+	"xavius": {
+		"name": "Xavius",
+		"slug": "xavius",
+		"ah": "Xavius",
+		"connections": [
+			"alakir",
+			"xavius",
+			"skullcrusher"
+		]
+	},
+	"ysera": {
+		"name": "Ysera",
+		"slug": "ysera",
+		"ah": "Ysera",
+		"connections": [
+			"ysera",
+			"malorne"
+		]
+	},
+	"ysondre": {
+		"name": "Ysondre",
+		"slug": "ysondre",
+		"ah": "Ysondre",
+		"connections": [
+			"ysondre"
+		]
+	},
+	"zenedar": {
+		"name": "Zenedar",
+		"slug": "zenedar",
+		"ah": "Zenedar",
+		"connections": [
+			"bladefist",
+			"zenedar",
+			"internal-record-3657",
+			"frostwhisper"
+		]
+	},
+	"zirkel-des-cenarius": {
+		"name": "Zirkel des Cenarius",
+		"slug": "zirkel-des-cenarius",
+		"ah": "ZirkeldesCenarius",
+		"connections": [
+			"zirkel-des-cenarius",
+			"todeswache"
+		]
+	},
+	"zuljin": {
+		"name": "Zul'jin",
+		"slug": "zuljin",
+		"ah": "Zul'jin",
+		"connections": [
+			"shendralar",
+			"sanguino",
+			"uldum",
+			"zuljin"
+		]
+	},
+	"zuluhed": {
+		"name": "Zuluhed",
+		"slug": "zuluhed",
+		"ah": "Zuluhed",
+		"connections": [
+			"nazjatar",
+			"frostmourne",
+			"zuluhed",
+			"anubarak",
+			"dalvengyr"
+		]
+	}
+}

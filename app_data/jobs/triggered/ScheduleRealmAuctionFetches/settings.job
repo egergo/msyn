@@ -1,0 +1,4 @@
+{
+	"is_in_place": true,
+	"schedule": "18 */3 * * * *"
+}
