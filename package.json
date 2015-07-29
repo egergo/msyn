@@ -20,6 +20,9 @@
     "supertest": "^1.0.1"
   },
   "dependencies": {
+    "azure-common": "^0.9.13",
+    "azure-sb": "^0.10.1",
+    "azure-storage": "^0.4.5",
     "bluebird": "^2.9.33",
     "body-parser": "^1.13.2",
     "bunyan": "^1.4.0",
