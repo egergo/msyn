@@ -23,6 +23,7 @@
     "bluebird": "^2.9.33",
     "body-parser": "^1.13.2",
     "bunyan": "^1.4.0",
+    "bunyan-logentries": "^1.1.2",
     "express": "^4.13.1",
     "express-bunyan-logger": "^1.1.1",
     "ioredis": "^1.6.1",

@@ -2,9 +2,34 @@ var bunyan = require('bunyan');
 var bunyanLogger = require('express-bunyan-logger');
 var uuid = require('node-uuid');
 
+var streams = [{
+	level: 'debug',
+	stream: process.stdout
+}];
+
+if (process.env.LOG_LE_TOKEN) {
+	var logentriesStream = require('bunyan-logentries').createStream({
+		token: process.env.LOG_LE_TOKEN,
+		timestamp: false,
+		secure: true,
+		withStack: true
+	}, {
+		transform: function(logRecord) {
+			delete logRecord.v;
+			return logRecord
+		}
+	});
+	streams.push({
+		level: 'warn',
+		stream: logentriesStream,
+		type: 'raw'
+	});
+}
+
 var log = bunyan.createLogger({
 	name: 'app',
-	//level: config.get('log.level')
+	level: 'debug',
+	streams: streams
 });
 
 function defaultGenerateRequestId(req) {
@@ -22,9 +47,8 @@ log.requestLogger = function() {
 		name: 'request',
 		parseUA: false,
 		format: ':remote-address :method :url :status-code :response-time ms',
-		//excludes: config.get('log.verbose') ? [] : ['body', 'short-body', 'http-version', 'response-hrtime', 'req-headers', 'res-headers', 'req', 'res', 'referer', 'incoming'],
-		stream: process.stdout,
-		level: config.get('log.level'),
+		excludes: ['body', 'short-body', 'http-version', 'response-hrtime', 'req-headers', 'res-headers', 'req', 'res', 'referer', 'incoming', 'user-agent'],
+		streams: streams,
 		genReqId: defaultGenerateRequestId
 	});
 };
@@ -38,9 +62,8 @@ log.errorLogger = function() {
 		parseUA: true,
 		format: ':remote-address :method :url :status-code :response-time ms :err[message]',
 		excludes: ['short-body', 'incoming', 'response-hrtime'],
-		stream: process.stdout,
+		streams: streams,
 		immediate: true,
-		//level: config.get('log.level'),
 		genReqId: defaultGenerateRequestId
 	});
 };
