@@ -37,7 +37,7 @@ var port = process.env.PORT || 3000;
 
 app.listen(port, function(err) {
 	if (err) { return log.error(err); }
-	log.info({ port: port }, "listening on %d!", port);
+	log.info({port: port}, 'listening on %s', port);
 });
 
 module.exports = {
