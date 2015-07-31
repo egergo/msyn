@@ -174,7 +174,7 @@ function fetchRealm(region, realm) {
 		}).then(function(auctionsRaw) {
 			var auctions = JSON.parse(auctionsRaw);
 			var slug = auctions.realm.slug;
-			return zlib.gzipAsync(new Buffer(auctionsRaw, 'binary')).then(function(gzipped) {
+			return zlib.gzipAsync(new Buffer(auctionsRaw)).then(function(gzipped) {
 				var date = new Date(fileLastModified);
 				var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, slug, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
 				console.log('storing file. name:', name, 'size:', gzipped.length, 'originalSize:', auctionsRaw.length);

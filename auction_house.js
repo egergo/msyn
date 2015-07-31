@@ -80,7 +80,7 @@ AuctionHouse.prototype.load = function(opt) {
 			return present;
 		});
 	}).then(function(present) {
-		var comp = zlib.deflateRawSync(new Buffer(JSON.stringify(present.auctions), 'binary'), {level: 7});
+		var comp = zlib.deflateRawSync(new Buffer(JSON.stringify(present.auctions)), {level: 7});
 		var saveLastModified = this._redis.set(util.format('realms:%s:%s:auc:lastModified', this._region, this._realm), present._lastModified);
 		var saveLast = this._redis.set(util.format('realms:%s:%s:auc:past', this._region, this._realm), comp);
 
