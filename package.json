@@ -13,6 +13,8 @@
     "npm": "2.5.x"
   },
   "devDependencies": {
+    "chai": "^3.2.0",
+    "errorhandler": "^1.4.2",
     "istanbul": "^0.3.17",
     "jshint": "^2.8.0",
     "mocha": "^2.2.5",
@@ -30,9 +32,11 @@
     "express": "^4.13.1",
     "express-bunyan-logger": "^1.1.1",
     "ioredis": "^1.6.1",
+    "jsonwebtoken": "^5.0.4",
     "node-uuid": "^1.4.3",
     "passport": "^0.2.2",
     "passport-bnet": "^1.1.1",
+    "passport-jwt": "^1.1.0",
     "request-promise": "^0.4.2",
     "sqlite3": "^3.0.8",
     "url-join": "0.0.1",
