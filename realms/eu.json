@@ -5,7 +5,8 @@
 		"ah": "Aegwynn",
 		"connections": [
 			"aegwynn"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"aerie-peak": {
 		"name": "Aerie Peak",
@@ -14,7 +15,8 @@
 		"connections": [
 			"bronzebeard",
 			"aerie-peak"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"agamaggan": {
 		"name": "Agamaggan",
@@ -27,7 +29,8 @@
 			"twilights-hammer",
 			"hakkar",
 			"emeriss"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"aggra-portugues": {
 		"name": "Aggra (Português)",
@@ -36,7 +39,8 @@
 		"connections": [
 			"aggra-portugues",
 			"grim-batol"
-		]
+		],
+		"locale": "pt_BR"
 	},
 	"aggramar": {
 		"name": "Aggramar",
@@ -45,7 +49,8 @@
 		"connections": [
 			"aggramar",
 			"hellscream"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"ahnqiraj": {
 		"name": "Ahn'Qiraj",
@@ -62,7 +67,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"alakir": {
 		"name": "Al'Akir",
@@ -72,7 +78,8 @@
 			"alakir",
 			"xavius",
 			"skullcrusher"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"alexstrasza": {
 		"name": "Alexstrasza",
@@ -81,7 +88,8 @@
 		"connections": [
 			"alexstrasza",
 			"nethersturm"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"alleria": {
 		"name": "Alleria",
@@ -90,7 +98,8 @@
 		"connections": [
 			"rexxar",
 			"alleria"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"alonsus": {
 		"name": "Alonsus",
@@ -100,7 +109,8 @@
 			"kul-tiras",
 			"anachronos",
 			"alonsus"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"amanthul": {
 		"name": "Aman'Thul",
@@ -108,7 +118,8 @@
 		"ah": "Aman'Thul",
 		"connections": [
 			"amanthul"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"ambossar": {
 		"name": "Ambossar",
@@ -117,7 +128,8 @@
 		"connections": [
 			"kargath",
 			"ambossar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"anachronos": {
 		"name": "Anachronos",
@@ -127,7 +139,8 @@
 			"kul-tiras",
 			"anachronos",
 			"alonsus"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"anetheron": {
 		"name": "Anetheron",
@@ -140,7 +153,8 @@
 			"kiljaeden",
 			"festung-der-sturme",
 			"rajaxx"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"antonidas": {
 		"name": "Antonidas",
@@ -148,7 +162,8 @@
 		"ah": "Antonidas",
 		"connections": [
 			"antonidas"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"anubarak": {
 		"name": "Anub'arak",
@@ -160,7 +175,8 @@
 			"zuluhed",
 			"anubarak",
 			"dalvengyr"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"arakarahm": {
 		"name": "Arak-arahm",
@@ -171,7 +187,8 @@
 			"arakarahm",
 			"throkferoth",
 			"rashgarroth"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"arathi": {
 		"name": "Arathi",
@@ -182,7 +199,8 @@
 			"temple-noir",
 			"naxxramas",
 			"arathi"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"arathor": {
 		"name": "Arathor",
@@ -191,7 +209,8 @@
 		"connections": [
 			"arathor",
 			"hellfire"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"archimonde": {
 		"name": "Archimonde",
@@ -199,7 +218,8 @@
 		"ah": "Archimonde",
 		"connections": [
 			"archimonde"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"area-52": {
 		"name": "Area 52",
@@ -209,7 +229,8 @@
 			"area-52",
 			"ungoro",
 			"senjin"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"argent-dawn": {
 		"name": "Argent Dawn",
@@ -217,7 +238,8 @@
 		"ah": "ArgentDawn",
 		"connections": [
 			"argent-dawn"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"arthas": {
 		"name": "Arthas",
@@ -229,7 +251,8 @@
 			"wrathbringer",
 			"blutkessel",
 			"veklor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"arygos": {
 		"name": "Arygos",
@@ -238,7 +261,8 @@
 		"connections": [
 			"khazgoroth",
 			"arygos"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"ashenvale": {
 		"name": "Ashenvale",
@@ -246,7 +270,8 @@
 		"ah": "Ashenvale",
 		"connections": [
 			"ashenvale"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"aszune": {
 		"name": "Aszune",
@@ -255,7 +280,8 @@
 		"connections": [
 			"aszune",
 			"shadowsong"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"auchindoun": {
 		"name": "Auchindoun",
@@ -265,7 +291,8 @@
 			"dunemaul",
 			"auchindoun",
 			"jaedenar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"azjolnerub": {
 		"name": "Azjol-Nerub",
@@ -274,7 +301,8 @@
 		"connections": [
 			"azjolnerub",
 			"quelthalas"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"azshara": {
 		"name": "Azshara",
@@ -283,7 +311,8 @@
 		"connections": [
 			"azshara",
 			"kragjin"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"azuregos": {
 		"name": "Azuregos",
@@ -291,7 +320,8 @@
 		"ah": "Azuregos",
 		"connections": [
 			"azuregos"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"azuremyst": {
 		"name": "Azuremyst",
@@ -300,7 +330,8 @@
 		"connections": [
 			"azuremyst",
 			"stormrage"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"baelgun": {
 		"name": "Baelgun",
@@ -309,7 +340,8 @@
 		"connections": [
 			"lothar",
 			"baelgun"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"balnazzar": {
 		"name": "Balnazzar",
@@ -326,7 +358,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"blackhand": {
 		"name": "Blackhand",
@@ -334,7 +367,8 @@
 		"ah": "Blackhand",
 		"connections": [
 			"blackhand"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"blackmoore": {
 		"name": "Blackmoore",
@@ -342,7 +376,8 @@
 		"ah": "Blackmoore",
 		"connections": [
 			"blackmoore"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"blackrock": {
 		"name": "Blackrock",
@@ -350,7 +385,8 @@
 		"ah": "Blackrock",
 		"connections": [
 			"blackrock"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"blackscar": {
 		"name": "Blackscar",
@@ -358,7 +394,8 @@
 		"ah": "Blackscar",
 		"connections": [
 			"blackscar"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"blades-edge": {
 		"name": "Blade's Edge",
@@ -368,7 +405,8 @@
 			"blades-edge",
 			"veknilash",
 			"eonar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"bladefist": {
 		"name": "Bladefist",
@@ -378,7 +416,8 @@
 			"bladefist",
 			"zenedar",
 			"frostwhisper"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"bloodfeather": {
 		"name": "Bloodfeather",
@@ -390,7 +429,8 @@
 			"burning-steppes",
 			"korgall",
 			"bloodfeather"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"bloodhoof": {
 		"name": "Bloodhoof",
@@ -399,7 +439,8 @@
 		"connections": [
 			"bloodhoof",
 			"khadgar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"bloodscalp": {
 		"name": "Bloodscalp",
@@ -412,7 +453,8 @@
 			"twilights-hammer",
 			"hakkar",
 			"emeriss"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"blutkessel": {
 		"name": "Blutkessel",
@@ -424,7 +466,8 @@
 			"wrathbringer",
 			"blutkessel",
 			"veklor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"booty-bay": {
 		"name": "Booty Bay",
@@ -433,7 +476,8 @@
 		"connections": [
 			"booty-bay",
 			"deathweaver"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"borean-tundra": {
 		"name": "Borean Tundra",
@@ -441,7 +485,8 @@
 		"ah": "BoreanTundra",
 		"connections": [
 			"borean-tundra"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"boulderfist": {
 		"name": "Boulderfist",
@@ -458,7 +503,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"bronze-dragonflight": {
 		"name": "Bronze Dragonflight",
@@ -467,7 +513,8 @@
 		"connections": [
 			"bronze-dragonflight",
 			"nordrassil"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"bronzebeard": {
 		"name": "Bronzebeard",
@@ -476,7 +523,8 @@
 		"connections": [
 			"bronzebeard",
 			"aerie-peak"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"burning-blade": {
 		"name": "Burning Blade",
@@ -485,7 +533,8 @@
 		"connections": [
 			"burning-blade",
 			"drakthul"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"burning-legion": {
 		"name": "Burning Legion",
@@ -493,7 +542,8 @@
 		"ah": "BurningLegion",
 		"connections": [
 			"burning-legion"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"burning-steppes": {
 		"name": "Burning Steppes",
@@ -505,7 +555,8 @@
 			"burning-steppes",
 			"korgall",
 			"bloodfeather"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"cthun": {
 		"name": "C'Thun",
@@ -513,7 +564,8 @@
 		"ah": "C'Thun",
 		"connections": [
 			"cthun"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"chamber-of-aspects": {
 		"name": "Chamber of Aspects",
@@ -521,7 +573,8 @@
 		"ah": "ChamberofAspects",
 		"connections": [
 			"chamber-of-aspects"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"chants-eternels": {
 		"name": "Chants éternels",
@@ -530,7 +583,8 @@
 		"connections": [
 			"voljin",
 			"chants-eternels"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"chogall": {
 		"name": "Cho'gall",
@@ -540,7 +594,8 @@
 			"sinstralis",
 			"chogall",
 			"eldrethalas"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"chromaggus": {
 		"name": "Chromaggus",
@@ -557,7 +612,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"colinas-pardas": {
 		"name": "Colinas Pardas",
@@ -567,7 +623,8 @@
 			"colinas-pardas",
 			"los-errantes",
 			"tyrande"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"confrerie-du-thorium": {
 		"name": "Confrérie du Thorium",
@@ -577,7 +634,8 @@
 			"confrerie-du-thorium",
 			"les-sentinelles",
 			"les-clairvoyants"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"conseil-des-ombres": {
 		"name": "Conseil des Ombres",
@@ -587,7 +645,8 @@
 			"la-croisade-ecarlate",
 			"conseil-des-ombres",
 			"culte-de-la-rive-noire"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"crushridge": {
 		"name": "Crushridge",
@@ -600,7 +659,8 @@
 			"twilights-hammer",
 			"hakkar",
 			"emeriss"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"culte-de-la-rive-noire": {
 		"name": "Culte de la Rive noire",
@@ -610,7 +670,8 @@
 			"la-croisade-ecarlate",
 			"conseil-des-ombres",
 			"culte-de-la-rive-noire"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"daggerspine": {
 		"name": "Daggerspine",
@@ -627,7 +688,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"dalaran": {
 		"name": "Dalaran",
@@ -636,7 +698,8 @@
 		"connections": [
 			"dalaran",
 			"marecage-de-zangar"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"dalvengyr": {
 		"name": "Dalvengyr",
@@ -648,7 +711,8 @@
 			"zuluhed",
 			"anubarak",
 			"dalvengyr"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"darkmoon-faire": {
 		"name": "Darkmoon Faire",
@@ -657,7 +721,8 @@
 		"connections": [
 			"earthen-ring",
 			"darkmoon-faire"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"darksorrow": {
 		"name": "Darksorrow",
@@ -667,7 +732,8 @@
 			"darksorrow",
 			"neptulon",
 			"genjuros"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"darkspear": {
 		"name": "Darkspear",
@@ -677,7 +743,8 @@
 			"terokkar",
 			"darkspear",
 			"saurfang"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"das-konsortium": {
 		"name": "Das Konsortium",
@@ -690,7 +757,8 @@
 			"das-syndikat",
 			"das-konsortium",
 			"der-abyssische-rat"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"das-syndikat": {
 		"name": "Das Syndikat",
@@ -703,7 +771,8 @@
 			"das-syndikat",
 			"das-konsortium",
 			"der-abyssische-rat"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"deathguard": {
 		"name": "Deathguard",
@@ -711,7 +780,8 @@
 		"ah": "Deathguard",
 		"connections": [
 			"deathguard"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"deathweaver": {
 		"name": "Deathweaver",
@@ -720,7 +790,8 @@
 		"connections": [
 			"booty-bay",
 			"deathweaver"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"deathwing": {
 		"name": "Deathwing",
@@ -731,7 +802,8 @@
 			"lightnings-blade",
 			"the-maelstrom",
 			"karazhan"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"deepholm": {
 		"name": "Deepholm",
@@ -740,7 +812,8 @@
 		"connections": [
 			"razuvious",
 			"deepholm"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"defias-brotherhood": {
 		"name": "Defias Brotherhood",
@@ -752,7 +825,8 @@
 			"defias-brotherhood",
 			"sporeggar",
 			"ravenholdt"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"dentarg": {
 		"name": "Dentarg",
@@ -761,7 +835,8 @@
 		"connections": [
 			"dentarg",
 			"tarren-mill"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"der-mithrilorden": {
 		"name": "Der Mithrilorden",
@@ -770,7 +845,8 @@
 		"connections": [
 			"der-mithrilorden",
 			"der-rat-von-dalaran"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"der-rat-von-dalaran": {
 		"name": "Der Rat von Dalaran",
@@ -779,7 +855,8 @@
 		"connections": [
 			"der-mithrilorden",
 			"der-rat-von-dalaran"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"der-abyssische-rat": {
 		"name": "Der abyssische Rat",
@@ -792,7 +869,8 @@
 			"das-syndikat",
 			"das-konsortium",
 			"der-abyssische-rat"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"destromath": {
 		"name": "Destromath",
@@ -804,7 +882,8 @@
 			"mannoroth",
 			"destromath",
 			"nerathor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"dethecus": {
 		"name": "Dethecus",
@@ -816,7 +895,8 @@
 			"onyxia",
 			"theradras",
 			"mugthol"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"die-aldor": {
 		"name": "Die Aldor",
@@ -824,7 +904,8 @@
 		"ah": "DieAldor",
 		"connections": [
 			"die-aldor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"die-arguswacht": {
 		"name": "Die Arguswacht",
@@ -837,7 +918,8 @@
 			"das-syndikat",
 			"das-konsortium",
 			"der-abyssische-rat"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"die-nachtwache": {
 		"name": "Die Nachtwache",
@@ -846,7 +928,8 @@
 		"connections": [
 			"forscherliga",
 			"die-nachtwache"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"die-silberne-hand": {
 		"name": "Die Silberne Hand",
@@ -855,7 +938,8 @@
 		"connections": [
 			"die-ewige-wacht",
 			"die-silberne-hand"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"die-todeskrallen": {
 		"name": "Die Todeskrallen",
@@ -868,7 +952,8 @@
 			"das-syndikat",
 			"das-konsortium",
 			"der-abyssische-rat"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"die-ewige-wacht": {
 		"name": "Die ewige Wacht",
@@ -877,7 +962,8 @@
 		"connections": [
 			"die-ewige-wacht",
 			"die-silberne-hand"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"doomhammer": {
 		"name": "Doomhammer",
@@ -886,7 +972,8 @@
 		"connections": [
 			"doomhammer",
 			"turalyon"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"draenor": {
 		"name": "Draenor",
@@ -894,7 +981,8 @@
 		"ah": "Draenor",
 		"connections": [
 			"draenor"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"dragonblight": {
 		"name": "Dragonblight",
@@ -903,7 +991,8 @@
 		"connections": [
 			"dragonblight",
 			"ghostlands"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"dragonmaw": {
 		"name": "Dragonmaw",
@@ -915,7 +1004,8 @@
 			"spinebreaker",
 			"haomarush",
 			"vashj"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"drakthul": {
 		"name": "Drak'thul",
@@ -924,7 +1014,8 @@
 		"connections": [
 			"burning-blade",
 			"drakthul"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"drekthar": {
 		"name": "Drek'Thar",
@@ -933,7 +1024,8 @@
 		"connections": [
 			"uldaman",
 			"drekthar"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"dun-modr": {
 		"name": "Dun Modr",
@@ -941,7 +1033,8 @@
 		"ah": "DunModr",
 		"connections": [
 			"dun-modr"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"dun-morogh": {
 		"name": "Dun Morogh",
@@ -950,7 +1043,8 @@
 		"connections": [
 			"norgannon",
 			"dun-morogh"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"dunemaul": {
 		"name": "Dunemaul",
@@ -960,7 +1054,8 @@
 			"dunemaul",
 			"auchindoun",
 			"jaedenar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"durotan": {
 		"name": "Durotan",
@@ -969,7 +1064,8 @@
 		"connections": [
 			"durotan",
 			"tirion"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"earthen-ring": {
 		"name": "Earthen Ring",
@@ -978,7 +1074,8 @@
 		"connections": [
 			"earthen-ring",
 			"darkmoon-faire"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"echsenkessel": {
 		"name": "Echsenkessel",
@@ -988,7 +1085,8 @@
 			"malganis",
 			"echsenkessel",
 			"taerar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"eitrigg": {
 		"name": "Eitrigg",
@@ -997,7 +1095,8 @@
 		"connections": [
 			"eitrigg",
 			"krasus"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"eldrethalas": {
 		"name": "Eldre'Thalas",
@@ -1007,7 +1106,8 @@
 			"sinstralis",
 			"chogall",
 			"eldrethalas"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"elune": {
 		"name": "Elune",
@@ -1016,7 +1116,8 @@
 		"connections": [
 			"elune",
 			"varimathras"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"emerald-dream": {
 		"name": "Emerald Dream",
@@ -1025,7 +1126,8 @@
 		"connections": [
 			"emerald-dream",
 			"terenas"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"emeriss": {
 		"name": "Emeriss",
@@ -1038,7 +1140,8 @@
 			"twilights-hammer",
 			"hakkar",
 			"emeriss"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"eonar": {
 		"name": "Eonar",
@@ -1048,7 +1151,8 @@
 			"blades-edge",
 			"veknilash",
 			"eonar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"eredar": {
 		"name": "Eredar",
@@ -1056,7 +1160,8 @@
 		"ah": "Eredar",
 		"connections": [
 			"eredar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"eversong": {
 		"name": "Eversong",
@@ -1064,7 +1169,8 @@
 		"ah": "Eversong",
 		"connections": [
 			"eversong"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"executus": {
 		"name": "Executus",
@@ -1076,7 +1182,8 @@
 			"burning-steppes",
 			"korgall",
 			"bloodfeather"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"exodar": {
 		"name": "Exodar",
@@ -1085,7 +1192,8 @@
 		"connections": [
 			"minahonda",
 			"exodar"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"festung-der-sturme": {
 		"name": "Festung der Stürme",
@@ -1098,7 +1206,8 @@
 			"kiljaeden",
 			"festung-der-sturme",
 			"rajaxx"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"fordragon": {
 		"name": "Fordragon",
@@ -1106,7 +1215,8 @@
 		"ah": "Fordragon",
 		"connections": [
 			"fordragon"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"forscherliga": {
 		"name": "Forscherliga",
@@ -1115,7 +1225,8 @@
 		"connections": [
 			"forscherliga",
 			"die-nachtwache"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"frostmane": {
 		"name": "Frostmane",
@@ -1123,7 +1234,8 @@
 		"ah": "Frostmane",
 		"connections": [
 			"frostmane"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"frostmourne": {
 		"name": "Frostmourne",
@@ -1135,7 +1247,8 @@
 			"zuluhed",
 			"anubarak",
 			"dalvengyr"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"frostwhisper": {
 		"name": "Frostwhisper",
@@ -1145,7 +1258,8 @@
 			"bladefist",
 			"zenedar",
 			"frostwhisper"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"frostwolf": {
 		"name": "Frostwolf",
@@ -1153,7 +1267,8 @@
 		"ah": "Frostwolf",
 		"connections": [
 			"frostwolf"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"galakrond": {
 		"name": "Galakrond",
@@ -1161,7 +1276,8 @@
 		"ah": "Galakrond",
 		"connections": [
 			"galakrond"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"garona": {
 		"name": "Garona",
@@ -1171,7 +1287,8 @@
 			"nerzhul",
 			"sargeras",
 			"garona"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"garrosh": {
 		"name": "Garrosh",
@@ -1181,7 +1298,8 @@
 			"nozdormu",
 			"garrosh",
 			"shattrath"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"genjuros": {
 		"name": "Genjuros",
@@ -1191,7 +1309,8 @@
 			"darksorrow",
 			"neptulon",
 			"genjuros"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"ghostlands": {
 		"name": "Ghostlands",
@@ -1200,7 +1319,8 @@
 		"connections": [
 			"dragonblight",
 			"ghostlands"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"gilneas": {
 		"name": "Gilneas",
@@ -1209,7 +1329,8 @@
 		"connections": [
 			"gilneas",
 			"ulduar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"goldrinn": {
 		"name": "Goldrinn",
@@ -1217,7 +1338,8 @@
 		"ah": "Goldrinn",
 		"connections": [
 			"goldrinn"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"gordunni": {
 		"name": "Gordunni",
@@ -1225,7 +1347,8 @@
 		"ah": "Gordunni",
 		"connections": [
 			"gordunni"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"gorgonnash": {
 		"name": "Gorgonnash",
@@ -1237,7 +1360,8 @@
 			"mannoroth",
 			"destromath",
 			"nerathor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"greymane": {
 		"name": "Greymane",
@@ -1246,7 +1370,8 @@
 		"connections": [
 			"greymane",
 			"lich-king"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"grim-batol": {
 		"name": "Grim Batol",
@@ -1255,7 +1380,8 @@
 		"connections": [
 			"aggra-portugues",
 			"grim-batol"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"grom": {
 		"name": "Grom",
@@ -1264,7 +1390,8 @@
 		"connections": [
 			"grom",
 			"thermaplugg"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"guldan": {
 		"name": "Gul'dan",
@@ -1277,7 +1404,8 @@
 			"kiljaeden",
 			"festung-der-sturme",
 			"rajaxx"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"hakkar": {
 		"name": "Hakkar",
@@ -1290,7 +1418,8 @@
 			"twilights-hammer",
 			"hakkar",
 			"emeriss"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"haomarush": {
 		"name": "Haomarush",
@@ -1302,7 +1431,8 @@
 			"spinebreaker",
 			"haomarush",
 			"vashj"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"hellfire": {
 		"name": "Hellfire",
@@ -1311,7 +1441,8 @@
 		"connections": [
 			"arathor",
 			"hellfire"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"hellscream": {
 		"name": "Hellscream",
@@ -1320,7 +1451,8 @@
 		"connections": [
 			"aggramar",
 			"hellscream"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"howling-fjord": {
 		"name": "Howling Fjord",
@@ -1328,7 +1460,8 @@
 		"ah": "HowlingFjord",
 		"connections": [
 			"howling-fjord"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"hyjal": {
 		"name": "Hyjal",
@@ -1336,7 +1469,8 @@
 		"ah": "Hyjal",
 		"connections": [
 			"hyjal"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"illidan": {
 		"name": "Illidan",
@@ -1347,7 +1481,8 @@
 			"temple-noir",
 			"naxxramas",
 			"arathi"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"jaedenar": {
 		"name": "Jaedenar",
@@ -1357,7 +1492,8 @@
 			"dunemaul",
 			"auchindoun",
 			"jaedenar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"kaelthas": {
 		"name": "Kael'thas",
@@ -1368,7 +1504,8 @@
 			"arakarahm",
 			"throkferoth",
 			"rashgarroth"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"karazhan": {
 		"name": "Karazhan",
@@ -1379,7 +1516,8 @@
 			"lightnings-blade",
 			"the-maelstrom",
 			"karazhan"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"kargath": {
 		"name": "Kargath",
@@ -1388,7 +1526,8 @@
 		"connections": [
 			"kargath",
 			"ambossar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"kazzak": {
 		"name": "Kazzak",
@@ -1396,7 +1535,8 @@
 		"ah": "Kazzak",
 		"connections": [
 			"kazzak"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"kelthuzad": {
 		"name": "Kel'Thuzad",
@@ -1408,7 +1548,8 @@
 			"wrathbringer",
 			"blutkessel",
 			"veklor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"khadgar": {
 		"name": "Khadgar",
@@ -1417,7 +1558,8 @@
 		"connections": [
 			"bloodhoof",
 			"khadgar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"khaz-modan": {
 		"name": "Khaz Modan",
@@ -1425,7 +1567,8 @@
 		"ah": "KhazModan",
 		"connections": [
 			"khaz-modan"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"khazgoroth": {
 		"name": "Khaz'goroth",
@@ -1434,7 +1577,8 @@
 		"connections": [
 			"khazgoroth",
 			"arygos"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"kiljaeden": {
 		"name": "Kil'jaeden",
@@ -1447,7 +1591,8 @@
 			"kiljaeden",
 			"festung-der-sturme",
 			"rajaxx"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"kilrogg": {
 		"name": "Kilrogg",
@@ -1457,7 +1602,8 @@
 			"runetotem",
 			"nagrand",
 			"kilrogg"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"kirin-tor": {
 		"name": "Kirin Tor",
@@ -1465,7 +1611,8 @@
 		"ah": "KirinTor",
 		"connections": [
 			"kirin-tor"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"korgall": {
 		"name": "Kor'gall",
@@ -1477,7 +1624,8 @@
 			"burning-steppes",
 			"korgall",
 			"bloodfeather"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"kragjin": {
 		"name": "Krag'jin",
@@ -1486,7 +1634,8 @@
 		"connections": [
 			"azshara",
 			"kragjin"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"krasus": {
 		"name": "Krasus",
@@ -1495,7 +1644,8 @@
 		"connections": [
 			"eitrigg",
 			"krasus"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"kul-tiras": {
 		"name": "Kul Tiras",
@@ -1505,7 +1655,8 @@
 			"kul-tiras",
 			"anachronos",
 			"alonsus"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"kult-der-verdammten": {
 		"name": "Kult der Verdammten",
@@ -1518,7 +1669,8 @@
 			"das-syndikat",
 			"das-konsortium",
 			"der-abyssische-rat"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"la-croisade-ecarlate": {
 		"name": "La Croisade écarlate",
@@ -1528,7 +1680,8 @@
 			"la-croisade-ecarlate",
 			"conseil-des-ombres",
 			"culte-de-la-rive-noire"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"laughing-skull": {
 		"name": "Laughing Skull",
@@ -1545,7 +1698,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"les-clairvoyants": {
 		"name": "Les Clairvoyants",
@@ -1555,7 +1709,8 @@
 			"confrerie-du-thorium",
 			"les-sentinelles",
 			"les-clairvoyants"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"les-sentinelles": {
 		"name": "Les Sentinelles",
@@ -1565,7 +1720,8 @@
 			"confrerie-du-thorium",
 			"les-sentinelles",
 			"les-clairvoyants"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"lich-king": {
 		"name": "Lich King",
@@ -1574,7 +1730,8 @@
 		"connections": [
 			"greymane",
 			"lich-king"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"lightbringer": {
 		"name": "Lightbringer",
@@ -1583,7 +1740,8 @@
 		"connections": [
 			"mazrigos",
 			"lightbringer"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"lightnings-blade": {
 		"name": "Lightning's Blade",
@@ -1594,7 +1752,8 @@
 			"lightnings-blade",
 			"the-maelstrom",
 			"karazhan"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"lordaeron": {
 		"name": "Lordaeron",
@@ -1603,7 +1762,8 @@
 		"connections": [
 			"tichondrius",
 			"lordaeron"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"los-errantes": {
 		"name": "Los Errantes",
@@ -1613,7 +1773,8 @@
 			"colinas-pardas",
 			"los-errantes",
 			"tyrande"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"lothar": {
 		"name": "Lothar",
@@ -1622,7 +1783,8 @@
 		"connections": [
 			"lothar",
 			"baelgun"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"madmortem": {
 		"name": "Madmortem",
@@ -1631,7 +1793,8 @@
 		"connections": [
 			"proudmoore",
 			"madmortem"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"magtheridon": {
 		"name": "Magtheridon",
@@ -1639,7 +1802,8 @@
 		"ah": "Magtheridon",
 		"connections": [
 			"magtheridon"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"malganis": {
 		"name": "Mal'Ganis",
@@ -1649,7 +1813,8 @@
 			"malganis",
 			"echsenkessel",
 			"taerar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"malfurion": {
 		"name": "Malfurion",
@@ -1658,7 +1823,8 @@
 		"connections": [
 			"malygos",
 			"malfurion"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"malorne": {
 		"name": "Malorne",
@@ -1667,7 +1833,8 @@
 		"connections": [
 			"ysera",
 			"malorne"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"malygos": {
 		"name": "Malygos",
@@ -1676,7 +1843,8 @@
 		"connections": [
 			"malygos",
 			"malfurion"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"mannoroth": {
 		"name": "Mannoroth",
@@ -1688,7 +1856,8 @@
 			"mannoroth",
 			"destromath",
 			"nerathor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"marecage-de-zangar": {
 		"name": "Marécage de Zangar",
@@ -1697,7 +1866,8 @@
 		"connections": [
 			"dalaran",
 			"marecage-de-zangar"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"mazrigos": {
 		"name": "Mazrigos",
@@ -1706,7 +1876,8 @@
 		"connections": [
 			"mazrigos",
 			"lightbringer"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"medivh": {
 		"name": "Medivh",
@@ -1715,7 +1886,8 @@
 		"connections": [
 			"medivh",
 			"suramar"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"minahonda": {
 		"name": "Minahonda",
@@ -1724,7 +1896,8 @@
 		"connections": [
 			"minahonda",
 			"exodar"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"moonglade": {
 		"name": "Moonglade",
@@ -1734,7 +1907,8 @@
 			"moonglade",
 			"steamwheedle-cartel",
 			"the-shatar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"mugthol": {
 		"name": "Mug'thol",
@@ -1746,7 +1920,8 @@
 			"onyxia",
 			"theradras",
 			"mugthol"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"nagrand": {
 		"name": "Nagrand",
@@ -1756,7 +1931,8 @@
 			"runetotem",
 			"nagrand",
 			"kilrogg"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"nathrezim": {
 		"name": "Nathrezim",
@@ -1769,7 +1945,8 @@
 			"kiljaeden",
 			"festung-der-sturme",
 			"rajaxx"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"naxxramas": {
 		"name": "Naxxramas",
@@ -1780,7 +1957,8 @@
 			"temple-noir",
 			"naxxramas",
 			"arathi"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"nazjatar": {
 		"name": "Nazjatar",
@@ -1792,7 +1970,8 @@
 			"zuluhed",
 			"anubarak",
 			"dalvengyr"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"nefarian": {
 		"name": "Nefarian",
@@ -1804,7 +1983,8 @@
 			"mannoroth",
 			"destromath",
 			"nerathor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"nemesis": {
 		"name": "Nemesis",
@@ -1812,7 +1992,8 @@
 		"ah": "Nemesis",
 		"connections": [
 			"nemesis"
-		]
+		],
+		"locale": "it_IT"
 	},
 	"neptulon": {
 		"name": "Neptulon",
@@ -1822,7 +2003,8 @@
 			"darksorrow",
 			"neptulon",
 			"genjuros"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"nerzhul": {
 		"name": "Ner'zhul",
@@ -1832,7 +2014,8 @@
 			"nerzhul",
 			"sargeras",
 			"garona"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"nerathor": {
 		"name": "Nera'thor",
@@ -1844,7 +2027,8 @@
 			"mannoroth",
 			"destromath",
 			"nerathor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"nethersturm": {
 		"name": "Nethersturm",
@@ -1853,7 +2037,8 @@
 		"connections": [
 			"alexstrasza",
 			"nethersturm"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"nordrassil": {
 		"name": "Nordrassil",
@@ -1862,7 +2047,8 @@
 		"connections": [
 			"bronze-dragonflight",
 			"nordrassil"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"norgannon": {
 		"name": "Norgannon",
@@ -1871,7 +2057,8 @@
 		"connections": [
 			"norgannon",
 			"dun-morogh"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"nozdormu": {
 		"name": "Nozdormu",
@@ -1881,7 +2068,8 @@
 			"nozdormu",
 			"garrosh",
 			"shattrath"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"onyxia": {
 		"name": "Onyxia",
@@ -1893,7 +2081,8 @@
 			"onyxia",
 			"theradras",
 			"mugthol"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"outland": {
 		"name": "Outland",
@@ -1901,7 +2090,8 @@
 		"ah": "Outland",
 		"connections": [
 			"outland"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"perenolde": {
 		"name": "Perenolde",
@@ -1910,7 +2100,8 @@
 		"connections": [
 			"perenolde",
 			"teldrassil"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"pozzo-delleternita": {
 		"name": "Pozzo dell'Eternità",
@@ -1918,7 +2109,8 @@
 		"ah": "Pozzodell'Eternità",
 		"connections": [
 			"pozzo-delleternita"
-		]
+		],
+		"locale": "it_IT"
 	},
 	"proudmoore": {
 		"name": "Proudmoore",
@@ -1927,7 +2119,8 @@
 		"connections": [
 			"proudmoore",
 			"madmortem"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"quelthalas": {
 		"name": "Quel'Thalas",
@@ -1936,7 +2129,8 @@
 		"connections": [
 			"azjolnerub",
 			"quelthalas"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"ragnaros": {
 		"name": "Ragnaros",
@@ -1944,7 +2138,8 @@
 		"ah": "Ragnaros",
 		"connections": [
 			"ragnaros"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"rajaxx": {
 		"name": "Rajaxx",
@@ -1957,7 +2152,8 @@
 			"kiljaeden",
 			"festung-der-sturme",
 			"rajaxx"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"rashgarroth": {
 		"name": "Rashgarroth",
@@ -1968,7 +2164,8 @@
 			"arakarahm",
 			"throkferoth",
 			"rashgarroth"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"ravencrest": {
 		"name": "Ravencrest",
@@ -1976,7 +2173,8 @@
 		"ah": "Ravencrest",
 		"connections": [
 			"ravencrest"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"ravenholdt": {
 		"name": "Ravenholdt",
@@ -1988,7 +2186,8 @@
 			"defias-brotherhood",
 			"sporeggar",
 			"ravenholdt"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"razuvious": {
 		"name": "Razuvious",
@@ -1997,7 +2196,8 @@
 		"connections": [
 			"razuvious",
 			"deepholm"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"rexxar": {
 		"name": "Rexxar",
@@ -2006,7 +2206,8 @@
 		"connections": [
 			"rexxar",
 			"alleria"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"runetotem": {
 		"name": "Runetotem",
@@ -2016,7 +2217,8 @@
 			"runetotem",
 			"nagrand",
 			"kilrogg"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"sanguino": {
 		"name": "Sanguino",
@@ -2027,7 +2229,8 @@
 			"sanguino",
 			"uldum",
 			"zuljin"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"sargeras": {
 		"name": "Sargeras",
@@ -2037,7 +2240,8 @@
 			"nerzhul",
 			"sargeras",
 			"garona"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"saurfang": {
 		"name": "Saurfang",
@@ -2047,7 +2251,8 @@
 			"terokkar",
 			"darkspear",
 			"saurfang"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"scarshield-legion": {
 		"name": "Scarshield Legion",
@@ -2059,7 +2264,8 @@
 			"defias-brotherhood",
 			"sporeggar",
 			"ravenholdt"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"senjin": {
 		"name": "Sen'jin",
@@ -2069,7 +2275,8 @@
 			"area-52",
 			"ungoro",
 			"senjin"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"shadowsong": {
 		"name": "Shadowsong",
@@ -2078,7 +2285,8 @@
 		"connections": [
 			"aszune",
 			"shadowsong"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"shattered-halls": {
 		"name": "Shattered Halls",
@@ -2095,7 +2303,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"shattered-hand": {
 		"name": "Shattered Hand",
@@ -2107,7 +2316,8 @@
 			"burning-steppes",
 			"korgall",
 			"bloodfeather"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"shattrath": {
 		"name": "Shattrath",
@@ -2117,7 +2327,8 @@
 			"nozdormu",
 			"garrosh",
 			"shattrath"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"shendralar": {
 		"name": "Shen'dralar",
@@ -2128,7 +2339,8 @@
 			"sanguino",
 			"uldum",
 			"zuljin"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"silvermoon": {
 		"name": "Silvermoon",
@@ -2136,7 +2348,8 @@
 		"ah": "Silvermoon",
 		"connections": [
 			"silvermoon"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"sinstralis": {
 		"name": "Sinstralis",
@@ -2146,7 +2359,8 @@
 			"sinstralis",
 			"chogall",
 			"eldrethalas"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"skullcrusher": {
 		"name": "Skullcrusher",
@@ -2156,7 +2370,8 @@
 			"alakir",
 			"xavius",
 			"skullcrusher"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"soulflayer": {
 		"name": "Soulflayer",
@@ -2164,7 +2379,8 @@
 		"ah": "Soulflayer",
 		"connections": [
 			"soulflayer"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"spinebreaker": {
 		"name": "Spinebreaker",
@@ -2176,7 +2392,8 @@
 			"spinebreaker",
 			"haomarush",
 			"vashj"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"sporeggar": {
 		"name": "Sporeggar",
@@ -2188,7 +2405,8 @@
 			"defias-brotherhood",
 			"sporeggar",
 			"ravenholdt"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"steamwheedle-cartel": {
 		"name": "Steamwheedle Cartel",
@@ -2198,7 +2416,8 @@
 			"moonglade",
 			"steamwheedle-cartel",
 			"the-shatar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"stormrage": {
 		"name": "Stormrage",
@@ -2207,7 +2426,8 @@
 		"connections": [
 			"azuremyst",
 			"stormrage"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"stormreaver": {
 		"name": "Stormreaver",
@@ -2219,7 +2439,8 @@
 			"spinebreaker",
 			"haomarush",
 			"vashj"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"stormscale": {
 		"name": "Stormscale",
@@ -2227,7 +2448,8 @@
 		"ah": "Stormscale",
 		"connections": [
 			"stormscale"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"sunstrider": {
 		"name": "Sunstrider",
@@ -2244,7 +2466,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"sylvanas": {
 		"name": "Sylvanas",
@@ -2252,7 +2475,8 @@
 		"ah": "Sylvanas",
 		"connections": [
 			"sylvanas"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"taerar": {
 		"name": "Taerar",
@@ -2262,7 +2486,8 @@
 			"malganis",
 			"echsenkessel",
 			"taerar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"talnivarr": {
 		"name": "Talnivarr",
@@ -2279,7 +2504,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"tarren-mill": {
 		"name": "Tarren Mill",
@@ -2288,7 +2514,8 @@
 		"connections": [
 			"dentarg",
 			"tarren-mill"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"teldrassil": {
 		"name": "Teldrassil",
@@ -2297,7 +2524,8 @@
 		"connections": [
 			"perenolde",
 			"teldrassil"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"temple-noir": {
 		"name": "Temple noir",
@@ -2308,7 +2536,8 @@
 			"temple-noir",
 			"naxxramas",
 			"arathi"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"terenas": {
 		"name": "Terenas",
@@ -2317,7 +2546,8 @@
 		"connections": [
 			"emerald-dream",
 			"terenas"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"terokkar": {
 		"name": "Terokkar",
@@ -2327,7 +2557,8 @@
 			"terokkar",
 			"darkspear",
 			"saurfang"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"terrordar": {
 		"name": "Terrordar",
@@ -2339,7 +2570,8 @@
 			"onyxia",
 			"theradras",
 			"mugthol"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"the-maelstrom": {
 		"name": "The Maelstrom",
@@ -2350,7 +2582,8 @@
 			"lightnings-blade",
 			"the-maelstrom",
 			"karazhan"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"the-shatar": {
 		"name": "The Sha'tar",
@@ -2360,7 +2593,8 @@
 			"moonglade",
 			"steamwheedle-cartel",
 			"the-shatar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"the-venture-co": {
 		"name": "The Venture Co",
@@ -2372,7 +2606,8 @@
 			"defias-brotherhood",
 			"sporeggar",
 			"ravenholdt"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"theradras": {
 		"name": "Theradras",
@@ -2384,7 +2619,8 @@
 			"onyxia",
 			"theradras",
 			"mugthol"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"thermaplugg": {
 		"name": "Thermaplugg",
@@ -2393,7 +2629,8 @@
 		"connections": [
 			"grom",
 			"thermaplugg"
-		]
+		],
+		"locale": "ru_RU"
 	},
 	"thrall": {
 		"name": "Thrall",
@@ -2401,7 +2638,8 @@
 		"ah": "Thrall",
 		"connections": [
 			"thrall"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"throkferoth": {
 		"name": "Throk'Feroth",
@@ -2412,7 +2650,8 @@
 			"arakarahm",
 			"throkferoth",
 			"rashgarroth"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"thunderhorn": {
 		"name": "Thunderhorn",
@@ -2421,7 +2660,8 @@
 		"connections": [
 			"thunderhorn",
 			"wildhammer"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"tichondrius": {
 		"name": "Tichondrius",
@@ -2430,7 +2670,8 @@
 		"connections": [
 			"tichondrius",
 			"lordaeron"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"tirion": {
 		"name": "Tirion",
@@ -2439,7 +2680,8 @@
 		"connections": [
 			"durotan",
 			"tirion"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"todeswache": {
 		"name": "Todeswache",
@@ -2448,7 +2690,8 @@
 		"connections": [
 			"zirkel-des-cenarius",
 			"todeswache"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"trollbane": {
 		"name": "Trollbane",
@@ -2465,7 +2708,8 @@
 			"balnazzar",
 			"shattered-halls",
 			"boulderfist"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"turalyon": {
 		"name": "Turalyon",
@@ -2474,7 +2718,8 @@
 		"connections": [
 			"doomhammer",
 			"turalyon"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"twilights-hammer": {
 		"name": "Twilight's Hammer",
@@ -2487,7 +2732,8 @@
 			"twilights-hammer",
 			"hakkar",
 			"emeriss"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"twisting-nether": {
 		"name": "Twisting Nether",
@@ -2495,7 +2741,8 @@
 		"ah": "TwistingNether",
 		"connections": [
 			"twisting-nether"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"tyrande": {
 		"name": "Tyrande",
@@ -2505,7 +2752,8 @@
 			"colinas-pardas",
 			"los-errantes",
 			"tyrande"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"uldaman": {
 		"name": "Uldaman",
@@ -2514,7 +2762,8 @@
 		"connections": [
 			"uldaman",
 			"drekthar"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"ulduar": {
 		"name": "Ulduar",
@@ -2523,7 +2772,8 @@
 		"connections": [
 			"gilneas",
 			"ulduar"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"uldum": {
 		"name": "Uldum",
@@ -2534,7 +2784,8 @@
 			"sanguino",
 			"uldum",
 			"zuljin"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"ungoro": {
 		"name": "Un'Goro",
@@ -2544,7 +2795,8 @@
 			"area-52",
 			"ungoro",
 			"senjin"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"varimathras": {
 		"name": "Varimathras",
@@ -2553,7 +2805,8 @@
 		"connections": [
 			"elune",
 			"varimathras"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"vashj": {
 		"name": "Vashj",
@@ -2565,7 +2818,8 @@
 			"spinebreaker",
 			"haomarush",
 			"vashj"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"veklor": {
 		"name": "Vek'lor",
@@ -2577,7 +2831,8 @@
 			"wrathbringer",
 			"blutkessel",
 			"veklor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"veknilash": {
 		"name": "Vek'nilash",
@@ -2587,7 +2842,8 @@
 			"blades-edge",
 			"veknilash",
 			"eonar"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"voljin": {
 		"name": "Vol'jin",
@@ -2596,7 +2852,8 @@
 		"connections": [
 			"voljin",
 			"chants-eternels"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"wildhammer": {
 		"name": "Wildhammer",
@@ -2605,7 +2862,8 @@
 		"connections": [
 			"thunderhorn",
 			"wildhammer"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"wrathbringer": {
 		"name": "Wrathbringer",
@@ -2617,7 +2875,8 @@
 			"wrathbringer",
 			"blutkessel",
 			"veklor"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"xavius": {
 		"name": "Xavius",
@@ -2627,7 +2886,8 @@
 			"alakir",
 			"xavius",
 			"skullcrusher"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"ysera": {
 		"name": "Ysera",
@@ -2636,7 +2896,8 @@
 		"connections": [
 			"ysera",
 			"malorne"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"ysondre": {
 		"name": "Ysondre",
@@ -2644,7 +2905,8 @@
 		"ah": "Ysondre",
 		"connections": [
 			"ysondre"
-		]
+		],
+		"locale": "fr_FR"
 	},
 	"zenedar": {
 		"name": "Zenedar",
@@ -2654,7 +2916,8 @@
 			"bladefist",
 			"zenedar",
 			"frostwhisper"
-		]
+		],
+		"locale": "en_GB"
 	},
 	"zirkel-des-cenarius": {
 		"name": "Zirkel des Cenarius",
@@ -2663,7 +2926,8 @@
 		"connections": [
 			"zirkel-des-cenarius",
 			"todeswache"
-		]
+		],
+		"locale": "de_DE"
 	},
 	"zuljin": {
 		"name": "Zul'jin",
@@ -2674,7 +2938,8 @@
 			"sanguino",
 			"uldum",
 			"zuljin"
-		]
+		],
+		"locale": "es_ES"
 	},
 	"zuluhed": {
 		"name": "Zuluhed",
@@ -2686,6 +2951,7 @@
 			"zuluhed",
 			"anubarak",
 			"dalvengyr"
-		]
+		],
+		"locale": "de_DE"
 	}
 }

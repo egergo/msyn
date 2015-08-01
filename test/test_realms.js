@@ -34,4 +34,11 @@ describe('Realms', function() {
 		realms.tw.bySlug['血之谷'].slug.should.be.equal('血之谷');
 	});
 
+	it('ru', function() {
+		realms.eu.bySlug['ashenvale'].locale.should.be.equal('ru_RU');
+		realms.ru.byName['Ясеневый лес'].slug.should.be.equal('ясеневыи-лес');
+		realms.ru.byAH['Ясеневыйлес'].slug.should.be.equal('ясеневыи-лес');
+		realms.ru.bySlug['ясеневыи-лес'].slug.should.be.equal('ясеневыи-лес');
+	});
+
 });
