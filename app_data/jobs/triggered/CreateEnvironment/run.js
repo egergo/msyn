@@ -37,8 +37,17 @@ module.exports = function() {
 	})
 };
 
+function safeExit(code) {
+	setTimeout(function() {
+		process.exit(code);
+	}, 1000);
+}
+
 if (require.main === module) {
-  module.exports().catch(function(err) {
+  module.exports().then(function() {
+  	safeExit();
+  }).catch(function(err) {
   	log.error({err: err}, 'createEnvironment error:', err.stack);
+  	safeExit(1);
   });
 }
