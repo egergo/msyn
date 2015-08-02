@@ -1,0 +1,22 @@
+<div class="doc-content">
+	<md-content class="md-default-theme">
+		<h2 class="md-headline">Characters</h2>
+
+<div ng-hide="loginManager.isLoggedIn">
+	<p>Please log in to start</p>
+</div>
+
+<div ng-show="loginManager.isLoggedIn">
+	<md-list ng-show="characters.eu.characters">
+		<md-list-item ng-repeat="character in characters.eu.characters">
+			<img alt="{{ character.name }}" ng-src="https://eu.battle.net/static-render/eu/{{character.thumbnail}}" err-src="http://google.com/favicon.ico" class="md-avatar" />
+			<p>{{ character.name }} - {{character.guild}} - {{character.realm}}</p>
+		</md-list-item>
+	</md-list>
+
+	<p ng-hide="characters.eu.characters || !characters.$resolved">You either don't have any characters or have to wait a bit to synchronize.</p>
+</div>
+
+
+	</md-content>
+</div>
