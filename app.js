@@ -10,6 +10,8 @@ var azureStorage = require('azure-storage');
 var log = require('./log');
 var Auth = require('./auth');
 var User = require('./user');
+var realms = require('./realms');
+var bnet = require('./bnet');
 
 var app = express();
 app.use(log.requestLogger());
@@ -54,39 +56,57 @@ passport.use(new BnetStrategy({
 	});
 }));
 
-function refreshToons(profile, accessToken) {
-
-	return request({
-		uri: 'https://eu.api.battle.net/wow/user/characters?access_token=' + encodeURIComponent(accessToken),
-		gzip: true
-	}).then(function(res) {
-
-		realms = {};
-		res = JSON.parse(res);
-		var characters = res.characters.map(function(character) {
-			realms[realmToSlug(character.realm)] = true;
-			return {
-				name: character.name,
-				realm: character.realm
-			}
-		});
-
-
-		console.log(realms);
-		console.log(characters);
-	});
-
-}
-
-function realmToSlug(realmName) {
-	return realmName.toLowerCase();
-}
-
+app.get('/characters', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+	req.user.load().then(function(user) {
+		var characters = {};
+		if (user.characters_eu) {
+			characters.eu = JSON.parse(user.characters_eu._);
+		}
+		if (user.characters_us) {
+			characters.us = JSON.parse(user.characters_us._);
+		}
+		if (user.characters_kr) {
+			characters.kr = JSON.parse(user.characters_kr._);
+		}
+		if (user.characters_tw) {
+			characters.tw = JSON.parse(user.characters_tw._);
+		}
+		res.send(characters);
+	}).catch(function(err) {
+		next(err);
+	})
+});
 
 app.get('/auth/bnet', passport.authenticate('bnet'));
 app.get('/auth/bnet/callback', function(req, res, next) {
 	passport.authenticate('bnet', function(err, user) {
 		if (err) { return next(err); }
+
+		user.getAccessToken().then(function(accessToken) {
+			var regions = ['us', 'eu', 'kr', 'tw'];
+			var proms = regions.map(function(region) {
+				return bnet.fetchUserCharacters({
+					accessToken: accessToken,
+					region: region
+				});
+			})
+			return Promise.settle(proms).then(function(results) {
+				var characters = {};
+				for (var x = 0; x < regions.length; x++) {
+					if (results[x].isFulfilled()) {
+						characters[regions[x]] = results[x].value();
+					} else {
+						var err = results[x].reason();
+						log.error({region: regions[x], userId: user.id, err: err}, 'cannot fetch toons from region %s for user %s', regions[x], user.id);
+					}
+				}
+				return characters;
+			});
+		}).then(function(characters) {
+			user.saveCharacters(characters);
+		}).catch(function(err) {
+			log.error({err: err, userId: user.id}, 'could not save characters');
+		});
 
 		var token = auth.issueToken({userId: user.id});
 		res.render('auth_callback', {
