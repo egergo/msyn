@@ -23,10 +23,14 @@ module.exports = function() {
 
 		return Promise.resolve().then(function() {
 			log.info('creating queue MyTopic...');
+			// TODO: disable partitioning
 			return serviceBus.createQueueIfNotExistsAsync('MyTopic');
 		}).then(function() {
 			log.info('creating table cache...');
 			return tables.createTableIfNotExistsAsync('cache');
+		}).then(function() {
+			log.info('creating table users...');
+			return tables.createTableIfNotExistsAsync('users');
 		}).then(function() {
 			log.info('creating container realms...');
 			return blobs.createContainerIfNotExistsAsync('realms');

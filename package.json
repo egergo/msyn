@@ -32,6 +32,7 @@
     "bunyan-logentries": "^1.1.2",
     "express": "^4.13.1",
     "express-bunyan-logger": "^1.1.1",
+    "express-handlebars": "^2.0.1",
     "ioredis": "^1.6.1",
     "jsonwebtoken": "^5.0.4",
     "node-uuid": "^1.4.3",

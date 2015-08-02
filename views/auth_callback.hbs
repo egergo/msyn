@@ -1,0 +1,29 @@
+<!doctype html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Me Sell You Not</title>
+</head>
+<body>
+
+<h2>Everything will be fine now</h2>
+
+<script>
+
+var targetOrigin = '{{targetOrigin}}';
+var token = '{{token}}';
+
+var message = {
+	type: 'token',
+	token: token
+};
+
+window.opener.postMessage(JSON.stringify(message), targetOrigin);
+
+</script>
+
+</body>
+</html>

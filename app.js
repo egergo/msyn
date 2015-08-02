@@ -1,33 +1,57 @@
 var express = require('express');
 
-var passport = require('passport');
+var Passport = require('passport').Passport;
 var request = require('request-promise');
 var Promise = require('bluebird');
+var exphbs = require('express-handlebars');
+var azureCommon = require('azure-common');
+var azureStorage = require('azure-storage');
 
 var log = require('./log');
+var Auth = require('./auth');
+var User = require('./user');
 
 var app = express();
 app.use(log.requestLogger());
 app.enable('trust proxy');
 app.disable('x-powered-by');
 
+app.engine('.hbs', exphbs({defaultLayout: false, extname: '.hbs'}));
+app.set('view engine', '.hbs');
+
+var retryOperations = new azureCommon.ExponentialRetryPolicyFilter();
+var tables = azureStorage.createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING)
+	.withFilter(retryOperations);
+Promise.promisifyAll(tables);
+
+var passport = new Passport;
 app.use(passport.initialize());
 
+var auth = new Auth({
+	tables: tables,
+	passport: passport,
+	secret: process.env.JWT_SECRET
+});
+auth.init();
 
 
 var BnetStrategy = require('passport-bnet').Strategy;
-
-// Use the BnetStrategy within Passport.
 passport.use(new BnetStrategy({
     clientID: process.env.BNET_ID,
     clientSecret: process.env.BNET_SECRET,
-    callbackURL: "https://egergo.localtunnel.me/auth/bnet/callback",
+    callbackURL: process.env.BNET_CALLBACK,
     scope: ['wow.profile'],
     region: 'eu'
 }, function(accessToken, refreshToken, profile, done) {
-	console.log('auth', accessToken, refreshToken, profile);
-
-    return done(null, profile, {accessToken: accessToken});
+	var user = new User({
+		id: profile.id,
+		tables: tables
+	});
+	user.login(profile, accessToken).then(function() {
+		done(null, user);
+	}).catch(function(err) {
+		done(err);
+	});
 }));
 
 function refreshToons(profile, accessToken) {
@@ -60,17 +84,16 @@ function realmToSlug(realmName) {
 
 
 app.get('/auth/bnet', passport.authenticate('bnet'));
+app.get('/auth/bnet/callback', function(req, res, next) {
+	passport.authenticate('bnet', function(err, user) {
+		if (err) { return next(err); }
 
-app.get('/auth/bnet/callback', function(req, res) {
-
-	passport.authenticate('bnet', function(err, profile, info) {
-		Promise.resolve().then(function() {
-			console.log('authenticate', err, profile, info, arguments);
-			refreshToons(profile, info.accessToken);
+		var token = auth.issueToken({userId: user.id});
+		res.render('auth_callback', {
+			targetOrigin: process.env.DEFAULT_ORIGIN,
+			token: token
 		});
 	})(req, res);
-
-  res.redirect('/');
 });
 
 
