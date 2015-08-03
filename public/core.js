@@ -33,7 +33,7 @@ LoginManager.prototype._handleMessage = function(e, messageEvent) {
 };
 
 LoginManager.prototype.startLogin = function() {
-	var url = 'http://egergo.localtunnel.me/auth/bnet';
+	var url = window.location.protocol + '//' + window.location.host + '/auth/bnet';
 	var w = window.open(url, 'bnetauth', 'width=640,height=700,menubar=0,toolbar=0,personalbar=0,directories=0,status=0,dependent=1,dialog=1');
 	var interval = setInterval(function() {
 		if (w.closed) {
