@@ -115,3 +115,4 @@ function fetchUserCharacters(opt) {
 }
 
 module.exports.fetchUserCharacters = fetchUserCharacters;
+module.exports.mapRegionToEndpoint = mapRegionToEndpoint;

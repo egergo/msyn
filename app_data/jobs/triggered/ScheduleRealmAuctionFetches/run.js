@@ -3,6 +3,7 @@ var azureSb = require('azure-sb');
 var azureCommon = require('azure-common');
 
 var log = require('../../../../log');
+var realms = require('../../../../realms');
 
 function extendServiceBusService() {
 	/**
@@ -38,24 +39,28 @@ var serviceBus = azureSb.createServiceBusService(process.env.AZURE_SB_CONNECTION
 	.withFilter(new azureCommon.ExponentialRetryPolicyFilter())
 Promise.promisifyAll(serviceBus);
 
-var eu = require('../../../../eu.json');
-var realms = [];
-var processed = {};
-for (var x in eu) {
-	if (!processed[x]) {
-		realms.push(x);
-	}
-	processed[x] = true;
-	eu[x].connections.forEach(function(connection) { processed[connection] = true; });
-}
 
+var realmsToProcess = [];
 
-var messages = realms.map(function(realm) {
+['eu', 'us', 'tw', 'kr'].forEach(function(region) {
+	var processed = {};
+	Object.keys(realms[region].bySlug).forEach(function(slug) {
+		if (!processed[slug]) {
+			realmsToProcess.push({region: region, slug: slug});
+		}
+		processed[slug] = true;
+		realms[region].bySlug[slug].connections.forEach(function(connection) {
+			processed[connection] = true;
+		});
+	});
+});
+
+var messages = realmsToProcess.map(function(realm) {
 	return {
 		Body: JSON.stringify({
 			type: 'fetchAuction',
-			region: 'eu',
-			realm: realm
+			region: realm.region,
+			realm: realm.slug
 		})
 	};
 });

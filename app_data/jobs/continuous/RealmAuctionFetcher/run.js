@@ -8,6 +8,8 @@ var zlib = require('zlib');
 var util = require('util');
 
 var log = require('../../../../log');
+var realms = require('../../../../realms');
+var bnet = require('../../../../bnet');
 
 Promise.promisifyAll(zlib);
 
@@ -140,9 +142,13 @@ function processMessage(message) {
 
 
 function fetchRealm(region, realm) {
-	var url = util.format('https://%s.api.battle.net/wow/auction/data/%s?locale=%s&apikey=%s', region, realm, 'en_GB', encodeURIComponent(blizzardKey));
+	var endpoint = bnet.mapRegionToEndpoint(region);
 	return request({
-		uri: url,
+		uri: endpoint.hostname + '/wow/auction/data/' + encodeURIComponent(realm),
+		qs: {
+			apikey: blizzardKey,
+			locale: endpoint.defaultLocale
+		},
 		gzip: true
 	}).then(function(auctionDesc) {
 		auctionDesc = JSON.parse(auctionDesc);
