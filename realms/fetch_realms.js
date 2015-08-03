@@ -9,6 +9,108 @@ Promise.promisifyAll(xml2js);
 
 var log = require('../log');
 
+function nameToAH(name, region) {
+	switch (name) {
+		case "Cho'gall": return region === 'eu' ? "Cho’gall" : "Cho'gall";
+		case "Der abyssische Rat": return "DerAbyssischeRat";
+		case "Ner'zhul": return region === 'eu' ? "Ner’zhul" : "Ner'zhul";
+	}
+
+	return name.replace(/ /g, '');
+}
+
+function addMissingRealms(region, realms) {
+	if (region === 'eu') {
+		realms['suramar'] = {
+			name: 'Suramar',
+			slug: 'suramar',
+			ah: 'Suramar',
+			connections: ['medivh', 'suramar'],
+			locale: 'fr_FR'
+		};
+	} else if (region === 'kr') {
+		realms['알렉스트라자'] = {
+			name: '알렉스트라자',
+			slug: '알렉스트라자',
+			ah: '알렉스트라자',
+			connections: ["데스윙", "알렉스트라자"],
+			locale: 'ko_KR'
+		};
+		realms['노르간논'] = {
+			name: '노르간논',
+			slug: '노르간논',
+			ah: '노르간논',
+			connections: ["세나리우스", "노르간논", "달라란", "말퓨리온"],
+			locale: 'ko_KR'
+		};
+		realms['달라란'] = {
+			name: '달라란',
+			slug: '달라란',
+			ah: '달라란',
+			connections: ["세나리우스", "노르간논", "달라란", "말퓨리온"],
+			locale: 'ko_KR'
+		};
+		realms['말퓨리온'] = {
+			name: '말퓨리온',
+			slug: '말퓨리온',
+			ah: '말퓨리온',
+			connections: ["세나리우스", "노르간논", "달라란", "말퓨리온"],
+			locale: 'ko_KR'
+		};
+		realms['스톰레이지'] = {
+			name: '스톰레이지',
+			slug: '스톰레이지',
+			ah: '스톰레이지',
+			connections: ["스톰레이지", "불타는-군단"],
+			locale: 'ko_KR'
+		};
+		realms['와일드해머'] = {
+			name: '와일드해머',
+			slug: '와일드해머',
+			ah: '와일드해머',
+			connections: ["와일드해머", "렉사르", "윈드러너"],
+			locale: 'ko_KR'
+		};
+		realms['렉사르'] = {
+			name: '렉사르',
+			slug: '렉사르',
+			ah: '렉사르',
+			connections: ["와일드해머", "렉사르", "윈드러너"],
+			locale: 'ko_KR'
+		};
+		realms['가로나'] = {
+			name: '가로나',
+			slug: '가로나',
+			ah: '가로나',
+			connections: ["줄진", "가로나", "굴단"],
+			locale: 'ko_KR'
+		};
+		realms['굴단'] = {
+			name: '굴단',
+			slug: '굴단',
+			ah: '굴단',
+			connections: ["줄진", "가로나", "굴단"],
+			locale: 'ko_KR'
+		};
+	}
+}
+
+function checkMissingRealms(region, realms) {
+	var allRealms = {};
+	Object.keys(realms).forEach(function(slug) {
+		var realm = realms[slug];
+		allRealms[realm.slug] = realm.slug;
+		realm.connections.forEach(function(slug) { allRealms[slug] = realm.slug; });
+	});
+
+	Object.keys(realms).forEach(function(realm) {
+		delete allRealms[realm];
+	});
+	Object.keys(allRealms).forEach(function(realm) {
+		log.error({region: region, realm: realm, referringRealm: realms[allRealms[realm]].slug}, 'missing realm');
+	});
+}
+
 function processRealm(region, locale) {
 	var endpoint = util.format('https://%s.api.battle.net/wow/realm/status?locale=%s&apikey=%s', region, encodeURIComponent(locale), encodeURIComponent(process.env.BNET_ID));
 	return Promise.resolve().then(function() {
@@ -28,13 +130,19 @@ function processRealm(region, locale) {
 			realms[realm.slug] = {
 				name: realm.name,
 				slug: realm.slug,
-				ah: realm.name.replace(/ /g, ''),
+				ah: nameToAH(realm.name, region),
 				connections: realm.connected_realms,
 				locale: realm.locale
 			};
 		});
 
-		var fileRegion = locale === 'ru_RU' ? 'ru' : 'eu';
+		if (locale !== 'ru_RU') {
+			addMissingRealms(region, realms);
+		}
+		checkMissingRealms(region, realms);
+
+
+		var fileRegion = locale === 'ru_RU' ? 'ru' : region;
 		var fileName = path.join(__dirname, fileRegion + '.json');
 
 		require('fs').writeFileSync(fileName, JSON.stringify(realms, null, '\t'));

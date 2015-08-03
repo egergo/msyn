@@ -589,7 +589,7 @@
 	"chogall": {
 		"name": "Cho'gall",
 		"slug": "chogall",
-		"ah": "Cho'gall",
+		"ah": "Cho’gall",
 		"connections": [
 			"sinstralis",
 			"chogall",
@@ -861,7 +861,7 @@
 	"der-abyssische-rat": {
 		"name": "Der abyssische Rat",
 		"slug": "der-abyssische-rat",
-		"ah": "DerabyssischeRat",
+		"ah": "DerAbyssischeRat",
 		"connections": [
 			"die-arguswacht",
 			"die-todeskrallen",
@@ -2009,7 +2009,7 @@
 	"nerzhul": {
 		"name": "Ner'zhul",
 		"slug": "nerzhul",
-		"ah": "Ner'zhul",
+		"ah": "Ner’zhul",
 		"connections": [
 			"nerzhul",
 			"sargeras",
@@ -2953,5 +2953,15 @@
 			"dalvengyr"
 		],
 		"locale": "de_DE"
+	},
+	"suramar": {
+		"name": "Suramar",
+		"slug": "suramar",
+		"ah": "Suramar",
+		"connections": [
+			"medivh",
+			"suramar"
+		],
+		"locale": "fr_FR"
 	}
 }
