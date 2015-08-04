@@ -199,7 +199,7 @@ Auctions.prototype.getCheapestAuction = function(itemId) {
  * Converts the data format coming from the API into something more usable.
  */
 Auctions.readRawAuctions = function(data, now) {
-	var json = JSON.parse(data);
+	var json = data.auctions ? data : JSON.parse(data);
 	var auctions = {};
 
 	json.auctions.auctions.forEach(function(auction) {

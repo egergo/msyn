@@ -10,6 +10,7 @@ var util = require('util');
 var log = require('../../../../log');
 var realms = require('../../../../realms');
 var bnet = require('../../../../bnet');
+var Auctions = require('../../../../auction_house').Auctions;
 
 Promise.promisifyAll(zlib);
 
@@ -131,17 +132,27 @@ Promise.resolve().then(function() {
 function processMessage(message) {
 	return Promise.resolve().then(function() {
 		var body = JSON.parse(message.body);
-		if (body.type !== 'fetchAuction') { return; }
-		var region = body.region;
-		var realm = body.realm;
-		return fetchRealm(region, realm);
-	})
+		switch (body.type) {
+			case 'fetchAuction':
+				var region = body.region;
+				var realm = body.realm;
+				return fetchRealm(region, realm);
 
-	return Promise.delay(10000);
+			case 'processFetchedAuction':
+				return processFetchedAuction(body);
+
+			default:
+				throw new Error('unknown message type: ' + body.type);
+		}
+	});
 }
 
 
 function fetchRealm(region, realm) {
+	// TODO: remove function local variable
+	var slug;
+	var name;
+
 	var endpoint = bnet.mapRegionToEndpoint(region);
 	return request({
 		uri: endpoint.hostname + '/wow/auction/data/' + encodeURIComponent(realm),
@@ -179,10 +190,10 @@ function fetchRealm(region, realm) {
 			});
 		}).then(function(auctionsRaw) {
 			var auctions = JSON.parse(auctionsRaw);
-			var slug = auctions.realm.slug;
+			slug = auctions.realm.slug;
 			return zlib.gzipAsync(new Buffer(auctionsRaw)).then(function(gzipped) {
 				var date = new Date(fileLastModified);
-				var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, slug, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+				name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, slug, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
 				console.log('storing file. name:', name, 'size:', gzipped.length, 'originalSize:', auctionsRaw.length);
 
 				log.debug('saving blob');
@@ -199,9 +210,141 @@ function fetchRealm(region, realm) {
 			}).then(function() {
 				log.debug('saved last modified');
 			});
-		});
+		}).then(function() {
+			return tables.insertOrReplaceEntityAsync('cache', {
+				PartitionKey: entGen.String('snapshots-' + region + '-' + slug),
+				RowKey: entGen.String('' + fileLastModified.getTime()),
+				path: entGen.String(name),
+				lastModified: entGen.DateTime(fileLastModified)
+			});
+		}).then(function() {
+			return serviceBus.sendQueueMessageAsync('MyTopic', {
+				body: JSON.stringify({
+					type: 'processFetchedAuction',
+					region: region,
+					realm: slug
+				})
+			});
+		})
 	}).catch(function(err) {
 		if (!err.notModified) { throw err; }
 	});
+}
+
+function processFetchedAuction(opt) {
+
+	// TODO: start lock
+	return Promise.resolve().then(function() {
+		return getLastProcessedTime();
+	}).then(function(lastProcessed) {
+		return getEntititesSinceLastProcessed(lastProcessed).spread(function(result, response) {
+			//console.log(util.inspect(result.entries, {depth:null}));
+			return Promise.reduce(result.entries, processItem, lastProcessed);
+		});
+	});
+
+	function processItem(lastProcessed, item) {
+		return Promise.resolve().then(function() {
+			return Promise.all([
+				loadPastAuctions(lastProcessed),
+				loadFile(item.path._)
+			]);
+		}).spread(function(pastRaw, currentRaw) {
+			// TODO: decide if buffer of object
+			var current = new Auctions({lastModified: item.lastModified._, data: currentRaw});
+			if (pastRaw) {
+				var past = new Auctions({lastModified: lastProcessed, past: pastRaw});
+				current.applyPast(past);
+			}
+
+			return Promise.all([
+				saveCurrent(current),
+				saveCurrentChanges(current)
+			]);
+		}).then(function() {
+			return updateLastProcessed(item.lastModified._);
+		}).then(function() {
+			return item.lastModified._.getTime();
+		});
+	}
+
+	function saveCurrent(auctions) {
+		var raw = JSON.stringify(auctions._auctions);
+		var date = auctions._lastModified;
+		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gzip', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		return zlib.gzipAsync(new Buffer(raw)).then(function(gzipped) {
+			return blobs.createBlockBlobFromTextAsync('realms', name, gzipped);
+		});
+	}
+
+	function saveCurrentChanges(auctions) {
+		if (!auctions._changes) { return Promise.resolve(); }
+		var raw = JSON.stringify(auctions._changes);
+		var date = auctions._lastModified;
+		var name = util.format('changes/%s/%s/%s/%s/%s/%s.gzip', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		return zlib.gzipAsync(new Buffer(raw)).then(function(gzipped) {
+			return blobs.createBlockBlobFromTextAsync('realms', name, gzipped);
+		});
+	}
+
+	function loadPastAuctions(lastProcessed) {
+		// TODO: return lastProcessed object from previous iteration
+		if (!lastProcessed) { return Promise.resolve(); }
+		// TODO: make lastProcessed a date
+		var date = new Date(lastProcessed);
+		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gzip', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		return loadFile(name).catch(function(err) {
+			if (err.name === 'Error' && err.message === 'NotFound') {
+				log.error({region: opt.region, realm: opt.realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
+				return;
+			}
+			throw err;
+		});
+	}
+
+	function futureStream(stream) {
+		var bufs = [];
+		var resolver = Promise.pending();
+		stream.on('data', function(d) {
+			bufs.push(d);
+		});
+		stream.on('end', function() {
+			var buf = Buffer.concat(bufs);
+			resolver.resolve(buf);
+		});
+		return resolver.promise;
+	}
+
+	function loadFile(path) {
+		var gunzip = zlib.createGunzip();
+		var promise = futureStream(gunzip);
+
+		var az = blobs.getBlobToStreamAsync('realms', path, gunzip);
+		return Promise.all([promise, az]).spread(function(res) {
+			return JSON.parse(res);
+		});
+	}
+
+	function getLastProcessedTime() {
+		return tables.retrieveEntityAsync('cache', 'current-' + opt.region + '-' + opt.realm, '').spread(function(result) {
+			return 0 || result.lastProcessed._.getTime();
+		}).catch(function() {
+			return 0;
+		});
+	}
+
+	function getEntititesSinceLastProcessed(lastProcessed) {
+		var q = new azureStorage.TableQuery()
+			.where('PartitionKey == ? and RowKey > ?', 'snapshots-' + opt.region + '-' + opt.realm, '' + lastProcessed);
+		return tables.queryEntitiesAsync('cache', q, null);
+	}
+
+	function updateLastProcessed(lastProcessed) {
+		return tables.insertOrReplaceEntityAsync('cache', {
+			PartitionKey: entGen.String('current-' + opt.region + '-' + opt.realm),
+			RowKey: entGen.String(''),
+			lastProcessed: entGen.DateTime(lastProcessed)
+		});
+	}
 }
 
