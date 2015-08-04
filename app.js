@@ -3,7 +3,7 @@ var express = require('express');
 var Passport = require('passport').Passport;
 var request = require('request-promise');
 var Promise = require('bluebird');
-var exphbs = require('express-handlebars');
+var ExpressHandlerbars = require('express-handlebars').ExpressHandlebars;
 var azureCommon = require('azure-common');
 var azureStorage = require('azure-storage');
 
@@ -18,7 +18,15 @@ app.use(log.requestLogger());
 app.enable('trust proxy');
 app.disable('x-powered-by');
 
-app.engine('.hbs', exphbs({defaultLayout: false, extname: '.hbs'}));
+
+var exphbs = new ExpressHandlerbars({
+	defaultLayout: false,
+	extname: '.hbs',
+	helpers: {
+		json: function(o) { return new exphbs.handlebars.SafeString(JSON.stringify(o)); }
+	}
+});
+app.engine('.hbs', exphbs.engine);
 app.set('view engine', '.hbs');
 
 var retryOperations = new azureCommon.ExponentialRetryPolicyFilter();
@@ -56,6 +64,15 @@ passport.use(new BnetStrategy({
 		done(err);
 	});
 }));
+
+app.get('/', function(req, res) {
+	res.render('index', {
+		init: {
+			defaultOrigin: process.env.DEFAULT_ORIGIN,
+			secureOrigin: process.env.SECURE_ORIGIN
+		}
+	});
+});
 
 app.get('/characters', passport.authenticate('jwt', {session: false}), function(req, res, next) {
 	req.user.load().then(function(user) {
