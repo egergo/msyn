@@ -87,6 +87,10 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource'])
 			templateUrl: 'characters.html',
 			controller: 'CharactersCtrl'
 		})
+		.when('/auctions', {
+			templateUrl: 'auctions.html',
+			controller: 'AuctionsCtrl'
+		})
 		.otherwise({
 			redirectTo: '/'
 		});
@@ -140,6 +144,15 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource'])
 	});
 })
 
+.factory('Auctions', function($resource, loginManager) {
+	return $resource('/auctions', null, {
+		get: {
+			headers: {authorization: function() { return 'Bearer ' + loginManager.token; }},
+			isArray: true
+		}
+	});
+})
+
 .controller('MainCtrl', function($scope, $timeout, $mdSidenav, loginManager) {
 	var self = this;
 
@@ -152,9 +165,17 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource'])
   }
 })
 
-.controller('CharactersCtrl', function($scope, Characters) {
+.controller('CharactersCtrl', function($scope, Characters, $rootScope) {
+	$rootScope.title = 'Characters';
 	$scope.$watch('loginManager.isLoggedIn', function(value, oldValue) {
 		$scope.characters = Characters.get();
+	});
+})
+
+.controller('AuctionsCtrl', function($scope, Auctions, $rootScope) {
+	$rootScope.title = 'Auctions';
+	$scope.$watch('loginManager.isLoggedIn', function(value, oldValue) {
+		$scope.auctions = Auctions.get();
 	});
 })
 

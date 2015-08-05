@@ -1,0 +1,24 @@
+<script type="text/javascript" src="//static.wowhead.com/widgets/power.js"></script><script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": true, "renamelinks": true }</script>
+
+<div class="doc-content">
+	<md-content class="md-default-theme">
+
+		<div ng-hide="loginManager.isLoggedIn">
+			<p>Please log in to start</p>
+		</div>
+
+		<div ng-show="loginManager.isLoggedIn">
+			<div ng-repeat="(key, toon) in auctions" ng-if="toon.auctions" >
+				<h3>{{toon.character.name}}</h3>
+				<div ng-repeat="(itemId, auctions) in toon.auctions">
+					<h4><a href="#" rel="item={{itemId}}">#{{itemId}}</a></h4>
+					<ul>
+						<li ng-repeat="auction in auctions">{{auction.owner}}: 1 stack of {{auction.quantity}} for {{auction.buyoutPerItem}}</li>
+					</ul>
+				</div>
+			</div>
+
+		<div>
+
+	</md-content>
+</div>
