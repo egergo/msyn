@@ -149,6 +149,9 @@ function processMessage(message) {
 function fetchRealm(opt) {
 	var region = opt.region;
 	var realm = opt.realm;
+	if (realms[region].bySlug[realm]) {
+		realm = realms[region].bySlug[realm].real;
+	}
 
 	return Promise.resolve().then(function() {
 		return fetchAuctionDescription();
@@ -156,9 +159,9 @@ function fetchRealm(opt) {
 		return checkLastModified(desc.url, desc.lastModified).then(function() {
 			return fetchAndSaveRealmToStorage(desc.url).then(function(res) {
 				return saveLastModified(desc.url, res.lastModified).then(function() {
-					return addToSnapshots(res.path, res.slug, res.lastModified);
+					return addToSnapshots(res.path, res.lastModified);
 				}).then(function() {
-					return enqueueRealmToProcess(res.slug);
+					return enqueueRealmToProcess();
 				});
 			});
 		});
@@ -212,19 +215,24 @@ function fetchRealm(opt) {
 			var lastModified = new Date(res.headers['last-modified']);
 			if (!lastModified.getDate()) { throw new Error('invalid Last-Modified value: ' + res.headers['last-modified']); }
 			var auctionsRaw = res.body;
+
+			// check integrity of the received JSON
 			var auctions = JSON.parse(auctionsRaw);
 			var slug = auctions.realm.slug;
+			if (realm !== slug) {
+				throw new Error('realm name mismatch: ', region, realm, ' !=', slug);
+			}
+
 			return zlib.gzipAsync(new Buffer(auctionsRaw)).then(function(gzipped) {
 				var date = lastModified;
-				var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, slug, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+				var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
 				console.log('storing file. name:', name, 'size:', gzipped.length, 'originalSize:', auctionsRaw.length);
 
 				log.debug('saving blob');
 				return blobs.createBlockBlobFromTextAsync('realms', name, gzipped).then(function() {
 					return {
 						path: name,
-						lastModified: lastModified,
-						slug: slug
+						lastModified: lastModified
 					};
 				});
 			});
@@ -247,21 +255,21 @@ function fetchRealm(opt) {
 	 * @param {string} path
 	 * @param {date} lastModified
 	 */
-	function addToSnapshots(path, slug, lastModified) {
+	function addToSnapshots(path, lastModified) {
 		return tables.insertOrReplaceEntityAsync('cache', {
-			PartitionKey: entGen.String('snapshots-' + region + '-' + slug),
+			PartitionKey: entGen.String('snapshots-' + region + '-' + realm),
 			RowKey: entGen.String('' + lastModified.getTime()),
 			path: entGen.String(path),
 			lastModified: entGen.DateTime(lastModified)
 		});
 	}
 
-	function enqueueRealmToProcess(slug) {
+	function enqueueRealmToProcess() {
 		return serviceBus.sendQueueMessageAsync('MyTopic', {
 			body: JSON.stringify({
 				type: 'processFetchedAuction',
 				region: region,
-				realm: slug
+				realm: realm
 			})
 		});
 	}
