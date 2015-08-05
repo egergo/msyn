@@ -85,8 +85,16 @@ function endless() {
 				return serviceBus.receiveQueueMessageAsync('MyTopic', {isPeekLock: true, timeoutIntervalInS: 60 * 60 * 24})
 			}).spread(function(message) {
 				executor.schedule(Promise.resolve().then(function() {
-					log.debug({message: message}, 'incoming message', message.brokerProperties.MessageId);
-					return processMessage(message);
+					var now = new Date();
+					var time = process.hrtime();
+					var messageQueueDate = new Date(message.brokerProperties.EnqueuedTimeUtc);
+					var delay = Math.max(0, now - messageQueueDate - 1000);
+					log.debug({message: message, delay: delay, tries: message.brokerProperties.DeliveryCount}, 'incoming message', message.brokerProperties.MessageId);
+					return processMessage(message).then(function() {
+						var diff = process.hrtime(time);
+						var ms = diff[0] * 1000 + Math.floor(diff[1] / 1e6);
+						log.debug({ms: ms, all: delay + ms}, 'message processed');
+					});
 				})).then(function() {
 					log.debug('deleting message', message.brokerProperties.MessageId);
 					return serviceBus.deleteMessageAsync(message).catch(function(err) {
