@@ -134,9 +134,7 @@ function processMessage(message) {
 		var body = JSON.parse(message.body);
 		switch (body.type) {
 			case 'fetchAuction':
-				var region = body.region;
-				var realm = body.realm;
-				return fetchRealm(region, realm);
+				return fetchRealm(body);
 
 			case 'processFetchedAuction':
 				return processFetchedAuction(body);
@@ -148,87 +146,127 @@ function processMessage(message) {
 }
 
 
-function fetchRealm(region, realm) {
-	// TODO: remove function local variable
-	var slug;
-	var name;
+function fetchRealm(opt) {
+	var region = opt.region;
+	var realm = opt.realm;
 
-	var endpoint = bnet.mapRegionToEndpoint(region);
-	return request({
-		uri: endpoint.hostname + '/wow/auction/data/' + encodeURIComponent(realm),
-		qs: {
-			apikey: blizzardKey,
-			locale: endpoint.defaultLocale
-		},
-		gzip: true
-	}).then(function(auctionDesc) {
-		auctionDesc = JSON.parse(auctionDesc);
+	return Promise.resolve().then(function() {
+		return fetchAuctionDescription();
+	}).then(function(desc) {
+		return checkLastModified(desc.url, desc.lastModified).then(function() {
+			return fetchAndSaveRealmToStorage(desc.url).then(function(res) {
+				return saveLastModified(desc.url, res.lastModified).then(function() {
+					return addToSnapshots(res.path, res.slug, res.lastModified);
+				}).then(function() {
+					return enqueueRealmToProcess(res.slug);
+				});
+			});
+		});
+	}).catch(function(err) {
+		if (!err.notModified) { throw err; }
+	});
 
-		var file = auctionDesc.files[0];
-		var fileLastModified = new Date(file.lastModified);
-		var fileUrl = file.url;
+	function fetchAuctionDescription() {
+		var endpoint = bnet.mapRegionToEndpoint(region);
+		return request({
+			uri: endpoint.hostname + '/wow/auction/data/' + encodeURIComponent(realm),
+			qs: {
+				apikey: blizzardKey,
+				locale: endpoint.defaultLocale
+			},
+			gzip: true
+		}).then(function(auctionDesc) {
+			auctionDesc = JSON.parse(auctionDesc);
+			var file = auctionDesc.files[0];
+			return {
+				url: file.url,
+				lastModified: new Date(file.lastModified)
+			};
+		});
+	}
 
-		log.debug('getting last modified', fileUrl);
-		return tables.retrieveEntityAsync('cache', 'fetches', encodeURIComponent(fileUrl)).spread(function(entity) {
+	function checkLastModified(url, lastModified) {
+		if (opt.force) { return Promise.resolve(); }
+
+		return tables.retrieveEntityAsync('cache', 'fetches', encodeURIComponent(url)).spread(function(entity) {
 			return entity.lastModified._;
 		}).catch(function(err) {
 			if (err.code === 'ResourceNotFound') { return null; }
-			console.log('err', err);
 			throw err;
 		}).then(function(cacheLastModified) {
-			log.debug('got last modified');
-			if (fileLastModified <= cacheLastModified) {
+			if (lastModified <= cacheLastModified) {
 				console.log('file not modified. region:', region, 'realm:', realm);
 				var err = new Error('file not modified');
 				err.notModified = true;
 				throw err;
 			}
+		});
+	}
 
-			return request({
-				uri: file.url,
-				gzip: true
-			});
-		}).then(function(auctionsRaw) {
+	function fetchAndSaveRealmToStorage(url) {
+		return request({
+			uri: url,
+			gzip: true,
+			resolveWithFullResponse: true
+		}).then(function(res) {
+			var lastModified = new Date(res.headers['last-modified']);
+			if (!lastModified.getDate()) { throw new Error('invalid Last-Modified value: ' + res.headers['last-modified']); }
+			var auctionsRaw = res.body;
 			var auctions = JSON.parse(auctionsRaw);
-			slug = auctions.realm.slug;
+			var slug = auctions.realm.slug;
 			return zlib.gzipAsync(new Buffer(auctionsRaw)).then(function(gzipped) {
-				var date = new Date(fileLastModified);
-				name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, slug, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+				var date = lastModified;
+				var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, slug, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
 				console.log('storing file. name:', name, 'size:', gzipped.length, 'originalSize:', auctionsRaw.length);
 
 				log.debug('saving blob');
 				return blobs.createBlockBlobFromTextAsync('realms', name, gzipped).then(function() {
-					log.debug('saved blob');
+					return {
+						path: name,
+						lastModified: lastModified,
+						slug: slug
+					};
 				});
 			});
-		}).then(function() {
-			log.debug('saving last modified');
-			return tables.insertOrReplaceEntityAsync('cache', {
-				PartitionKey: entGen.String('fetches'),
-				RowKey: entGen.String(encodeURIComponent(fileUrl)),
-				lastModified: entGen.DateTime(fileLastModified)
-			}).then(function() {
-				log.debug('saved last modified');
-			});
-		}).then(function() {
-			return tables.insertOrReplaceEntityAsync('cache', {
-				PartitionKey: entGen.String('snapshots-' + region + '-' + slug),
-				RowKey: entGen.String('' + fileLastModified.getTime()),
-				path: entGen.String(name),
-				lastModified: entGen.DateTime(fileLastModified)
-			});
-		}).then(function() {
-			return serviceBus.sendQueueMessageAsync('MyTopic', {
-				body: JSON.stringify({
-					type: 'processFetchedAuction',
-					region: region,
-					realm: slug
-				})
-			});
-		})
-	}).catch(function(err) {
-		if (!err.notModified) { throw err; }
-	});
+		});
+	}
+
+	/**
+	 * @param {string} url
+	 * @param {date} lastModified
+	 */
+	function saveLastModified(url, lastModified) {
+		return tables.insertOrReplaceEntityAsync('cache', {
+			PartitionKey: entGen.String('fetches'),
+			RowKey: entGen.String(encodeURIComponent(url)),
+			lastModified: entGen.DateTime(lastModified)
+		});
+	}
+
+	/**
+	 * @param {string} path
+	 * @param {date} lastModified
+	 */
+	function addToSnapshots(path, slug, lastModified) {
+		return tables.insertOrReplaceEntityAsync('cache', {
+			PartitionKey: entGen.String('snapshots-' + region + '-' + slug),
+			RowKey: entGen.String('' + lastModified.getTime()),
+			path: entGen.String(path),
+			lastModified: entGen.DateTime(lastModified)
+		});
+	}
+
+	function enqueueRealmToProcess(slug) {
+		return serviceBus.sendQueueMessageAsync('MyTopic', {
+			body: JSON.stringify({
+				type: 'processFetchedAuction',
+				region: region,
+				realm: slug
+			})
+		});
+	}
+
+
 }
 
 function processFetchedAuction(opt) {
