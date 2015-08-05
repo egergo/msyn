@@ -6,12 +6,15 @@ var Promise = require('bluebird');
 var ExpressHandlerbars = require('express-handlebars').ExpressHandlebars;
 var azureCommon = require('azure-common');
 var azureStorage = require('azure-storage');
+var util = require('util');
+var zlib = require('zlib');
 
 var log = require('./log');
 var Auth = require('./auth');
 var User = require('./user');
 var realms = require('./realms');
 var bnet = require('./bnet');
+var Auctions = require('./auction_house').Auctions;
 
 var app = express();
 app.use(log.requestLogger());
@@ -33,6 +36,10 @@ var retryOperations = new azureCommon.ExponentialRetryPolicyFilter();
 var tables = azureStorage.createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING)
 	.withFilter(retryOperations);
 Promise.promisifyAll(tables);
+
+var blobs = azureStorage.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING)
+	.withFilter(retryOperations);
+Promise.promisifyAll(blobs);
 
 var passport = new Passport;
 app.use(passport.initialize());
@@ -93,6 +100,125 @@ app.get('/characters', passport.authenticate('jwt', {session: false}), function(
 	}).catch(function(err) {
 		next(err);
 	})
+});
+
+app.get('/auctions', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+	req.user.load().then(function(user) {
+		var toons = gatherToons(user);
+		return fetchAuctions(toons);
+
+		return 'OK';
+	}).then(function(result) {
+		res.send(result);
+	}).catch(function(err) {
+		next(err);
+	});
+
+	function fetchAuctions(toons) {
+		var result = {};
+		result = [];
+		return Promise.map(Object.keys(toons), function(key) {
+			var toon = toons[key];
+			return loadAH(toon.region, toon.realm).then(function(auctions) {
+				return toon.characters.forEach(function(character) {
+					var name = character.name + '-' + realms[character.region].bySlug[character.realm].ah;
+					var ownerIndex = auctions.index.owners[name];
+					if (ownerIndex) {
+						Object.keys(ownerIndex).forEach(function(itemId) {
+							ownerIndex[itemId] = auctions.index.items[itemId].map(function(auctionId) {
+								return auctions.auctions[auctionId];
+							});
+						});
+					}
+					// result[character.name + '-' + character.realm + '-' + character.region] = {
+					// 	character: character,
+					// 	auctions: ownerIndex
+					// };
+					result.push({
+						character: character,
+						auctions: ownerIndex
+					});
+				});
+			});
+		}).then(function() {
+			return result;
+		});
+	}
+
+	function futureStream(stream) {
+		var bufs = [];
+		var resolver = Promise.pending();
+		stream.on('data', function(d) {
+			bufs.push(d);
+		});
+		stream.on('end', function() {
+			var buf = Buffer.concat(bufs);
+			resolver.resolve(buf);
+		});
+		return resolver.promise;
+	}
+
+	function loadFile(path) {
+		var gunzip = zlib.createGunzip();
+		var promise = futureStream(gunzip);
+
+		var az = blobs.getBlobToStreamAsync('realms', path, gunzip);
+		return Promise.all([promise, az]).spread(function(res) {
+			return JSON.parse(res);
+		});
+	}
+
+	function loadPastAuctions(region, realm, lastProcessed) {
+		// TODO: return lastProcessed object from previous iteration
+		if (!lastProcessed) { return Promise.resolve(); }
+		// TODO: make lastProcessed a date
+		var date = new Date(lastProcessed);
+		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gzip', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		return loadFile(name).catch(function(err) {
+			if (err.name === 'Error' && err.message === 'NotFound') {
+				log.error({region: opt.region, realm: opt.realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
+				return;
+			}
+			throw err;
+		});
+	}
+
+	function loadAH(region, realm) {
+		return tables.retrieveEntityAsync('cache', 'current-' + region + '-' + realm, '').spread(function(result) {
+			return result.lastProcessed._.getTime();
+		}).catch(function() {
+			throw new Error('realm not found: ' + region + '-' + realm);
+			return 0;
+		}).then(function(lastProcessed) {
+			return loadPastAuctions(region, realm, lastProcessed).then(function(ah) {
+				return new Auctions({
+					lastModified: lastProcessed,
+					past: ah
+				});
+			})
+		});
+	}
+
+	function gatherToons(user) {
+		var result = {};
+		['us', 'eu', 'kr', 'tw'].forEach(function(region) {
+			if (!user['characters_' + region]) { return; }
+			var chars = JSON.parse(user['characters_' + region]._);
+			chars.characters.forEach(function(toon) {
+				var real = realms[toon.region].bySlug[toon.realm].real;
+				var desc = result[region + '-' + real];
+				if (!desc) {
+					desc = result[region + '-' + real] = {
+						region: region,
+						realm: real,
+						characters: []
+					};
+				}
+				desc.characters.push(toon);
+			})
+		});
+		return result;
+	}
 });
 
 app.get('/auth/bnet', passport.authenticate('bnet'));
