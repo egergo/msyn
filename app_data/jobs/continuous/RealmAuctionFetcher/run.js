@@ -102,6 +102,7 @@ function endless() {
 					});
 				}).catch(function(err) {
 					log.error({err: err, message: message}, 'error executing message:', err.stack);
+					if (process.env.STOP_ON_ERROR === '1') { process.exit(1); }
 					if (message.brokerProperties.DeliveryCount >= 5) {
 						log.error({message: message}, 'removing poison message');
 						return serviceBus.deleteMessageAsync(message).catch(function(err) {
