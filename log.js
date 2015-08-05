@@ -29,7 +29,10 @@ if (process.env.LOG_LE_TOKEN) {
 var log = bunyan.createLogger({
 	name: 'app',
 	level: 'debug',
-	streams: streams
+	streams: streams,
+	serializers: {
+		err: bunyan.stdSerializers.err
+	}
 });
 
 function defaultGenerateRequestId(req) {
