@@ -9,6 +9,12 @@ function LoginManager($rootScope, $mdDialog) {
 	this.isLoggedIn = false;
 	this.isLoginInProgress = false;
 	this.token;
+	if (window.localStorage) {
+		this.token = window.localStorage.token;
+		if (this.token) {
+			this.isLoggedIn = true;
+		}
+	}
 
 	$rootScope.$on('message', this._handleMessage.bind(this));
 }
@@ -21,6 +27,9 @@ LoginManager.prototype._handleMessage = function(e, messageEvent) {
 		message = JSON.parse(messageEvent.data);
 		if (message.type !== 'token') { return; }
 		this.token = message.token;
+		if (window.localStorage) {
+			window.localStorage.token = message.token;
+		}
 		this.isLoggedIn = true;
 		if (this.w) {
 			this.w.close();
