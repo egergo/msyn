@@ -8,6 +8,7 @@ var xml2js = require('xml2js');
 Promise.promisifyAll(xml2js);
 
 var log = require('../log');
+var bnet = require('../bnet');
 
 function nameToAH(name, region) {
 	switch (name) {
@@ -111,6 +112,44 @@ function checkMissingRealms(region, realms) {
 	});
 }
 
+function getRealRealmNames(region, realms) {
+
+	return Promise.map(Object.keys(realms), getRealmName, {concurrency: 10});
+
+	function getRealmName(slug) {
+		return Promise.resolve().then(function() {
+			var endpoint = bnet.mapRegionToEndpoint(region);
+			return request({
+				uri: endpoint.hostname + '/wow/auction/data/' + encodeURIComponent(slug),
+				qs: {
+					apikey: process.env.BNET_ID,
+					locale: endpoint.defaultLocale
+				},
+				gzip: true
+			}).then(function(auctionDesc) {
+				auctionDesc = JSON.parse(auctionDesc);
+				var file = auctionDesc.files[0];
+				return {
+					url: file.url,
+					lastModified: new Date(file.lastModified)
+				};
+			});
+		}).then(function(desc) {
+			return request({
+				uri: desc.url,
+				gzip: true
+			});
+		}).then(function(ah) {
+			ah = JSON.parse(ah);
+			var real = ah.realm.slug
+			realms[slug].real = real;
+			console.log(region, slug, '->', real, ah.realm.name);
+			return slug;
+		});
+	}
+
+}
+
 function processRealm(region, locale) {
 	var endpoint = util.format('https://%s.api.battle.net/wow/realm/status?locale=%s&apikey=%s', region, encodeURIComponent(locale), encodeURIComponent(process.env.BNET_ID));
 	return Promise.resolve().then(function() {
@@ -141,14 +180,15 @@ function processRealm(region, locale) {
 		}
 		checkMissingRealms(region, realms);
 
+		return getRealRealmNames(region, realms).then(function() {
+			var fileRegion = locale === 'ru_RU' ? 'ru' : region;
+			var fileName = path.join(__dirname, fileRegion + '.json');
 
-		var fileRegion = locale === 'ru_RU' ? 'ru' : region;
-		var fileName = path.join(__dirname, fileRegion + '.json');
+			require('fs').writeFileSync(fileName, JSON.stringify(realms, null, '\t'));
+			log.info({region: region, locale: locale, fileName: fileName}, 'updated %s region in %s locale: %s realms stored', region, locale, Object.keys(realms).length);
 
-		require('fs').writeFileSync(fileName, JSON.stringify(realms, null, '\t'));
-		log.info({region: region, locale: locale, fileName: fileName}, 'updated %s region in %s locale: %s realms stored', region, locale, Object.keys(realms).length);
-
-		return realms;
+			return realms;
+		});
 	});
 }
 

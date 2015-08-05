@@ -6,7 +6,8 @@
 		"connections": [
 			"азурегос"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "azuregos"
 	},
 	"бореиская-тундра": {
 		"name": "Борейская тундра",
@@ -15,7 +16,8 @@
 		"connections": [
 			"бореиская-тундра"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "borean-tundra"
 	},
 	"вечная-песня": {
 		"name": "Вечная Песня",
@@ -24,7 +26,8 @@
 		"connections": [
 			"вечная-песня"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "eversong"
 	},
 	"галакронд": {
 		"name": "Галакронд",
@@ -33,7 +36,8 @@
 		"connections": [
 			"галакронд"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "galakrond"
 	},
 	"голдринн": {
 		"name": "Голдринн",
@@ -42,7 +46,8 @@
 		"connections": [
 			"голдринн"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "goldrinn"
 	},
 	"гордунни": {
 		"name": "Гордунни",
@@ -51,7 +56,8 @@
 		"connections": [
 			"гордунни"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "gordunni"
 	},
 	"гром": {
 		"name": "Гром",
@@ -61,7 +67,8 @@
 			"гром",
 			"термоштепсель"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "grom"
 	},
 	"дракономор": {
 		"name": "Дракономор",
@@ -70,7 +77,8 @@
 		"connections": [
 			"дракономор"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "fordragon"
 	},
 	"корольлич": {
 		"name": "Король-лич",
@@ -80,7 +88,8 @@
 			"седогрив",
 			"корольлич"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "lich-king"
 	},
 	"пиратская-бухта": {
 		"name": "Пиратская бухта",
@@ -90,7 +99,8 @@
 			"пиратская-бухта",
 			"ткач-смерти"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "booty-bay"
 	},
 	"подземье": {
 		"name": "Подземье",
@@ -100,7 +110,8 @@
 			"разувии",
 			"подземье"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "deepholm"
 	},
 	"разувии": {
 		"name": "Разувий",
@@ -110,7 +121,8 @@
 			"разувии",
 			"подземье"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "deepholm"
 	},
 	"ревущии-фьорд": {
 		"name": "Ревущий фьорд",
@@ -119,7 +131,8 @@
 		"connections": [
 			"ревущии-фьорд"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "howling-fjord"
 	},
 	"свежеватель-душ": {
 		"name": "Свежеватель Душ",
@@ -128,7 +141,8 @@
 		"connections": [
 			"свежеватель-душ"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "soulflayer"
 	},
 	"седогрив": {
 		"name": "Седогрив",
@@ -138,7 +152,8 @@
 			"седогрив",
 			"корольлич"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "lich-king"
 	},
 	"страж-смерти": {
 		"name": "Страж Смерти",
@@ -147,7 +162,8 @@
 		"connections": [
 			"страж-смерти"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "deathguard"
 	},
 	"термоштепсель": {
 		"name": "Термоштепсель",
@@ -157,7 +173,8 @@
 			"гром",
 			"термоштепсель"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "grom"
 	},
 	"ткач-смерти": {
 		"name": "Ткач Смерти",
@@ -167,7 +184,8 @@
 			"пиратская-бухта",
 			"ткач-смерти"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "booty-bay"
 	},
 	"черныи-шрам": {
 		"name": "Черный Шрам",
@@ -176,7 +194,8 @@
 		"connections": [
 			"черныи-шрам"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "blackscar"
 	},
 	"ясеневыи-лес": {
 		"name": "Ясеневый лес",
@@ -185,6 +204,7 @@
 		"connections": [
 			"ясеневыи-лес"
 		],
-		"locale": "ru_RU"
+		"locale": "ru_RU",
+		"real": "ashenvale"
 	}
 }

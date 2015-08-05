@@ -7,7 +7,8 @@
 			"데스윙",
 			"알렉스트라자"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "deathwing"
 	},
 	"듀로탄": {
 		"name": "듀로탄",
@@ -16,7 +17,8 @@
 		"connections": [
 			"듀로탄"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "durotan"
 	},
 	"불타는-군단": {
 		"name": "불타는 군단",
@@ -26,7 +28,8 @@
 			"스톰레이지",
 			"불타는-군단"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "burning-legion"
 	},
 	"세나리우스": {
 		"name": "세나리우스",
@@ -38,7 +41,8 @@
 			"달라란",
 			"말퓨리온"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "cenarius"
 	},
 	"아즈샤라": {
 		"name": "아즈샤라",
@@ -47,7 +51,8 @@
 		"connections": [
 			"아즈샤라"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "azshara"
 	},
 	"윈드러너": {
 		"name": "윈드러너",
@@ -58,7 +63,8 @@
 			"렉사르",
 			"윈드러너"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "windrunner"
 	},
 	"줄진": {
 		"name": "줄진",
@@ -69,7 +75,8 @@
 			"가로나",
 			"굴단"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "zuljin"
 	},
 	"하이잘": {
 		"name": "하이잘",
@@ -78,7 +85,8 @@
 		"connections": [
 			"하이잘"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "hyjal"
 	},
 	"헬스크림": {
 		"name": "헬스크림",
@@ -87,7 +95,8 @@
 		"connections": [
 			"헬스크림"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "hellscream"
 	},
 	"알렉스트라자": {
 		"name": "알렉스트라자",
@@ -97,7 +106,8 @@
 			"데스윙",
 			"알렉스트라자"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "deathwing"
 	},
 	"노르간논": {
 		"name": "노르간논",
@@ -109,7 +119,8 @@
 			"달라란",
 			"말퓨리온"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "cenarius"
 	},
 	"달라란": {
 		"name": "달라란",
@@ -121,7 +132,8 @@
 			"달라란",
 			"말퓨리온"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "cenarius"
 	},
 	"말퓨리온": {
 		"name": "말퓨리온",
@@ -133,7 +145,8 @@
 			"달라란",
 			"말퓨리온"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "cenarius"
 	},
 	"스톰레이지": {
 		"name": "스톰레이지",
@@ -143,7 +156,8 @@
 			"스톰레이지",
 			"불타는-군단"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "burning-legion"
 	},
 	"와일드해머": {
 		"name": "와일드해머",
@@ -154,7 +168,8 @@
 			"렉사르",
 			"윈드러너"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "windrunner"
 	},
 	"렉사르": {
 		"name": "렉사르",
@@ -165,7 +180,8 @@
 			"렉사르",
 			"윈드러너"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "windrunner"
 	},
 	"가로나": {
 		"name": "가로나",
@@ -176,7 +192,8 @@
 			"가로나",
 			"굴단"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "zuljin"
 	},
 	"굴단": {
 		"name": "굴단",
@@ -187,6 +204,7 @@
 			"가로나",
 			"굴단"
 		],
-		"locale": "ko_KR"
+		"locale": "ko_KR",
+		"real": "zuljin"
 	}
 }

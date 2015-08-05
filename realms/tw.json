@@ -8,7 +8,8 @@
 			"亞雷戈斯",
 			"世界之樹"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "internal-record-3663"
 	},
 	"亞雷戈斯": {
 		"name": "亞雷戈斯",
@@ -19,7 +20,8 @@
 			"亞雷戈斯",
 			"世界之樹"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "internal-record-3663"
 	},
 	"冰霜之刺": {
 		"name": "冰霜之刺",
@@ -30,7 +32,8 @@
 			"冰霜之刺",
 			"血之谷"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "frostmane"
 	},
 	"冰風崗哨": {
 		"name": "冰風崗哨",
@@ -41,7 +44,8 @@
 			"冰風崗哨",
 			"寒冰皇冠"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "spirestone"
 	},
 	"地獄吼": {
 		"name": "地獄吼",
@@ -52,7 +56,8 @@
 			"狂熱之刃",
 			"阿薩斯"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "zealot-blade"
 	},
 	"夜空之歌": {
 		"name": "夜空之歌",
@@ -63,7 +68,8 @@
 			"巨龍之喉",
 			"雷鱗"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "dragonmaw"
 	},
 	"天空之牆": {
 		"name": "天空之牆",
@@ -73,7 +79,8 @@
 			"天空之牆",
 			"聖光之願"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "skywall"
 	},
 	"寒冰皇冠": {
 		"name": "寒冰皇冠",
@@ -84,7 +91,8 @@
 			"冰風崗哨",
 			"寒冰皇冠"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "spirestone"
 	},
 	"尖石": {
 		"name": "尖石",
@@ -95,7 +103,8 @@
 			"冰風崗哨",
 			"寒冰皇冠"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "spirestone"
 	},
 	"屠魔山谷": {
 		"name": "屠魔山谷",
@@ -105,7 +114,8 @@
 			"日落沼澤",
 			"屠魔山谷"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "sundown-marsh"
 	},
 	"巨龍之喉": {
 		"name": "巨龍之喉",
@@ -116,7 +126,8 @@
 			"巨龍之喉",
 			"雷鱗"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "dragonmaw"
 	},
 	"憤怒使者": {
 		"name": "憤怒使者",
@@ -126,7 +137,8 @@
 			"水晶之刺",
 			"憤怒使者"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "crystalpine-stinger"
 	},
 	"日落沼澤": {
 		"name": "日落沼澤",
@@ -136,7 +148,8 @@
 			"日落沼澤",
 			"屠魔山谷"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "sundown-marsh"
 	},
 	"暗影之月": {
 		"name": "暗影之月",
@@ -147,7 +160,8 @@
 			"語風",
 			"暗影之月"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "shadowmoon"
 	},
 	"水晶之刺": {
 		"name": "水晶之刺",
@@ -157,7 +171,8 @@
 			"水晶之刺",
 			"憤怒使者"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "crystalpine-stinger"
 	},
 	"狂熱之刃": {
 		"name": "狂熱之刃",
@@ -168,7 +183,8 @@
 			"狂熱之刃",
 			"阿薩斯"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "zealot-blade"
 	},
 	"眾星之子": {
 		"name": "眾星之子",
@@ -179,7 +195,8 @@
 			"語風",
 			"暗影之月"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "shadowmoon"
 	},
 	"米奈希爾": {
 		"name": "米奈希爾",
@@ -190,7 +207,8 @@
 			"冰霜之刺",
 			"血之谷"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "frostmane"
 	},
 	"聖光之願": {
 		"name": "聖光之願",
@@ -200,7 +218,8 @@
 			"天空之牆",
 			"聖光之願"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "skywall"
 	},
 	"血之谷": {
 		"name": "血之谷",
@@ -211,7 +230,8 @@
 			"冰霜之刺",
 			"血之谷"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "frostmane"
 	},
 	"語風": {
 		"name": "語風",
@@ -222,7 +242,8 @@
 			"語風",
 			"暗影之月"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "shadowmoon"
 	},
 	"銀翼要塞": {
 		"name": "銀翼要塞",
@@ -231,7 +252,8 @@
 		"connections": [
 			"銀翼要塞"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "balnazzar"
 	},
 	"阿薩斯": {
 		"name": "阿薩斯",
@@ -242,7 +264,8 @@
 			"狂熱之刃",
 			"阿薩斯"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "zealot-blade"
 	},
 	"雲蛟衛": {
 		"name": "雲蛟衛",
@@ -253,7 +276,8 @@
 			"亞雷戈斯",
 			"世界之樹"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "internal-record-3663"
 	},
 	"雷鱗": {
 		"name": "雷鱗",
@@ -264,6 +288,7 @@
 			"巨龍之喉",
 			"雷鱗"
 		],
-		"locale": "zh_TW"
+		"locale": "zh_TW",
+		"real": "dragonmaw"
 	}
 }
