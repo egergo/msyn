@@ -15,6 +15,7 @@ var User = require('./user');
 var realms = require('./realms');
 var bnet = require('./bnet');
 var Auctions = require('./auction_house').Auctions;
+var items = require('./items');
 
 var app = express();
 app.use(log.requestLogger());
@@ -125,9 +126,12 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 					var ownerIndex = auctions.index.owners[name];
 					if (ownerIndex) {
 						Object.keys(ownerIndex).forEach(function(itemId) {
-							ownerIndex[itemId] = auctions.index.items[itemId].map(function(auctionId) {
-								return auctions.auctions[auctionId];
-							});
+							ownerIndex[itemId] = {
+								item: items[itemId],
+								auctions: auctions.index.items[itemId].map(function(auctionId) {
+									return auctions.auctions[auctionId];
+								})
+							};
 						});
 					}
 					// result[character.name + '-' + character.realm + '-' + character.region] = {
