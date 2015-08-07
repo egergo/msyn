@@ -33,11 +33,6 @@ Promise.promisifyAll(serviceBus);
 
 var blizzardKey = process.env.BNET_ID;
 
-}
-
-	});
-}
-
 var executor = new Executor({concurrency: 4});
 var taskQueue = new TaskQueue({
 	serviceBus: serviceBus,
