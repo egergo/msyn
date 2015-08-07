@@ -32,6 +32,9 @@ module.exports = function() {
 			log.info('creating table users...');
 			return tables.createTableIfNotExistsAsync('users');
 		}).then(function() {
+			log.info('creating table tasks...');
+			return tables.createTableIfNotExistsAsync('tasks');
+		}).then(function() {
 			log.info('creating container realms...');
 			return blobs.createContainerIfNotExistsAsync('realms');
 		});

@@ -41,6 +41,7 @@ var blizzardKey = process.env.BNET_ID;
 var executor = new Executor({concurrency: 4});
 var taskQueue = new TaskQueue({
 	serviceBus: serviceBus,
+	tables: tables,
 	executor: executor,
 	queueName: 'MyTopic'
 });
@@ -87,8 +88,11 @@ function fetchRealm(opt) {
 				});
 			});
 		});
+	}).then(function() {
+		return true;
 	}).catch(function(err) {
 		if (!err.notModified) { throw err; }
+		return false;
 	});
 
 	function fetchAuctionDescription() {
@@ -209,6 +213,8 @@ function processFetchedAuction(opt) {
 			//console.log(util.inspect(result.entries, {depth:null}));
 			return Promise.reduce(result.entries, processItem, lastProcessed);
 		});
+	}).then(function() {
+		return true;
 	});
 
 	function processItem(lastProcessed, item) {

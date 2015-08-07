@@ -1,6 +1,9 @@
 var Promise = require('bluebird');
+var azureStorage = require('azure-storage');
 
 var log = require('../log');
+
+var entGen = azureStorage.TableUtilities.entityGenerator;
 
 function TaskQueue(opt) {
 	opt = opt || {};
@@ -8,6 +11,7 @@ function TaskQueue(opt) {
 	if (!opt.queueName) { throw new Error('opt.queueName must be defined'); }
 
 	this._serviceBus = opt.serviceBus;
+	this._tables = opt.tables;
 	this._queueName = opt.queueName;
 	this._executor = opt.executor;
 }
@@ -52,13 +56,18 @@ TaskQueue.prototype.run = function(callback) {
 		var delay = Math.max(0, now - messageQueueDate - 1000);
 		log.debug({message: message, delay: delay, tries: message.brokerProperties.DeliveryCount}, 'incoming message', message.brokerProperties.MessageId);
 
+		var error;
+		var result;
+
 		return Promise.resolve().then(function() {
 			return callback(message);
-		}).then(function() {
+		}).then(function(res) {
+			result = res;
 			return self._serviceBus.deleteMessageAsync(message).catch(function(err) {
 				log.warn({err: err, message: message}, 'could not delete message', err.stack);
 			});
 		}).catch(function(err) {
+			error = err;
 			log.error({err: err, message: message}, 'error executing message callback');
 			if (process.env.STOP_ON_ERROR === '1') { process.exit(1); }
 			if (message.brokerProperties.DeliveryCount >= 5) {
@@ -75,6 +84,38 @@ TaskQueue.prototype.run = function(callback) {
 			var diff = process.hrtime(time);
 			var ms = diff[0] * 1000 + Math.floor(diff[1] / 1e6);
 			log.debug({ms: ms, all: delay + ms}, 'message processed');
+
+			// async run
+			reportMessage(delay, ms, message, error, result);
+		});
+	}
+
+	function reportMessage(timeToReceive, timeToProcess, message, error, result) {
+		return Promise.resolve().then(function() {
+			if (!self._tables) { throw new Error('cannot report without opt.tables'); }
+
+			var now = new Date();
+			return self._tables.insertEntityAsync('tasks', {
+				PartitionKey: entGen.String('' + now.getTime()),
+				RowKey: entGen.String(message.brokerProperties.MessageId + '-' + message.brokerProperties.DeliveryCount),
+				reported: entGen.DateTime(now),
+				timeToReceive: entGen.Int64(timeToReceive),
+				timeToProcess: entGen.Int64(timeToProcess),
+				isSuccessful: entGen.Boolean(!!error),
+				body: entGen.String(message.body),
+				retry: entGen.Int32(message.brokerProperties.DeliveryCount),
+				error: entGen.String('' + error),
+				result: entGen.String(JSON.stringify(result))
+			});
+		}).catch(function(err) {
+			log.warn({
+				err: err,
+				timeToReceive: timeToReceive,
+				timeToProcess: timeToProcess,
+				message: message,
+				result: result,
+				error: error
+			}, 'could not report message');
 		});
 	}
 };

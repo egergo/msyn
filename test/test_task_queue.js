@@ -13,6 +13,7 @@ var Executor = require('../platform_services/executor.js');
 
 log.debug = function() {};
 log.error = function() {};
+log.warn = function() {};
 
 describe('TaskQueue', function() {
 
@@ -140,7 +141,7 @@ describe('TaskQueue', function() {
 		return done.promise.then(function() {
 			callback.args[0][0].body.should.be.equal('first');
 		});
-	})
+	});
 
 });
 
