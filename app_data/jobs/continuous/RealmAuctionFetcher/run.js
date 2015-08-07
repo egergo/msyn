@@ -11,6 +11,7 @@ var log = require('../../../../log');
 var realms = require('../../../../realms');
 var bnet = require('../../../../bnet');
 var Auctions = require('../../../../auction_house').Auctions;
+var Executor = require('../../../../platform_services/executor');
 
 Promise.promisifyAll(zlib);
 
@@ -31,46 +32,12 @@ Promise.promisifyAll(serviceBus);
 
 var blizzardKey = process.env.BNET_ID;
 
-function Executor() {
-	this._available = 4;
-	this._id = 1;
-	this._busy = {};
-
-	this._waiter;
 }
 
-Executor.prototype.wait = function() {
-	if (this._available > 0) {
-		return Promise.resolve(this._available);
-	} else {
-		if (!this._waiter) {
-			this._waiter = Promise.pending();
-		}
-		return this._waiter.promise.bind(this).then(function() {
-			return this.wait();
-		});
-	}
-}
-
-Executor.prototype.schedule = function(promise) {
-	if (this._available <= 0) { throw new Error('cannot schedule'); }
-	this._available--;
-	var id = this._id++;
-	this._busy[id] = promise;
-	return Promise.bind(this).then(function() {
-		return promise;
-	}).finally(function() {
-		delete this._busy[id];
-		this._available++;
-		if (this._waiter) {
-			var waiter = this._waiter;
-			delete this._waiter;
-			waiter.resolve();
-		}
 	});
 }
 
-var executor = new Executor;
+var executor = new Executor({concurrency: 4});
 var backoff = 0;
 
 function endless() {
@@ -84,7 +51,7 @@ function endless() {
 				log.debug('getting message');
 				return serviceBus.receiveQueueMessageAsync('MyTopic', {isPeekLock: true, timeoutIntervalInS: 60 * 60 * 24})
 			}).spread(function(message) {
-				executor.schedule(Promise.resolve().then(function() {
+				executor.execute(Promise.resolve().then(function() {
 					var now = new Date();
 					var time = process.hrtime();
 					var messageQueueDate = new Date(message.brokerProperties.EnqueuedTimeUtc);
