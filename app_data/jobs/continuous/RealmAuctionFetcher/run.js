@@ -12,6 +12,7 @@ var realms = require('../../../../realms');
 var bnet = require('../../../../bnet');
 var Auctions = require('../../../../auction_house').Auctions;
 var Executor = require('../../../../platform_services/executor');
+var TaskQueue = require('../../../../platform_services/task_queue');
 
 Promise.promisifyAll(zlib);
 
@@ -38,72 +39,17 @@ var blizzardKey = process.env.BNET_ID;
 }
 
 var executor = new Executor({concurrency: 4});
-var backoff = 0;
-
-function endless() {
-	Promise.resolve().then(function() {
-
-		function run() {
-			return Promise.resolve().then(function() {
-				log.debug('waiting for slot');
-				return executor.wait();
-			}).then(function() {
-				log.debug('getting message');
-				return serviceBus.receiveQueueMessageAsync('MyTopic', {isPeekLock: true, timeoutIntervalInS: 60 * 60 * 24})
-			}).spread(function(message) {
-				executor.execute(Promise.resolve().then(function() {
-					var now = new Date();
-					var time = process.hrtime();
-					var messageQueueDate = new Date(message.brokerProperties.EnqueuedTimeUtc);
-					var delay = Math.max(0, now - messageQueueDate - 1000);
-					log.debug({message: message, delay: delay, tries: message.brokerProperties.DeliveryCount}, 'incoming message', message.brokerProperties.MessageId);
-					return processMessage(message).then(function() {
-						var diff = process.hrtime(time);
-						var ms = diff[0] * 1000 + Math.floor(diff[1] / 1e6);
-						log.debug({ms: ms, all: delay + ms}, 'message processed');
-					});
-				})).then(function() {
-					log.debug('deleting message', message.brokerProperties.MessageId);
-					return serviceBus.deleteMessageAsync(message).catch(function(err) {
-						log.warn({err: err, message: message}, 'could not delete message:', err.stack);
-					});
-				}).catch(function(err) {
-					log.error({err: err, message: message}, 'error executing message:', err.stack);
-					if (process.env.STOP_ON_ERROR === '1') { process.exit(1); }
-					if (message.brokerProperties.DeliveryCount >= 5) {
-						log.error({message: message}, 'removing poison message');
-						return serviceBus.deleteMessageAsync(message).catch(function(err) {
-							log.warn({err: err, message: message}, 'could not delete message:', err.stack);
-						});
-					} else {
-						return serviceBus.unlockMessageAsync(message).catch(function(err) {
-							log.warn({err: err, message: message}, 'could not unlock message:', err.stack);
-						});
-					}
-				});
-			}).catch(function(err) {
-				if (err.message !== 'No messages to receive') { throw err; }
-				log.debug('timeout');
-			}).then(run);
-		}
-
-		return run();
-
-	}).then(function() {
-		backoff = 0;
-	}).catch(function(err) {
-		backoff = Math.min(Math.max(backoff * 2, 1000), 60000);
-		log.error({err: err, backoff: backoff}, err.stack);
-		return Promise.delay(backoff);
-	}).finally(endless);
-
-}
-
-
-Promise.resolve().then(function() {
-	return endless();
+var taskQueue = new TaskQueue({
+	serviceBus: serviceBus,
+	executor: executor,
+	queueName: 'MyTopic'
 });
 
+taskQueue.run(processMessage).then(function() {
+	console.log('done');
+}).catch(function(err) {
+	console.log(err.stack);
+});
 
 function processMessage(message) {
 	return Promise.resolve().then(function() {
