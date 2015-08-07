@@ -9,7 +9,7 @@
 
 		<div ng-show="loginManager.isLoggedIn">
 			<div ng-repeat="(key, toon) in auctions" ng-if="toon.auctions" >
-				<h3>{{toon.character.name}}</h3>
+				<h3>{{toon.character.name}} (updated: {{toon.lastModified | date:'medium'}})</h3>
 				<div ng-repeat="(itemId, auctions) in toon.auctions">
 					<h4><a href="#" rel="item={{itemId}}">
 						<span ng-hide="auctions.item.n">#{{itemId}}</span>

@@ -113,6 +113,9 @@ function Auctions(opt) {
 			return this._index;
 		}
 	});
+	Object.defineProperty(this, 'lastModified', {
+		get: function() { return this._lastModified; }
+	});
 }
 AuctionHouse.Auctions = Auctions;
 

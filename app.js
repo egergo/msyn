@@ -134,13 +134,10 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 							};
 						});
 					}
-					// result[character.name + '-' + character.realm + '-' + character.region] = {
-					// 	character: character,
-					// 	auctions: ownerIndex
-					// };
 					result.push({
 						character: character,
-						auctions: ownerIndex
+						auctions: ownerIndex,
+						lastModified: auctions.lastModified
 					});
 				});
 			});
