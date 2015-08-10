@@ -7,11 +7,11 @@ var entGen = azureStorage.TableUtilities.entityGenerator;
 
 function TaskQueue(opt) {
 	opt = opt || {};
-	if (!opt.serviceBus) { throw new Error('opt.serviceBus must be defined'); }
+	if (!opt.azure) { throw new Error('opt.azure must be defined'); }
 	if (!opt.queueName) { throw new Error('opt.queueName must be defined'); }
 
-	this._serviceBus = opt.serviceBus;
-	this._tables = opt.tables;
+	this._serviceBus = opt.azure.serviceBus;
+	this._tables = opt.azure.tables;
 	this._queueName = opt.queueName;
 	this._executor = opt.executor;
 }

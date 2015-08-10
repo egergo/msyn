@@ -1,42 +1,42 @@
-
-var azureCommon = require('azure-common');
-var azureStorage = require('azure-storage');
-var azureSb = require('azure-sb');
 var Promise = require('bluebird');
 var request = require('request-promise');
-var zlib = require('zlib');
 var util = require('util');
 
 var log = require('../../../../log');
 var realms = require('../../../../realms');
 var bnet = require('../../../../bnet');
 var Auctions = require('../../../../auction_house').Auctions;
+var items = require('../../../../items');
 var Executor = require('../../../../platform_services/executor');
 var TaskQueue = require('../../../../platform_services/task_queue');
+var Azure = require('../../../../platform_services/azure');
 
-Promise.promisifyAll(zlib);
-
-var retryOperations = new azureCommon.ExponentialRetryPolicyFilter();
-
-var entGen = azureStorage.TableUtilities.entityGenerator;
-var tables = azureStorage.createTableService(process.env.AZURE_STORAGE_CONNECTION_STRING)
-	.withFilter(retryOperations);
-Promise.promisifyAll(tables);
-
-var blobs = azureStorage.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING)
-	.withFilter(retryOperations);
-Promise.promisifyAll(blobs);
-
-var serviceBus = azureSb.createServiceBusService(process.env.AZURE_SB_CONNECTION_STRING)
-	.withFilter(retryOperations);
-Promise.promisifyAll(serviceBus);
-
+var azure = Azure.createFromEnv();
 var blizzardKey = process.env.BNET_ID;
+
+if (false) {
+	return processFetchedAuction({
+		type: 'processFetchedAuction',
+		region: 'eu',
+		realm: 'lightbringer'
+	}).catch(function(err) {
+		console.error('bazge', err.stack);
+	}).then(function() {
+		console.log('done');
+	});
+}
+
+if (false) {
+	enqueueUserNotifications({
+		region: 'eu',
+		realm: 'mazrigos'
+	});
+	return;
+}
 
 var executor = new Executor({concurrency: 4});
 var taskQueue = new TaskQueue({
-	serviceBus: serviceBus,
-	tables: tables,
+	azure: azure,
 	executor: executor,
 	queueName: 'MyTopic'
 });
@@ -56,6 +56,13 @@ function processMessage(message) {
 
 			case 'processFetchedAuction':
 				return processFetchedAuction(body);
+
+			case 'enqueueUserNotifications':
+				return enqueueUserNotifications(body);
+
+			case 'sendNotifications':
+				log.error({message: body}, 'TODO: send notifications');
+				return;
 
 			default:
 				throw new Error('unknown message type: ' + body.type);
@@ -112,7 +119,7 @@ function fetchRealm(opt) {
 	function checkLastModified(url, lastModified) {
 		if (opt.force) { return Promise.resolve(); }
 
-		return tables.retrieveEntityAsync('cache', 'fetches', encodeURIComponent(url)).spread(function(entity) {
+		return azure.tables.retrieveEntityAsync('cache', 'fetches', encodeURIComponent(url)).spread(function(entity) {
 			return entity.lastModified._;
 		}).catch(function(err) {
 			if (err.code === 'ResourceNotFound') { return null; }
@@ -144,18 +151,14 @@ function fetchRealm(opt) {
 				throw new Error('realm name mismatch: ', region, realm, ' !=', slug);
 			}
 
-			return zlib.gzipAsync(new Buffer(auctionsRaw)).then(function(gzipped) {
-				var date = lastModified;
-				var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gzip', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-				console.log('storing file. name:', name, 'size:', gzipped.length, 'originalSize:', auctionsRaw.length);
-
-				log.debug('saving blob');
-				return blobs.createBlockBlobFromTextAsync('realms', name, gzipped).then(function() {
-					return {
-						path: name,
-						lastModified: lastModified
-					};
-				});
+			var date = lastModified;
+			var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gz', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());			
+			console.log('storing file. name:', name, 'originalSize:', auctionsRaw.length);
+			return azure.blobs.createBlockBlobFromTextGzipAsync('realms', name, auctionsRaw).then(function() {
+				return {
+					path: name,
+					lastModified: lastModified
+				};
 			});
 		});
 	}
@@ -165,10 +168,10 @@ function fetchRealm(opt) {
 	 * @param {date} lastModified
 	 */
 	function saveLastModified(url, lastModified) {
-		return tables.insertOrReplaceEntityAsync('cache', {
-			PartitionKey: entGen.String('fetches'),
-			RowKey: entGen.String(encodeURIComponent(url)),
-			lastModified: entGen.DateTime(lastModified)
+		return azure.tables.insertOrReplaceEntityAsync('cache', {
+			PartitionKey: azure.ent.String('fetches'),
+			RowKey: azure.ent.String(encodeURIComponent(url)),
+			lastModified: azure.ent.DateTime(lastModified)
 		});
 	}
 
@@ -177,16 +180,16 @@ function fetchRealm(opt) {
 	 * @param {date} lastModified
 	 */
 	function addToSnapshots(path, lastModified) {
-		return tables.insertOrReplaceEntityAsync('cache', {
-			PartitionKey: entGen.String('snapshots-' + region + '-' + realm),
-			RowKey: entGen.String('' + lastModified.getTime()),
-			path: entGen.String(path),
-			lastModified: entGen.DateTime(lastModified)
+		return azure.tables.insertOrReplaceEntityAsync('cache', {
+			PartitionKey: azure.ent.String('snapshots-' + region + '-' + realm),
+			RowKey: azure.ent.String('' + lastModified.getTime()),
+			path: azure.ent.String(path),
+			lastModified: azure.ent.DateTime(lastModified)
 		});
 	}
 
 	function enqueueRealmToProcess() {
-		return serviceBus.sendQueueMessageAsync('MyTopic', {
+		return azure.serviceBus.sendQueueMessageAsync('MyTopic', {
 			body: JSON.stringify({
 				type: 'processFetchedAuction',
 				region: region,
@@ -207,6 +210,14 @@ function processFetchedAuction(opt) {
 		return getEntititesSinceLastProcessed(lastProcessed).spread(function(result, response) {
 			//console.log(util.inspect(result.entries, {depth:null}));
 			return Promise.reduce(result.entries, processItem, lastProcessed);
+		});
+	}).then(function() {
+		return azure.serviceBus.sendQueueMessageAsync('MyTopic', {
+			body: JSON.stringify({
+				type: 'enqueueUserNotifications',
+				region: opt.region,
+				realm: opt.realm
+			})
 		});
 	}).then(function() {
 		return true;
@@ -230,6 +241,13 @@ function processFetchedAuction(opt) {
 				saveCurrent(current),
 				saveCurrentChanges(current)
 			]);
+		}).catch(function(err) {
+			// maybe an old file got deleted
+			if (err.message === 'NotFound') {
+				log.warn({item: item, lastProcessed: lastProcessed}, 'fetched auction file not found');
+				return;
+			}
+			throw err;
 		}).then(function() {
 			return updateLastProcessed(item.lastModified._);
 		}).then(function() {
@@ -240,20 +258,16 @@ function processFetchedAuction(opt) {
 	function saveCurrent(auctions) {
 		var raw = JSON.stringify(auctions._auctions);
 		var date = auctions._lastModified;
-		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gzip', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-		return zlib.gzipAsync(new Buffer(raw)).then(function(gzipped) {
-			return blobs.createBlockBlobFromTextAsync('realms', name, gzipped);
-		});
+		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		return azure.blobs.createBlockBlobFromTextGzipAsync('realms', name, raw);
 	}
 
 	function saveCurrentChanges(auctions) {
 		if (!auctions._changes) { return Promise.resolve(); }
 		var raw = JSON.stringify(auctions._changes);
 		var date = auctions._lastModified;
-		var name = util.format('changes/%s/%s/%s/%s/%s/%s.gzip', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-		return zlib.gzipAsync(new Buffer(raw)).then(function(gzipped) {
-			return blobs.createBlockBlobFromTextAsync('realms', name, gzipped);
-		});
+		var name = util.format('changes/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		return azure.blobs.createBlockBlobFromTextGzipAsync('realms', name, raw);
 	}
 
 	function loadPastAuctions(lastProcessed) {
@@ -261,7 +275,7 @@ function processFetchedAuction(opt) {
 		if (!lastProcessed) { return Promise.resolve(); }
 		// TODO: make lastProcessed a date
 		var date = new Date(lastProcessed);
-		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gzip', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
 		return loadFile(name).catch(function(err) {
 			if (err.name === 'Error' && err.message === 'NotFound') {
 				log.error({region: opt.region, realm: opt.realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
@@ -285,17 +299,13 @@ function processFetchedAuction(opt) {
 	}
 
 	function loadFile(path) {
-		var gunzip = zlib.createGunzip();
-		var promise = futureStream(gunzip);
-
-		var az = blobs.getBlobToStreamAsync('realms', path, gunzip);
-		return Promise.all([promise, az]).spread(function(res) {
+		return azure.blobs.getBlobToBufferGzipAsync('realms', path).spread(function(res) {
 			return JSON.parse(res);
 		});
 	}
 
 	function getLastProcessedTime() {
-		return tables.retrieveEntityAsync('cache', 'current-' + opt.region + '-' + opt.realm, '').spread(function(result) {
+		return azure.tables.retrieveEntityAsync('cache', 'current-' + opt.region + '-' + opt.realm, '').spread(function(result) {
 			return 0 || result.lastProcessed._.getTime();
 		}).catch(function() {
 			return 0;
@@ -303,17 +313,66 @@ function processFetchedAuction(opt) {
 	}
 
 	function getEntititesSinceLastProcessed(lastProcessed) {
-		var q = new azureStorage.TableQuery()
+		var q = new azure.TableQuery()
 			.where('PartitionKey == ? and RowKey > ?', 'snapshots-' + opt.region + '-' + opt.realm, '' + lastProcessed);
-		return tables.queryEntitiesAsync('cache', q, null);
+		return azure.tables.queryEntitiesAsync('cache', q, null);
 	}
 
 	function updateLastProcessed(lastProcessed) {
-		return tables.insertOrReplaceEntityAsync('cache', {
-			PartitionKey: entGen.String('current-' + opt.region + '-' + opt.realm),
-			RowKey: entGen.String(''),
-			lastProcessed: entGen.DateTime(lastProcessed)
+		return azure.tables.insertOrReplaceEntityAsync('cache', {
+			PartitionKey: azure.ent.String('current-' + opt.region + '-' + opt.realm),
+			RowKey: azure.ent.String(''),
+			lastProcessed: azure.ent.DateTime(lastProcessed)
 		});
 	}
 }
+
+
+function enqueueUserNotifications(opt) {
+	opt.realm = realms[opt.region].bySlug[opt.realm].real;
+	var usersToNotify = [];
+
+	return runQueryUsers(null).then(function() {
+		if (usersToNotify.length === 0) { return; }
+
+		var batch = usersToNotify.map(function(userId) {
+			return {
+				Body: JSON.stringify({
+					type: 'sendNotifications',
+					region: opt.region,
+					realm: opt.realm,
+					userId: userId
+				})
+			}
+		});
+		return azure.serviceBus.sendQueueMessageBatchAsync('MyTopic', batch);
+	});
+
+	function processUser(user) {
+		var regionCharacters = user['characters_' + opt.region];
+		if (!regionCharacters) { return; }
+		regionCharacters = JSON.parse(regionCharacters._);
+		regionCharacters.characters.some(function(character) {
+			var characterRealRealm = realms[character.region].bySlug[character.realm].real;
+			if (characterRealRealm !== opt.realm) { return; }
+			usersToNotify.push(user.PartitionKey._);
+			return true;
+		});
+	}
+
+	function processUsers(users) {
+		users.forEach(processUser);
+	}
+
+	function runQueryUsers(continuationToken) {
+		var q = new azure.TableQuery();
+		return azure.tables.queryEntitiesAsync('users', q, continuationToken).spread(function(result) {
+			processUsers(result.entries);
+			if (result.continuationToken) {
+				return runQueryUsers(result.continuationToken);
+			}
+		});
+	}
+}
+
 

@@ -35,7 +35,9 @@ describe('TaskQueue', function() {
 		serviceBus.unlockMessageAsync.returns(Promise.resolve());
 
 		taskQueue = new TaskQueue({
-			serviceBus: serviceBus,
+			azure: {
+				serviceBus: serviceBus
+			},
 			queueName: 'rozsomak',
 			executor: new Executor({concurrency: 1})
 		});

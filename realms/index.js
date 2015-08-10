@@ -13,6 +13,10 @@ function Region(region) {
 			if (!this._bySlug) {
 				this._bySlug = require('./' + region + '.json');
 			}
+			Object.keys(this._bySlug).forEach(function(slug) {
+				var real = this._bySlug[slug].real;
+				this._bySlug[real] = this._bySlug[slug];
+			}, this);
 			return this._bySlug;
 		}
 	});
