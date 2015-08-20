@@ -177,7 +177,7 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gzip', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
 		return loadFile(name).catch(function(err) {
 			if (err.name === 'Error' && err.message === 'NotFound') {
-				log.error({region: opt.region, realm: opt.realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
+				log.error({region: region, realm: realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
 				return;
 			}
 			throw err;
