@@ -1,3 +1,8 @@
+/**
+ * Battle.NET access
+ * @module bnet
+ */
+
 var Promise = require('bluebird');
 var request = require('request-promise');
 
@@ -113,6 +118,45 @@ function fetchUserCharacters(opt) {
 		});
 	});
 }
+
+/**
+ * @typedef AuctionDataStatus
+ * @property {string} url
+ * @property {number} lastModified
+ */
+
+/**
+ * @param {object} opt
+ * @param {string} opt.accessToken
+ * @param {string} opt.region
+ * @param {string} opt.realm
+ * @param {string} [opt.locale]
+ * @param {bool} [opt.raw]
+ *
+ * @returns {Promise.<AuctionDataStatus>}
+ */
+exports.getAuctionDataStatus = function(opt) {
+	opt = opt || {};
+	if (!opt.accessToken) { throw new Error('opt.accessToken must be specified'); }
+	if (!opt.region) { throw new Error('opt.region must be specified'); }
+	if (!opt.realm) { throw new Error('opt.realm must be specified'); }
+
+	return Promise.resolve().then(function() {
+		var endpoint = mapRegionToEndpoint(opt.region);
+		return request({
+			uri: endpoint.hostname + '/wow/auction/data/' + encodeURIComponent(opt.realm),
+			qs: {
+				apikey: opt.accessToken,
+				locale: opt.locale || endpoint.defaultLocale
+			},
+			gzip: true
+		});
+	}).then(function(res) {
+		if (opt.raw) { return res; }
+		var json = JSON.parse(res);
+		return json.files[0];
+	});
+};
 
 module.exports.fetchUserCharacters = fetchUserCharacters;
 module.exports.mapRegionToEndpoint = mapRegionToEndpoint;

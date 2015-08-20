@@ -5,6 +5,7 @@ function Realms() {
 	this.kr = new Region('kr');
 	this.tw = new Region('tw');
 	this.ru = new Region('ru');
+	this.regions = ['eu', 'us', 'kr', 'tw'];
 }
 
 function Region(region) {

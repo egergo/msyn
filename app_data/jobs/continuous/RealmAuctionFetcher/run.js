@@ -64,10 +64,122 @@ function processMessage(message) {
 				log.error({message: body}, 'TODO: send notifications');
 				return;
 
+			case 'fetchAuctionData':
+				return fetchAuctionData(body);
+
 			default:
 				throw new Error('unknown message type: ' + body.type);
 		}
 	});
+}
+
+function fetchAuctionData(opt) {
+
+	return Promise.resolve().then(function() {
+		return checkStatusTable(opt.region, opt.realm);
+	}).then(function(status) {
+		return fetchAndSaveRealmToStorage(status.url).then(function(savedParams) {
+			var age = status.lastFetched ? savedParams.lastModified - status.lastFetched : undefined;
+			log.info({path:savedParams.path, age: age}, 'auction data saved to %s', savedParams.path)
+
+			return addToSnapshots(savedParams.path, savedParams.lastModified).then(function() {
+				return updateStatusTable(savedParams.lastModified);
+			});
+		});
+	}).then(function() {
+		return enqueueRealmToProcess();
+	}).catch(function(err) {
+		if (err.notModified) { return; }
+		throw err;
+	});
+
+	function checkStatusTable(region, realm) {
+		return azure.tables.retrieveEntityAsync('RealmFetches', '', region + '-' + realm).spread(function(res) {
+			var shouldExit = false;
+			if (res.Enabled && !res.Enabled._) {
+				shouldExit = true;
+			}
+
+			if (!shouldExit && res.LastFetched && res.LastFetched._ >= res.LastModified._) {
+				shouldExit = true;
+			}
+
+			if (shouldExit) {
+				var err = new Error('not modified');
+				err.notModified = true;
+				throw err;
+			}
+
+			return {
+				lastFetched: res.LastFetched ? res.LastFetched._ : undefined,
+				url: res.URL._
+			};
+		});
+	}
+
+	function updateStatusTable(lastModified) {
+		return azure.tables.mergeEntityAsync('RealmFetches', {
+			PartitionKey: azure.ent.String(''),
+			RowKey: azure.ent.String(opt.region + '-' + opt.realm),
+			LastFetched: azure.ent.DateTime(lastModified)
+		});
+	}
+
+	function fetchAndSaveRealmToStorage(url) {
+		return request({
+			uri: url,
+			gzip: true,
+			resolveWithFullResponse: true
+		}).then(function(res) {
+			var lastModified = new Date(res.headers['last-modified']);
+			if (!lastModified.getDate()) { throw new Error('invalid Last-Modified value: ' + res.headers['last-modified']); }
+			var auctionsRaw = res.body;
+
+			// check integrity of the received JSON
+			var auctions = JSON.parse(auctionsRaw);
+
+			// check if this realm is contained
+			var found = auctions.realms.filter(function(item) {
+				return item.slug === opt.realm;
+			});
+			if (!found.length) {
+				throw new Error('realm name mismatch: ', region, realm, auctions.realms);
+			}
+
+			var date = lastModified;
+			var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+			log.info('storing file. name:', name, 'originalSize:', auctionsRaw.length);
+			return azure.blobs.createBlockBlobFromTextGzipAsync('realms', name, auctionsRaw).then(function() {
+				return {
+					path: name,
+					lastModified: lastModified
+				};
+			});
+		});
+	}
+
+	/**
+	 * @param {string} path
+	 * @param {date} lastModified
+	 */
+	function addToSnapshots(path, lastModified) {
+		return azure.tables.insertOrReplaceEntityAsync('cache', {
+			PartitionKey: azure.ent.String('snapshots-' + opt.region + '-' + opt.realm),
+			RowKey: azure.ent.String('' + lastModified.getTime()),
+			path: azure.ent.String(path),
+			lastModified: azure.ent.DateTime(lastModified)
+		});
+	}
+
+	function enqueueRealmToProcess() {
+		return azure.serviceBus.sendQueueMessageAsync('MyTopic', {
+			body: JSON.stringify({
+				type: 'processFetchedAuction',
+				region: opt.region,
+				realm: opt.realm
+			})
+		});
+	}
 }
 
 

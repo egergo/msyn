@@ -35,7 +35,9 @@ function Azure(opt) {
 }
 
 Azure.TableQuery = azureStorage.TableQuery;
+Azure.TableBatch = azureStorage.TableBatch;
 Azure.prototype.TableQuery = azureStorage.TableQuery;
+Azure.prototype.TableBatch = azureStorage.TableBatch;
 
 Azure.createFromEnv = function() {
 	return new Azure({
