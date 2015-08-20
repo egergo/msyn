@@ -121,6 +121,8 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 		return Promise.map(Object.keys(toons), function(key) {
 			var toon = toons[key];
 			return loadAH(toon.region, toon.realm).then(function(auctions) {
+				if (!auctions) { return; }
+
 				return toon.characters.forEach(function(character) {
 					var name = character.name + '-' + realms[character.region].bySlug[character.realm].ah;
 					var ownerIndex = auctions.index.owners[name];
@@ -174,7 +176,7 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 		if (!lastProcessed) { return Promise.resolve(); }
 		// TODO: make lastProcessed a date
 		var date = new Date(lastProcessed);
-		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gzip', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
 		return loadFile(name).catch(function(err) {
 			if (err.name === 'Error' && err.message === 'NotFound') {
 				log.error({region: region, realm: realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
@@ -188,10 +190,14 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 		return tables.retrieveEntityAsync('cache', 'current-' + region + '-' + realm, '').spread(function(result) {
 			return result.lastProcessed._.getTime();
 		}).catch(function() {
-			throw new Error('realm not found: ' + region + '-' + realm);
-			return 0;
+			// TODO: check error
+			//throw new Error('realm not found: ' + region + '-' + realm);
+			return undefined;
 		}).then(function(lastProcessed) {
+			if (!lastProcessed) { return; }
+
 			return loadPastAuctions(region, realm, lastProcessed).then(function(ah) {
+				// check if notfound
 				return new Auctions({
 					lastModified: lastProcessed,
 					past: ah
