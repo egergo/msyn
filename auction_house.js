@@ -205,7 +205,10 @@ Auctions.readRawAuctions = function(data, now) {
 	var json = data.auctions ? data : JSON.parse(data);
 	var auctions = {};
 
-	json.auctions.auctions.forEach(function(auction) {
+	// to support both old and new data formats
+	var toProcess = json.auctions.auctions ? json.auctions.auctions : json.auctions;
+
+	json.auctions.forEach(function(auction) {
 		if (auction.buyout === 0) { return; } // we only deal with buyouts
 
 		var my = auctions[auction.auc] = {
