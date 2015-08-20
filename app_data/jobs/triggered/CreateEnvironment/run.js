@@ -26,8 +26,9 @@ module.exports = function() {
 
 		return Promise.resolve().then(function() {
 			log.info('creating queue MyTopic...');
-			// TODO: disable partitioning
-			return serviceBus.createQueueIfNotExistsAsync('MyTopic');
+			return serviceBus.createQueueIfNotExistsAsync('MyTopic', {
+				LockDuration: 'PT5M',
+			});
 		}).then(function() {
 			log.info('creating table cache...');
 			return tables.createTableIfNotExistsAsync('cache');
