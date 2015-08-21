@@ -20,7 +20,7 @@ if (process.env.LOG_LE_TOKEN) {
 		}
 	});
 	streams.push({
-		level: 'warn',
+		level: 'info',
 		stream: logentriesStream,
 		type: 'raw'
 	});
