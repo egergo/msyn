@@ -143,7 +143,7 @@ function fetchAuctionData(opt) {
 				return item.slug === opt.realm;
 			});
 			if (!found.length) {
-				throw new Error('realm name mismatch: ', region, realm, auctions.realms);
+				throw new Error('realm name mismatch: ', opt.region, opt.realm, auctions.realms);
 			}
 
 			var date = lastModified;
