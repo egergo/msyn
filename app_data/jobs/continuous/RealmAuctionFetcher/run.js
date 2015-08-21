@@ -61,7 +61,7 @@ function processMessage(message) {
 				return enqueueUserNotifications(body);
 
 			case 'sendNotifications':
-				log.error({message: body}, 'TODO: send notifications');
+				//log.error({message: body}, 'TODO: send notifications');
 				return;
 
 			case 'fetchAuctionData':
