@@ -138,13 +138,14 @@ function fetchAuctionData(opt) {
 			// check integrity of the received JSON
 			var auctions = JSON.parse(auctionsRaw);
 
+			// TODO: this is disabled while new realm format is adopted
 			// check if this realm is contained
-			var found = auctions.realms.filter(function(item) {
-				return item.slug === opt.realm;
-			});
-			if (!found.length) {
-				throw new Error(util.format('realm name mismatch: region=%s realm=%s realms=%s', opt.region, opt.realm, JSON.stringify(auctions.realms)));
-			}
+			// var found = auctions.realms.filter(function(item) {
+			// 	return item.slug === opt.realm;
+			// });
+			// if (!found.length) {
+			// 	throw new Error(util.format('realm name mismatch: region=%s realm=%s realms=%s', opt.region, opt.realm, JSON.stringify(auctions.realms)));
+			// }
 
 			var date = lastModified;
 			var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
