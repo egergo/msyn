@@ -9,6 +9,7 @@ function Realms() {
 }
 
 function Region(region) {
+	// TODO: clean up this shit
 	Object.defineProperty(this, 'bySlug', {
 		get: function() {
 			if (!this._bySlug) {
@@ -16,7 +17,9 @@ function Region(region) {
 			}
 			Object.keys(this._bySlug).forEach(function(slug) {
 				var real = this._bySlug[slug].real;
-				this._bySlug[real] = this._bySlug[slug];
+				if (!this._bySlug[real]) {
+					this._bySlug[real] = this._bySlug[slug];
+				}
 			}, this);
 			return this._bySlug;
 		}

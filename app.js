@@ -16,6 +16,7 @@ var realms = require('./realms');
 var bnet = require('./bnet');
 var Auctions = require('./auction_house').Auctions;
 var items = require('./items');
+var Azure = require('./platform_services/azure');
 
 var app = express();
 app.use(log.requestLogger());
@@ -41,6 +42,8 @@ Promise.promisifyAll(tables);
 var blobs = azureStorage.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING)
 	.withFilter(retryOperations);
 Promise.promisifyAll(blobs);
+
+var azure = Azure.createFromEnv();
 
 var passport = new Passport;
 app.use(passport.initialize());
@@ -265,6 +268,39 @@ app.get('/auth/bnet/callback', function(req, res, next) {
 			token: token
 		});
 	})(req, res);
+});
+
+//passport.authenticate('jwt', {session: false})
+app.get('/realmStatus', function(req, res, next) {
+	return azure.tables.queryEntitiesAsync('RealmFetches', null, null).spread(function(r) {
+		var index = {};
+		r.entries.forEach(function(entry) {
+			index[entry.RowKey._] = entry;
+		});
+
+		var result = {};
+		realms.regions.forEach(function(region) {
+			result[region] = Object.keys(realms[region].bySlug).map(function(slug) {
+				var realm = realms[region].bySlug[slug];
+				var entry = index[region + '-' + realm.real];
+				return {
+					name: realm.name,
+					slug: slug,
+					real: realm.real,
+					enabled: entry ? entry.Enabled._ : undefined,
+					lastModified: entry ? (entry.LastModified ? entry.LastModified._.getTime() : undefined) : undefined,
+					lastFetched: entry ? (entry.LastFetched ? entry.LastFetched._.getTime() : undefined) : undefined,
+					url: entry ? (entry.URL ? entry.URL._ : undefined) : undefined
+				};
+			});
+		});
+		return result;
+
+	}).then(function(result) {
+		res.send(result);
+	}).catch(function(err) {
+		next(err);
+	});
 });
 
 

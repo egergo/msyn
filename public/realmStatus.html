@@ -1,0 +1,23 @@
+<div class="doc-content">
+	<md-content class="md-default-theme">
+
+		<div layout="row" flex>
+			<div layout="column" flex="70" offset="15">
+				<div ng-repeat="region in ['eu', 'us', 'kr', 'tw']">
+					<h3>{{region}}</h3>
+					<table>
+						<tr ng-repeat="realm in realmStatus[region]">
+							<td><a href="{{realm.url}}" target="_blank">{{realm.name}}</a></td>
+							<td><time title="{{ realm.lastFetched | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="realm.lastFetched"></time></td>
+							<td>
+								<div ng-show="{{!realm.enabled}}">updates disabled</div>
+								<div ng-show="{{realm.lastFetched < realm.lastModified}}">update pending</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</md-content>
+</div>

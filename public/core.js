@@ -67,7 +67,7 @@ LoginManager.prototype.logout = function() {
 	});
 };
 
-angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource'])
+angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 
 .directive('errSrc', function() {
   return {
@@ -90,6 +90,10 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource'])
 		.when('/auctions', {
 			templateUrl: 'auctions.html',
 			controller: 'AuctionsCtrl'
+		})
+		.when('/realmStatus', {
+			templateUrl: 'realmStatus.html',
+			controller: 'RealmStatusCtrl'
 		})
 		.otherwise({
 			redirectTo: '/'
@@ -153,6 +157,14 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource'])
 	});
 })
 
+.factory('RealmStatus', function($resource, loginManager) {
+	return $resource('/realmStatus', null, {
+		get: {
+			headers: {authorization: function() { return 'Bearer ' + loginManager.token; }}
+		}
+	});
+})
+
 .controller('MainCtrl', function($scope, $timeout, $mdSidenav, loginManager) {
 	var self = this;
 
@@ -177,6 +189,11 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource'])
 	$scope.$watch('loginManager.isLoggedIn', function(value, oldValue) {
 		$scope.auctions = Auctions.get();
 	});
+})
+
+.controller('RealmStatusCtrl', function($scope, RealmStatus, $rootScope) {
+	$rootScope.title = 'Realm Status';
+	$scope.realmStatus = RealmStatus.get();
 })
 
 ;
