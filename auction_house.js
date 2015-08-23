@@ -210,6 +210,7 @@ Auctions.readRawAuctions = function(data, now) {
 
 	json.auctions.forEach(function(auction) {
 		if (auction.buyout === 0) { return; } // we only deal with buyouts
+		if (auction.owner.indexOf('?') !== -1 || auction.ownerRealm.indexOf('?') !== -1) { return; } // filter out deleted users
 
 		var my = auctions[auction.auc] = {
 			item: auction.item,

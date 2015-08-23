@@ -6,6 +6,7 @@ var log = require('../../../../log');
 var realms = require('../../../../realms');
 var bnet = require('../../../../bnet');
 var Auctions = require('../../../../auction_house').Auctions;
+var AuctionStore = require('../../../../auction_store');
 var items = require('../../../../items');
 var Executor = require('../../../../platform_services/executor');
 var TaskQueue = require('../../../../platform_services/task_queue');
@@ -13,6 +14,7 @@ var Azure = require('../../../../platform_services/azure');
 
 var azure = Azure.createFromEnv();
 var blizzardKey = process.env.BNET_ID;
+var auctionStore = new AuctionStore({azure: azure});
 
 if (false) {
 	return processFetchedAuction({
@@ -349,11 +351,7 @@ function processFetchedAuction(opt) {
 				var past = new Auctions({lastModified: lastProcessed, past: pastRaw});
 				current.applyPast(past);
 			}
-
-			return Promise.all([
-				saveCurrent(current),
-				saveCurrentChanges(current)
-			]);
+			return auctionStore.storeAuctions(current, opt.region, opt.realm);
 		}).catch(function(err) {
 			// maybe an old file got deleted
 			if (err.message === 'NotFound') {
@@ -366,21 +364,6 @@ function processFetchedAuction(opt) {
 		}).then(function() {
 			return item.lastModified._.getTime();
 		});
-	}
-
-	function saveCurrent(auctions) {
-		var raw = JSON.stringify(auctions._auctions);
-		var date = auctions._lastModified;
-		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-		return azure.blobs.createBlockBlobFromTextGzipAsync('realms', name, raw);
-	}
-
-	function saveCurrentChanges(auctions) {
-		if (!auctions._changes) { return Promise.resolve(); }
-		var raw = JSON.stringify(auctions._changes);
-		var date = auctions._lastModified;
-		var name = util.format('changes/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-		return azure.blobs.createBlockBlobFromTextGzipAsync('realms', name, raw);
 	}
 
 	function loadPastAuctions(lastProcessed) {
