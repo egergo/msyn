@@ -1,27 +1,49 @@
 var bunyan = require('bunyan');
 var bunyanLogger = require('express-bunyan-logger');
 var uuid = require('node-uuid');
+var LogentriesLogger = require('le_node');
+var LogentriesDefaults = require('le_node/lib/node_modules/defaults');
+var util = require('util');
+var stream = require('stream');
 
 var streams = [{
 	level: 'debug',
 	stream: process.stdout
 }];
 
-if (process.env.LOG_LE_TOKEN) {
-	var logentriesStream = require('bunyan-logentries').createStream({
-		token: process.env.LOG_LE_TOKEN,
-		timestamp: false,
-		secure: true,
-		withStack: true
-	}, {
-		transform: function(logRecord) {
-			delete logRecord.v;
-			return logRecord
-		}
+function BunyanStream(opt) {
+	opt = opt || {};
+
+	stream.Writable.call(this, {
+		objectMode: true,
+		highWaterMark: opt.bufferSize || LogentriesDefaults.bufferSize
 	});
+
+	this.logger = new LogentriesLogger(opt);
+	this.logger.on('error', function(err) {
+		console.error('logentries error:', err);
+	});
+}
+util.inherits(BunyanStream, stream.Writable);
+
+BunyanStream.prototype._write = function(log, enc, cb) {
+	delete log.v;
+	this.logger.log(log);
+	setImmediate(cb);
+};
+
+var bunyanStream;
+
+if (process.env.LOG_LE_TOKEN) {
+	bunyanStream = new BunyanStream({
+		token: process.env.LOG_LE_TOKEN,
+		withLevel: false,
+		secure: true
+	});
+
 	streams.push({
 		level: 'info',
-		stream: logentriesStream,
+		stream: bunyanStream,
 		type: 'raw'
 	});
 }
@@ -34,6 +56,7 @@ var log = bunyan.createLogger({
 		err: bunyan.stdSerializers.err
 	}
 });
+log.bunyanStream = bunyanStream;
 
 function defaultGenerateRequestId(req) {
 	if (!req.id) {

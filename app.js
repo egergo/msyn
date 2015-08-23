@@ -330,11 +330,37 @@ app.use(function(err, req, res, next) {
 	res.type('txt').send('Internal Server Error. Request identifier: ' + req.id);
 });
 
+
+process.on('uncaughtException', function (err) {
+	log.error({err: err}, 'uncaught exception');
+	setTimeout(function() {
+		process.exit(1);
+	}, 1000);
+});
+
+process.on('SIGINT', function(err) {
+	log.info({err: err}, 'SIGINT');
+
+	var killtimer = setTimeout(function() {
+		process.exit();
+	}, 10000);
+	killtimer.unref();
+
+	server.close();
+
+	if (log.bunyanStream) {
+		log.bunyanStream.logger.end();
+	}
+});
+
 var port = process.env.PORT || 3000;
 
-app.listen(port, function(err) {
-	if (err) { return log.error(err); }
+var server = app.listen(port, function(err) {
+	if (err) { return log.error({err: err}, 'listen error'); }
 	log.info({port: port}, 'listening on %s', port);
+});
+server.on('error', function(err) {
+	log.error({err: err}, 'express error');
 });
 
 module.exports = {
