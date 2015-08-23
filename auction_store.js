@@ -126,6 +126,7 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 };
 
 AuctionStore.prototype._getAuctionsTableName = function(region, realm, date) {
+	realm = realm.replace(/[^a-zA-Z0-9]/g, '');
 	return util.format('Auctions%s%s%s', region, realm, date.getTime());
 };
 
