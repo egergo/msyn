@@ -51,6 +51,7 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 	var tableName = this._getAuctionsTableName(region, realm, auctions._lastModified);
 
 	return Promise.bind(this).then(function() {
+		log.info({tableName: tableName}, 'creating table %s', tableName);
 		return this._azure.tables.createTableIfNotExistsAsync(tableName);
 	}).then(function() {
 		var index = auctions.index;
@@ -116,7 +117,7 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 		});
 		currentBatch = undefined;
 
-		log.info('saving %s batches to %s...', batches.length, tableName);
+		log.info({batches: batches.length, tableName: tableName}, 'saving %s batches to %s...', batches.length, tableName);
 		return batches;
 	}).map(function(batch) {
 		return this._azure.tables.executeBatchAsync(tableName, batch);
