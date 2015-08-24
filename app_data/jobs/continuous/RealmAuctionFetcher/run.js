@@ -369,6 +369,8 @@ function processFetchedAuction(opt) {
 	function loadPastAuctions(lastProcessed) {
 		// TODO: return lastProcessed object from previous iteration
 		if (!lastProcessed) { return Promise.resolve(); }
+		// TODO: re-enable
+		return Promise.resolve();
 		// TODO: make lastProcessed a date
 		var date = new Date(lastProcessed);
 		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
