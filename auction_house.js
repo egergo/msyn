@@ -113,6 +113,12 @@ function Auctions(opt) {
 			return this._index;
 		}
 	});
+	Object.defineProperty(this, 'index2', {
+		get: function() {
+			if (!this._index2) { this._index2 = Auctions.makeIndex2(this._auctions); }
+			return this._index2;
+		}
+	});
 	Object.defineProperty(this, 'lastModified', {
 		get: function() { return this._lastModified; }
 	});
@@ -272,6 +278,48 @@ Auctions.makeIndex = function(auctions, indices) {
 		items[x].sort(function(a, b) {
 			a = auctions[a];
 			b = auctions[b];
+			return a.buyoutPerItem - b.buyoutPerItem;
+		});
+	}
+
+	return {
+		items: items,
+		owners: owners
+	};
+};
+
+Auctions.makeIndex2 = function(auctions, indices) {
+	var items = {};
+	var owners = {};
+	var itemOwners = {};
+
+	if (!indices) {
+		indices = Object.keys(auctions);
+	}
+
+	indices.forEach(function(x) {
+		var my = auctions[x];
+
+		var itemSet = items[my.item];
+		if (!itemSet) {
+			itemSet = items[my.item] = [];
+		}
+		itemSet.push(auctions[x]);
+
+
+		var ownerSet = owners[my.owner];
+		if (!ownerSet) {
+			ownerSet = owners[my.owner] = {};
+		}
+		ownerSet[my.item] = true;
+	});
+
+	Object.keys(owners).forEach(function(owner) {
+		owners[owner] = Object.keys(owners[owner]).map(function(x) { return Number(x); });
+	});
+
+	for (var x in items) {
+		items[x].sort(function(a, b) {
 			return a.buyoutPerItem - b.buyoutPerItem;
 		});
 	}

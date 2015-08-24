@@ -4,6 +4,11 @@ var log = require('./log');
 var logTop = log;
 var zlib = require('zlib');
 
+/*
+ * Run with:
+ * node --debug --debug-brk --expose-gc test/real/auction_store_profile.js
+ */
+
 function AuctionStore(opt) {
 	opt = opt || {};
 	if (!opt.azure) { throw new Error('opt.azure must be specified'); }
@@ -38,7 +43,6 @@ AuctionStore.prototype.loadAuctions = function(region, realm) {
 };
 
 // TODO: region and realms into auctions
-// TODO: move to Auctions
 AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 	var log = logTop.child({
 		task: 'storeAuctions',
@@ -54,29 +58,30 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 		log.info({tableName: tableName}, 'creating table %s', tableName);
 		return this._azure.tables.createTableIfNotExistsAsync(tableName);
 	}).then(function() {
-		var index = auctions.index;
+		var index = auctions.index2;
 		var batches = [];
 		var currentBatch;
 
-		// item batches
-		Object.keys(index.items).forEach(function(itemId) {
-			var auctionIdList = index.items[itemId];
-			var auctionsToStore = auctionIdList.map(function(auctionId) {
-				return auctions.getAuction(auctionId);
-			});
+		// for better profiling
+		function JSONStringify(a) {
+			return JSON.stringify(a);
+		}
 
+
+		// item batches
+		Object.keys(index.items).forEach(function itemsToBatches(itemId) {
+			var auctionsToStore = index.items[itemId];
 			if (!currentBatch) {
 				currentBatch = new self._azure.TableBatch();
 				batches.push(currentBatch);
 			}
-			var data = zlib.deflateRawSync(new Buffer(JSON.stringify(auctionsToStore)));
+			var data = zlib.deflateRawSync(new Buffer(JSONStringify(auctionsToStore)));
 			if (data.length > 64 * 1024) {
 				log.error({itemId: itemId, data: data.length}, 'item too long');
 			} else {
 				currentBatch.insertOrMergeEntity({
 					PartitionKey: self._azure.ent.String('items'),
 					RowKey: self._azure.ent.String(itemId),
-					ItemId: self._azure.ent.Int64(Number(itemId)),
 					Auctions: self._azure.ent.Binary(data)
 				});
 				if (currentBatch.size() >= 100) {
@@ -87,27 +92,20 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 		currentBatch = undefined;
 
 		// owner batches
-		Object.keys(index.owners).forEach(function(owner) {
-			var itemIndex = index.owners[owner];
-			var auctionsToStore = {};
-			Object.keys(itemIndex).forEach(function(itemId) {
-				auctionsToStore[itemId] = itemIndex[itemId].map(function(auctionId) {
-					return auctions.getAuction(auctionId);
-				});
-			});
+		Object.keys(index.owners).forEach(function ownersToBatches(owner) {
+			var auctionsToStore = index.owners[owner];
 
 			if (!currentBatch) {
 				currentBatch = new self._azure.TableBatch();
 				batches.push(currentBatch);
 			}
-			var data = zlib.deflateRawSync(new Buffer(JSON.stringify(auctionsToStore)));
+			var data = zlib.deflateRawSync(new Buffer(JSONStringify(auctionsToStore)));
 			if (data.length > 64 * 1024) {
 				log.error({owner: owner, length: data.length}, 'owner too long');
 			} else {
 				currentBatch.insertOrMergeEntity({
 					PartitionKey: self._azure.ent.String('owners'),
 					RowKey: self._azure.ent.String(encodeURIComponent(owner)),
-					Owner: self._azure.ent.String(owner),
 					Auctions: self._azure.ent.Binary(data)
 				});
 				if (currentBatch.size() >= 100) {
