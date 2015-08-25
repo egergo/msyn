@@ -36,7 +36,11 @@ if (false) {
 	return;
 }
 
-var executor = new Executor({concurrency: 4});
+var TASK_CONCURRENCY = Number(process.env.TASK_CONCURRENCY) || 2;
+
+log.info({concurrency: TASK_CONCURRENCY}, 'starting task queue');
+
+var executor = new Executor({concurrency: TASK_CONCURRENCY});
 var taskQueue = new TaskQueue({
 	azure: azure,
 	executor: executor,
@@ -44,9 +48,9 @@ var taskQueue = new TaskQueue({
 });
 
 taskQueue.run(processMessage).then(function() {
-	console.log('done');
+	log.info('done');
 }).catch(function(err) {
-	console.log(err.stack);
+	log.error({err: err}, 'TaskQueue error');
 });
 
 function processMessage(message) {
