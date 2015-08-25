@@ -119,7 +119,7 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 		return batches;
 	}).map(function(batch) {
 		return this._azure.tables.executeBatchAsync(tableName, batch);
-	}, {concurrency: 4}).then(function() {
+	}, {concurrency: 100}).then(function() {
 		log.info('batches saved');
 	});
 };
