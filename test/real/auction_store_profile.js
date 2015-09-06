@@ -6,6 +6,11 @@ var Azure = require('../../platform_services/azure');
 
 var Promise = require('bluebird');
 
+/*
+ * Run with:
+ * node --debug --debug-brk --expose-gc test/real/auction_store_profile.js
+ */
+
 var azure = Azure.createFromEnv();
 var auctionStore = new AuctionStore({
 	azure: azure,

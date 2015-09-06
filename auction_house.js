@@ -100,8 +100,12 @@ function Auctions(opt) {
 		this._auctions = Auctions.readRawAuctions(opt.data, opt.lastModified);
 	} else if (opt.past) {
 		this._auctions = opt.past;
+	} else if (opt.processed) {
+		this._auctions = opt.processed.auctions;
+		this._changes = opt.processed.changes;
+		this._priceChanges = opt.processed.priceChanges;
 	} else {
-		throw new Error('at least one of opt.data or opt.past must be specified');
+		throw new Error('at least one of opt.data, opt.past or opt.processed must be specified');
 	}
 
 	Object.defineProperty(this, 'auctions', {

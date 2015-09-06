@@ -13,6 +13,8 @@ var TaskQueue = require('../../../../platform_services/task_queue');
 var Azure = require('../../../../platform_services/azure');
 var User = require('../../../../user');
 
+var ProcessFetchedAuctions = require('./process_fetched_auctions');
+
 var azure = Azure.createFromEnv();
 var blizzardKey = process.env.BNET_ID;
 var auctionStore = new AuctionStore({
@@ -66,7 +68,13 @@ function processMessage(message) {
 				return fetchRealm(body);
 
 			case 'processFetchedAuction':
-				return processFetchedAuction(body);
+				return new ProcessFetchedAuctions({
+					azure: azure,
+					auctionStore: auctionStore,
+					log: log,
+					region: body.region,
+					realm: body.realm
+				}).run();
 
 			case 'enqueueUserNotifications':
 				return enqueueUserNotifications(body);
@@ -370,115 +378,6 @@ function fetchRealm(opt) {
 	}
 
 
-}
-
-function processFetchedAuction(opt) {
-
-	// TODO: start lock
-	return Promise.resolve().then(function() {
-		return getLastProcessedTime();
-	}).then(function(lastProcessed) {
-		return getEntititesSinceLastProcessed(lastProcessed).spread(function(result, response) {
-			//console.log(util.inspect(result.entries, {depth:null}));
-			return Promise.reduce(result.entries, processItem, lastProcessed);
-		});
-	}).then(function() {
-		return azure.serviceBus.sendQueueMessageAsync('MyTopic', {
-			body: JSON.stringify({
-				type: 'enqueueUserNotifications',
-				region: opt.region,
-				realm: opt.realm
-			})
-		});
-	}).then(function() {
-		return true;
-	});
-
-	function processItem(lastProcessed, item) {
-		return Promise.resolve().then(function() {
-			return Promise.all([
-				loadPastAuctions(lastProcessed),
-				loadFile(item.path._)
-			]);
-		}).spread(function(pastRaw, currentRaw) {
-			// TODO: decide if buffer of object
-			var current = new Auctions({lastModified: item.lastModified._, data: currentRaw});
-			if (pastRaw) {
-				var past = new Auctions({lastModified: lastProcessed, past: pastRaw});
-				current.applyPast(past);
-			}
-			return auctionStore.storeAuctions(current, opt.region, opt.realm);
-		}).catch(function(err) {
-			// maybe an old file got deleted
-			if (err.message === 'NotFound') {
-				log.warn({item: item, lastProcessed: lastProcessed}, 'fetched auction file not found');
-				return;
-			}
-			throw err;
-		}).then(function() {
-			return updateLastProcessed(item.lastModified._);
-		}).then(function() {
-			return item.lastModified._.getTime();
-		});
-	}
-
-	function loadPastAuctions(lastProcessed) {
-		// TODO: return lastProcessed object from previous iteration
-		if (!lastProcessed) { return Promise.resolve(); }
-		// TODO: re-enable
-		return Promise.resolve();
-		// TODO: make lastProcessed a date
-		var date = new Date(lastProcessed);
-		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-		return loadFile(name).catch(function(err) {
-			if (err.name === 'Error' && err.message === 'NotFound') {
-				log.error({region: opt.region, realm: opt.realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
-				return;
-			}
-			throw err;
-		});
-	}
-
-	function futureStream(stream) {
-		var bufs = [];
-		var resolver = Promise.pending();
-		stream.on('data', function(d) {
-			bufs.push(d);
-		});
-		stream.on('end', function() {
-			var buf = Buffer.concat(bufs);
-			resolver.resolve(buf);
-		});
-		return resolver.promise;
-	}
-
-	function loadFile(path) {
-		return azure.blobs.getBlobToBufferGzipAsync('realms', path).spread(function(res) {
-			return JSON.parse(res);
-		});
-	}
-
-	function getLastProcessedTime() {
-		return azure.tables.retrieveEntityAsync('cache', 'current-' + opt.region + '-' + opt.realm, '').spread(function(result) {
-			return 0 || result.lastProcessed._.getTime();
-		}).catch(function() {
-			return 0;
-		});
-	}
-
-	function getEntititesSinceLastProcessed(lastProcessed) {
-		var q = new azure.TableQuery()
-			.where('PartitionKey == ? and RowKey > ?', 'snapshots-' + opt.region + '-' + opt.realm, '' + lastProcessed);
-		return azure.tables.queryEntitiesAsync('cache', q, null);
-	}
-
-	function updateLastProcessed(lastProcessed) {
-		return azure.tables.insertOrReplaceEntityAsync('cache', {
-			PartitionKey: azure.ent.String('current-' + opt.region + '-' + opt.realm),
-			RowKey: azure.ent.String(''),
-			lastProcessed: azure.ent.DateTime(lastProcessed)
-		});
-	}
 }
 
 
