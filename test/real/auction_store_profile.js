@@ -7,7 +7,10 @@ var Azure = require('../../platform_services/azure');
 var Promise = require('bluebird');
 
 var azure = Azure.createFromEnv();
-var auctionStore = new AuctionStore({azure: azure});
+var auctionStore = new AuctionStore({
+	azure: azure,
+	log: log.child({service: 'AuctionStore'})
+});
 
 console.log('fetching');
 return request({

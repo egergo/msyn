@@ -12,8 +12,10 @@ var zlib = require('zlib');
 function AuctionStore(opt) {
 	opt = opt || {};
 	if (!opt.azure) { throw new Error('opt.azure must be specified'); }
+	if (!opt.log) { throw new Error('opt.log must be specified'); }
 
 	this._azure = opt.azure;
+	this._log = opt.log;
 }
 
 /**

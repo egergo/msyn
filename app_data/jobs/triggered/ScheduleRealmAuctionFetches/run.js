@@ -1,7 +1,7 @@
 var Promise = require('bluebird');
 var util = require('util');
 
-var log = require('../../../../log');
+var log = require('../../../../log').child({process: 'ScheduleRealmAuctionFetches'});
 var parentlog = log;
 var realms = require('../../../../realms');
 var bnet = require('../../../../bnet');

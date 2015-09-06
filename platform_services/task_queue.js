@@ -1,19 +1,19 @@
 var Promise = require('bluebird');
 var azureStorage = require('azure-storage');
 
-var log = require('../log');
-
 var entGen = azureStorage.TableUtilities.entityGenerator;
 
 function TaskQueue(opt) {
 	opt = opt || {};
 	if (!opt.azure) { throw new Error('opt.azure must be defined'); }
 	if (!opt.queueName) { throw new Error('opt.queueName must be defined'); }
+	if (!opt.log) { throw new Error('opt.log must be defined'); }
 
 	this._serviceBus = opt.azure.serviceBus;
 	this._tables = opt.azure.tables;
 	this._queueName = opt.queueName;
 	this._executor = opt.executor;
+	this._log = opt.log;
 }
 
 TaskQueue.prototype.run = function(callback) {
@@ -34,7 +34,7 @@ TaskQueue.prototype.run = function(callback) {
 			backoff = 0;
 		}).catch(function(err) {
 			backoff = Math.min(Math.max(backoff * 2, 1000), 60000);
-			log.error({err: err, backoff: backoff}, 'task queue error');
+			self._log.error({err: err, backoff: backoff}, 'task queue error');
 			return Promise.delay(backoff);
 		}).finally(repeatMePlease);
 	}
@@ -54,7 +54,7 @@ TaskQueue.prototype.run = function(callback) {
 		var time = process.hrtime();
 		var messageQueueDate = new Date(message.brokerProperties.EnqueuedTimeUtc);
 		var delay = Math.max(0, now - messageQueueDate - 1000);
-		log.debug({message: message, delay: delay, tries: message.brokerProperties.DeliveryCount}, 'incoming message', message.brokerProperties.MessageId);
+		self._log.debug({message: message, delay: delay, tries: message.brokerProperties.DeliveryCount}, 'incoming message', message.brokerProperties.MessageId);
 
 		var error;
 		var result;
@@ -64,26 +64,26 @@ TaskQueue.prototype.run = function(callback) {
 		}).then(function(res) {
 			result = res;
 			return self._serviceBus.deleteMessageAsync(message).catch(function(err) {
-				log.warn({err: err, message: message}, 'could not delete message', err.stack);
+				self._log.warn({err: err, message: message}, 'could not delete message', err.stack);
 			});
 		}).catch(function(err) {
 			error = err;
-			log.error({err: err, message: message}, 'error executing message callback');
+			self._log.error({err: err, message: message}, 'error executing message callback');
 			if (process.env.STOP_ON_ERROR === '1') { process.exit(1); }
 			if (message.brokerProperties.DeliveryCount >= 5) {
-				log.error({message: message}, 'removing poison message');
+				self._log.error({message: message}, 'removing poison message');
 				return self._serviceBus.deleteMessageAsync(message).catch(function(err) {
-					log.warn({err: err, message: message}, 'could not delete message:', err.stack);
+					self._log.warn({err: err, message: message}, 'could not delete message:', err.stack);
 				});
 			} else {
 				return self._serviceBus.unlockMessageAsync(message).catch(function(err) {
-					log.warn({err: err, message: message}, 'could not unlock message:', err.stack);
+					self._log.warn({err: err, message: message}, 'could not unlock message:', err.stack);
 				});
 			}
 		}).finally(function() {
 			var diff = process.hrtime(time);
 			var ms = diff[0] * 1000 + Math.floor(diff[1] / 1e6);
-			log.debug({ms: ms, all: delay + ms}, 'message processed');
+			self._log.debug({ms: ms, all: delay + ms}, 'message processed');
 
 			// async run
 			reportMessage(delay, ms, message, error, result);
@@ -108,7 +108,7 @@ TaskQueue.prototype.run = function(callback) {
 				result: entGen.String(JSON.stringify(result))
 			});
 		}).catch(function(err) {
-			log.warn({
+			self._log.warn({
 				err: err,
 				timeToReceive: timeToReceive,
 				timeToProcess: timeToProcess,

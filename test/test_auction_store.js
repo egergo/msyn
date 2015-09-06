@@ -37,7 +37,10 @@ describe('AuctionStore', function() {
 			ent: azureStorage.TableUtilities.entityGenerator
 		};
 
-		auctionStore = new AuctionStore({azure: azure});
+		auctionStore = new AuctionStore({
+			azure: azure,
+			log: log
+		});
 	});
 
 	it('#storeAuctions()', function() {

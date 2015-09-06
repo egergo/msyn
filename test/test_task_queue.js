@@ -39,7 +39,8 @@ describe('TaskQueue', function() {
 				serviceBus: serviceBus
 			},
 			queueName: 'rozsomak',
-			executor: new Executor({concurrency: 1})
+			executor: new Executor({concurrency: 1}),
+			log: log
 		});
 	});
 

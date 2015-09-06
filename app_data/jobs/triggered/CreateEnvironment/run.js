@@ -4,7 +4,7 @@ var azureStorage = require('azure-storage');
 var azureSb = require('azure-sb');
 var Azure = require('../../../../platform_services/azure');
 var realms = require('../../../../realms');
-var log = require('../../../../log');
+var log = require('../../../../log').child({process: 'CreateEnvironment'});
 
 var azure = Azure.createFromEnv();
 

@@ -2,7 +2,7 @@ var Promise = require('bluebird');
 var request = require('request-promise');
 var util = require('util');
 
-var log = require('../../../../log');
+var log = require('../../../../log').child({process: 'TaskExecutor'});
 var realms = require('../../../../realms');
 var bnet = require('../../../../bnet');
 var Auctions = require('../../../../auction_house').Auctions;
@@ -11,10 +11,14 @@ var items = require('../../../../items');
 var Executor = require('../../../../platform_services/executor');
 var TaskQueue = require('../../../../platform_services/task_queue');
 var Azure = require('../../../../platform_services/azure');
+var User = require('../../../../user');
 
 var azure = Azure.createFromEnv();
 var blizzardKey = process.env.BNET_ID;
-var auctionStore = new AuctionStore({azure: azure});
+var auctionStore = new AuctionStore({
+	azure: azure,
+	log: log.child({service: 'AuctionStore'})
+});
 
 if (false) {
 	return processFetchedAuction({
@@ -44,7 +48,8 @@ var executor = new Executor({concurrency: TASK_CONCURRENCY});
 var taskQueue = new TaskQueue({
 	azure: azure,
 	executor: executor,
-	queueName: 'MyTopic'
+	queueName: 'MyTopic',
+	log: log.child({service: 'TaskQueue'})
 });
 
 taskQueue.run(processMessage).then(function() {
@@ -67,8 +72,7 @@ function processMessage(message) {
 				return enqueueUserNotifications(body);
 
 			case 'sendNotifications':
-				//log.error({message: body}, 'TODO: send notifications');
-				return;
+				return sendNotifications(body);
 
 			case 'fetchAuctionData':
 				return fetchAuctionData(body);
@@ -77,6 +81,54 @@ function processMessage(message) {
 				throw new Error('unknown message type: ' + body.type);
 		}
 	});
+}
+
+/**
+ * @param {object} opt
+ * @param {string} opt.region
+ * @param {string} opt.realm
+ * @param {number} opt.userId
+ */
+function sendNotifications(opt) {
+	return Promise.resolve().then(function() {
+
+		var user = new User({
+			tables: azure.tables,
+			id: opt.userId
+		});
+
+
+	});
+
+
+	function loadAH(region, realm) {
+		return tables.retrieveEntityAsync('cache', 'current-' + region + '-' + realm, '').spread(function(result) {
+			return result.lastProcessed._.getTime();
+		}).catch(function() {
+			throw new Error('realm not found: ' + region + '-' + realm);
+		}).then(function(lastProcessed) {
+			return loadPastAuctions(region, realm, lastProcessed).then(function(ah) {
+				// check if notfound
+				return new Auctions({
+					lastModified: lastProcessed,
+					past: ah
+				});
+			});
+		});
+	}
+
+	function loadPastAuctions(region, realm, lastProcessed) {
+		// TODO: make lastProcessed a date
+		var date = new Date(lastProcessed);
+		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+		return loadFile(name).catch(function(err) {
+			if (err.name === 'Error' && err.message === 'NotFound') {
+				log.error({region: region, realm: realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
+				return;
+			}
+			throw err;
+		});
+	}
 }
 
 function fetchAuctionData(opt) {
