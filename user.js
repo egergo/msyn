@@ -16,6 +16,16 @@ function User(opt) {
 	Object.defineProperty(this, 'id', {get: function() { return this._id; }});
 }
 
+User.prototype.getRaw = function() {
+	if (!this._rawPromise) {
+		this._rawPromise = this._tables.retrieveEntityAsync(User.TABLE_NAME, '' + this._id, '').spread(function(user) {
+			return user;
+		});
+	}
+	return this._rawPromise;
+};
+
+
 User.TABLE_NAME = 'users';
 
 User.prototype.login = function(profile, accessToken) {
@@ -37,6 +47,61 @@ User.prototype.load = function() {
 		return user;
 	});
 };
+
+/**
+ * User-wide settings
+ * @typedef {object} Settings
+ * @property {string} [email]
+ * @property {string} [slackWebhook]
+ * @property {string} [slackChannel]
+ */
+
+/**
+ * @returns {Promise.<Settings>}
+ */
+User.prototype.getSettings = function() {
+	return this.getRaw().then(function(raw) {
+		if (!raw.Settings) { return {}; }
+		return JSON.parse(raw.Settings._);
+	});
+};
+
+/**
+ * Saves settings with optimistic concurrency
+ *
+ * @param {function} modifier A function that gets the current settings as
+ *        a parameter and returns a value that is resolved to the updated
+ *        settings values. The modifier function might be invoket multiple
+ *        times in case of conflict.
+ */
+User.prototype.saveSettings = function(modifier) {
+	var self = this;
+	var attempts = 5;
+	return run();
+
+	function run() {
+		return self.getRaw().then(function(raw) {
+			var etag = raw['.metadata']['etag'];
+			var settings = !raw.Settings ? {} : JSON.parse(raw.Settings._);
+			return Promise.resolve(modifier(settings)).then(function(settings) {
+				return self._tables.mergeEntityAsync(User.TABLE_NAME, {
+					PartitionKey: {_: '' + self._id},
+					RowKey: {_: ''},
+					Settings: {_: JSON.stringify(settings)},
+					'.metadata': {etag: etag}
+				}).then(function() {
+					return settings;
+				});
+			});
+		}).catch(function(err) {
+			if (--attempts && err.cause && err.cause.statusCode === 412) {
+				delete self._rawPromise;
+				return run();
+			}
+			throw err;
+		});
+	}
+}
 
 /**
  * @typedef {object} Character

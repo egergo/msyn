@@ -1,0 +1,38 @@
+<div class="doc-content" layout="row">
+
+	<md-content class="md-default-theme" flex="50" layout="column" ng-show="error">
+		{{error}}
+	</md-content>
+
+	<md-content class="md-default-theme" flex="50" layout="column" ng-show="loaded">
+		<div>
+			<h3>Slack Notifications</h3>
+			<div layout="column">
+				<md-input-container>
+					<label>Slack Incoming WebHook</label>
+					<input ng-model="settings.slackWebhook">
+				</md-input-container>
+				<md-input-container>
+					<label>Slack Channel</label>
+					<input ng-model="settings.slackChannel">
+				</md-input-container>
+			</div>
+		</div>
+
+		<div>
+			<h3>Email Notifications</h3>
+			<div layout="column">
+				<md-input-container>
+					<label>Email Address</label>
+					<input ng-model="settings.email">
+				</md-input-container>
+			</div>
+		</div>
+
+		<div layout-align="end" layout="row">
+			<md-button ng-click="sendTest()">Send Test</md-button>
+			<md-button ng-click="save()" ng-disabled="saving" class="md-primary md-raised">Save</md-button>
+		</div>
+	</md-content>
+
+</div>

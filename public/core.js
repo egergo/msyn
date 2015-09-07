@@ -95,6 +95,10 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 			templateUrl: 'realmStatus.html',
 			controller: 'RealmStatusCtrl'
 		})
+		.when('/settings', {
+			templateUrl: 'settings.html',
+			controller: 'SettingsCtrl'
+		})
 		.otherwise({
 			redirectTo: '/'
 		});
@@ -165,6 +169,18 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 	});
 })
 
+.factory('Settings', function($resource, loginManager) {
+	return $resource('/settings', null, {
+		get: {
+			headers: {authorization: function() { return 'Bearer ' + loginManager.token; }}
+		},
+		save: {
+			method: 'POST',
+			headers: {authorization: function() { return 'Bearer ' + loginManager.token; }}
+		}
+	});
+})
+
 .controller('MainCtrl', function($scope, $timeout, $mdSidenav, loginManager) {
 	var self = this;
 
@@ -194,6 +210,41 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 .controller('RealmStatusCtrl', function($scope, RealmStatus, $rootScope) {
 	$rootScope.title = 'Realm Status';
 	$scope.realmStatus = RealmStatus.get();
+})
+
+.controller('SettingsCtrl', function($scope, $rootScope, Settings, $q, $mdToast) {
+	$rootScope.title = 'Settings';
+
+	$scope.loaded = false;
+	$scope.settings = Settings.get();
+	$scope.settings.$promise.then(function() {
+		$scope.loaded = true;
+	}).catch(function(err) {
+		console.error(err);
+		$scope.error = 'Error ' + err.status + ': ' + err.data.substring(0, 100);
+	});
+
+	$scope.saving = false;
+	$scope.save = function() {
+		if ($scope.saving) { return; }
+
+		$scope.saving = true;
+		$q.when().then(function() {
+			return $scope.settings.$save();
+		}).then(function(res) {
+			$mdToast.show($mdToast.simple().position('top left').content('Settings saved'));
+		}).catch(function(err) {
+			var msg = 'Error ' + err.status + ': ' + err.data.substring(0, 100);
+			$mdToast.show($mdToast.simple().position('top left').content(msg));
+			console.error(err);
+		}).finally(function() {
+			$scope.saving = false;
+		});
+	};
+
+	$scope.sendTest = function() {
+
+	};
 })
 
 ;

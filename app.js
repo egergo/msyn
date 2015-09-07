@@ -8,6 +8,7 @@ var azureCommon = require('azure-common');
 var azureStorage = require('azure-storage');
 var util = require('util');
 var zlib = require('zlib');
+var bodyParser = require('body-parser');
 
 var log = require('./log');
 var Auth = require('./auth');
@@ -22,6 +23,7 @@ var app = express();
 app.use(log.requestLogger());
 app.enable('trust proxy');
 app.disable('x-powered-by');
+app.use(bodyParser.json());
 
 
 var exphbs = new ExpressHandlerbars({
@@ -298,6 +300,32 @@ app.get('/realmStatus', function(req, res, next) {
 
 	}).then(function(result) {
 		res.send(result);
+	}).catch(function(err) {
+		next(err);
+	});
+});
+
+app.get('/settings', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+	return Promise.resolve().then(function() {
+		return req.user.getSettings();
+	}).then(function(settings) {
+		res.send(settings);
+	}).catch(function(err) {
+		next(err);
+	});
+});
+
+app.post('/settings', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+	return Promise.resolve().then(function() {
+		return req.user.saveSettings(function(settings) {
+			delete settings.hello;
+			settings.slackWebhook = req.body.slackWebhook;
+			settings.slackChannel = req.body.slackChannel;
+			settings.email = req.body.email;
+			return settings;
+		});
+	}).then(function(settings) {
+		res.send(settings);
 	}).catch(function(err) {
 		next(err);
 	});
