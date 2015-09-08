@@ -14,6 +14,7 @@ var Azure = require('../../../../platform_services/azure');
 var User = require('../../../../user');
 
 var ProcessFetchedAuctions = require('./process_fetched_auctions');
+var SendNotifications = require('./send_notifications');
 
 var azure = Azure.createFromEnv();
 var blizzardKey = process.env.BNET_ID;
@@ -80,7 +81,16 @@ function processMessage(message) {
 				return enqueueUserNotifications(body);
 
 			case 'sendNotifications':
-				return sendNotifications(body);
+				return new SendNotifications({
+					auctionStore: auctionStore,
+					log: log,
+					region: body.region,
+					realm: body.realm,
+					user: new User({
+						id: body.userId,
+						tables: azure.tables
+					})
+				});
 
 			case 'fetchAuctionData':
 				return fetchAuctionData(body);
@@ -89,54 +99,6 @@ function processMessage(message) {
 				throw new Error('unknown message type: ' + body.type);
 		}
 	});
-}
-
-/**
- * @param {object} opt
- * @param {string} opt.region
- * @param {string} opt.realm
- * @param {number} opt.userId
- */
-function sendNotifications(opt) {
-	return Promise.resolve().then(function() {
-
-		var user = new User({
-			tables: azure.tables,
-			id: opt.userId
-		});
-
-
-	});
-
-
-	function loadAH(region, realm) {
-		return tables.retrieveEntityAsync('cache', 'current-' + region + '-' + realm, '').spread(function(result) {
-			return result.lastProcessed._.getTime();
-		}).catch(function() {
-			throw new Error('realm not found: ' + region + '-' + realm);
-		}).then(function(lastProcessed) {
-			return loadPastAuctions(region, realm, lastProcessed).then(function(ah) {
-				// check if notfound
-				return new Auctions({
-					lastModified: lastProcessed,
-					past: ah
-				});
-			});
-		});
-	}
-
-	function loadPastAuctions(region, realm, lastProcessed) {
-		// TODO: make lastProcessed a date
-		var date = new Date(lastProcessed);
-		var name = util.format('processed/%s/%s/%s/%s/%s/%s.gz', region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-		return loadFile(name).catch(function(err) {
-			if (err.name === 'Error' && err.message === 'NotFound') {
-				log.error({region: region, realm: realm, lastProcessed: lastProcessed, name: name}, 'last processed not found');
-				return;
-			}
-			throw err;
-		});
-	}
 }
 
 function fetchAuctionData(opt) {
