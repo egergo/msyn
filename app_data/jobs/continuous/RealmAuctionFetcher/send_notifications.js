@@ -3,9 +3,14 @@
 var util = require('util');
 var Promise = require('bluebird');
 var request = require('request-promise');
+var encoder = new (require('node-html-encoder').Encoder)('entity');
 var Auctions = require('../../../../auction_house').Auctions;
 var realms = require('../../../../realms');
 var itemDb = require('../../../../items');
+var sendgrid = require('sendgrid')(process.env.SENDGRID_KEY);
+
+
+Promise.promisifyAll(sendgrid);
 
 /**
  * @param {object} opt
@@ -88,6 +93,10 @@ SendNotifications.prototype.run = function() {
 SendNotifications.prototype._createNotifiers = function() {
 	var notifiers = {
 		slack: new SlackNotifier({
+			log: this._log,
+			user: this._user
+		}),
+		sendgrid: new SendgridNotifier({
 			log: this._log,
 			user: this._user
 		})
@@ -231,20 +240,11 @@ SlackNotifier.prototype.isEnabled = function() {
 };
 
 SlackNotifier.prototype.send = function(owners) {
-	var self = this;
 	return Promise.bind(this).then(function() {
-		var attachments = [];
-		Object.keys(owners.characters).forEach(function(characterName) {
-			var owner = owners.characters[characterName];
-			Object.keys(owner.items).forEach(function (itemId) {
-				var a = self._forItem(owner.character, owners.region, itemId, owner.items[itemId]);
-				attachments.push(a);
-			});
-		});
-		return attachments;
+		return SlackNotifier.createAttachments(owners);
 	}).then(function(attachments) {
 
-		return this._user.getSettings().then(function(settings) {
+		return this._user.getSettings().bind(this).then(function(settings) {
 			return request({
 				method: 'post',
 				uri: settings.slackWebhook,
@@ -269,7 +269,19 @@ SlackNotifier.prototype.send = function(owners) {
 
 };
 
-SlackNotifier.prototype._forItem = function(owner, region, itemId, items) {
+SlackNotifier.createAttachments = function(owners) {
+	var attachments = [];
+	Object.keys(owners.characters).forEach(function(characterName) {
+		var owner = owners.characters[characterName];
+		Object.keys(owner.items).forEach(function (itemId) {
+			var a = SlackNotifier.forItem(owner.character, owners.region, itemId, owner.items[itemId]);
+			attachments.push(a);
+		});
+	});
+	return attachments;
+};
+
+SlackNotifier.forItem = function(owner, region, itemId, items) {
 	var texts = [];
 	items.sold.forEach(function(item) {
 		var pluralized = item.quantity > 1 ? 'stacks' : 'stack';
@@ -328,6 +340,55 @@ SlackNotifier.prototype._forItem = function(owner, region, itemId, items) {
 		var copper = Math.floor(price % 100);
 		return gold + 'g ' + silver + 's ' + copper + 'c';
 	}
+};
+
+
+function SendgridNotifier(opt) {
+	if (!opt.log) { throw new Error('opt.log must be defined'); }
+	if (!opt.user) { throw new Error('opt.user must be defined'); }
+
+	this._log = opt.log;
+	this._user = opt.user;
+}
+
+SendgridNotifier.prototype.isEnabled = function() {
+	return this._user.getSettings().then(function(settings) {
+		return !!settings.email;
+	});
+};
+
+SendgridNotifier.prototype.send = function(owners) {
+	return Promise.bind(this).then(function() {
+		var attachments = SlackNotifier.createAttachments(owners);
+
+		var txt = attachments.map(function(att) {
+			var txt = att.author_name + '\n' + Array(att.author_name.length + 1).join('-') + '\n';
+			txt += att.text;
+			return txt;
+		}).join('\n\n');
+
+		return txt;
+	}).then(function(txt) {
+
+		txt = '<pre>' + encoder.htmlEncode(txt) + '</pre>';
+
+		return this._user.getSettings().bind(this).then(function(settings) {
+			var email = new sendgrid.Email({
+				to: settings.email,
+				from: 'notifications+changes@mesellyounot.com',
+				fromname: 'Me Sell You Not',
+				subject: 'Changes detected',
+				html: txt
+			});
+			return sendgrid.sendAsync(email).bind(this).then(function(res) {
+				// report
+				this._log.info({response: res, email: settings.email}, 'sendgrid success');
+			}).catch(function(err) {
+				// report
+				this._log.error({err: err}, 'sendgrid error');
+			});
+		});
+	});
 };
 
 module.exports = SendNotifications;

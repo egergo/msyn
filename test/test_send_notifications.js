@@ -25,6 +25,8 @@ describe('SendNotifications', function() {
 	var user;
 	var slackNock;
 	var slackNockRequest;
+	var sendgridNock;
+	var sendgridNockRequest;
 
 	var LAST_PROCESSED = new Date;
 	var WEBHOOK = 'https://hooks.slack.com/services/XXXXXXXX/XXXXXXXX/XXXXXXXXXXXXXXXX';
@@ -72,6 +74,13 @@ describe('SendNotifications', function() {
 			.post('/services/XXXXXXXX/XXXXXXXX/XXXXXXXXXXXXXXXX')
 			.reply(200, function(uri, body) {
 				slackNockRequest = JSON.parse(body);
+				return 'ok';
+			});
+		sendgridNock = nock('https://api.sendgrid.com')
+			.post('/api/mail.send.json')
+			.reply(200, function(uri, body) {
+				sendgridNockRequest = body;
+				return '{"message":"success"}';
 			});
 
 		// var azure = require('../platform_services/azure').createFromEnv();
@@ -94,7 +103,8 @@ describe('SendNotifications', function() {
 
 	it('should send notifications', function() {
 		user.getSettings.returns(Promise.resolve({
-			slackWebhook: WEBHOOK
+			slackWebhook: WEBHOOK,
+			email: 'egergo@mesellyounot.com'
 		}));
 		user.getCharactersOnRealm.returns(Promise.resolve([{
 			name: 'Perlan',
@@ -106,6 +116,7 @@ describe('SendNotifications', function() {
 		return sendNotifications.run().then(function() {
 			slackNock.done();
 			slackNockRequest.attachments.should.not.be.empty;
+			sendgridNock.done();
 		});
 	});
 
