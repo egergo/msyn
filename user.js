@@ -2,6 +2,7 @@ var Promise = require('bluebird');
 var azureStorage = require('azure-storage');
 
 var entGen = azureStorage.TableUtilities.entityGenerator;
+var realms = require('./realms');
 
 function User(opt) {
 	opt = opt || {};
@@ -41,6 +42,23 @@ User.prototype.login = function(profile, accessToken) {
 		this._accessTokenCache = accessToken;
 	})
 };
+
+/**
+ * Returns the user's characters for the connected realms.
+ *
+ * @param {string} region
+ * @param {string} realm
+ * @returns {[Character]}
+ */
+User.prototype.getCharactersOnRealm = function(region, realm) {
+	return this.getRaw().then(function(raw) {
+		if (!raw['characters_' + region]) { return []; }
+		var reg = JSON.parse(raw['characters_' + region]._);
+		return reg.characters.filter(function(character) {
+			return realms[character.region].bySlug[character.realm].real === realm;
+		});
+	});
+}
 
 User.prototype.load = function() {
 	return this._tables.retrieveEntityAsync(User.TABLE_NAME, this._id, '').spread(function(user) {
