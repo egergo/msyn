@@ -256,6 +256,7 @@ app.get('/auth/bnet/callback', function(req, res, next) {
 						log.error({region: regions[x], userId: user.id, err: err}, 'cannot fetch toons from region %s for user %s', regions[x], user.id);
 					}
 				}
+				enableUsedRealms(characters);
 				return characters;
 			});
 		}).then(function(characters) {
@@ -271,6 +272,44 @@ app.get('/auth/bnet/callback', function(req, res, next) {
 		});
 	})(req, res);
 });
+
+function enableUsedRealms(characters) {
+	var result = [];
+	Object.keys(characters).forEach(function(region) {
+		var processed = {};
+		characters[region].forEach(function(character) {
+			var real = realms[character.region].bySlug[character.realm].real;
+			if (processed[real]) { return; }
+			processed[real] = true;
+			result.push({
+				PartitionKey: azure.ent.String(''),
+				RowKey: azure.ent.String(region + '-' + real),
+				Enabled: azure.ent.Boolean(true),
+				Region: azure.ent.String(region),
+				Realm: azure.ent.String(real)
+			});
+		});
+	});
+
+	var chunks = [];
+	while (result.length) {
+		chunks.push(result.splice(0, 100));
+	}
+
+	var batches = chunks.map(function(chunk) {
+		var batch = new azure.TableBatch();
+		chunk.forEach(function(item) {
+			batch.insertOrMergeEntity(item);
+		});
+		return batch;
+	});
+
+	return Promise.map(batches, function(batch) {
+		return azure.tables.executeBatchAsync('RealmFetches', batch);
+	}).catch(function(err) {
+		log.error({err: err}, 'cannot enable realms');
+	});
+}
 
 //passport.authenticate('jwt', {session: false})
 app.get('/realmStatus', function(req, res, next) {
@@ -331,7 +370,56 @@ app.post('/settings', passport.authenticate('jwt', {session: false}), function(r
 	});
 });
 
+// TODO: use fail with error
+app.use('/admin', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+	if (req.user.id != process.env.ADMIN_USER) {
+		res.statusCode = 401;
+		res.end(require('http').STATUS_CODES[res.statusCode]);
+	} else {
+		next();
+	}
+});
 
+app.post('/admin/resetRealms', function(req, res, next) {
+	var result = [];
+
+	realms.regions.forEach(function(region) {
+		var processed = {};
+		Object.keys(realms[region].bySlug).forEach(function(slug) {
+			var real = realms[region].bySlug[slug].real;
+			if (processed[real]) { return; }
+			processed[real] = true;
+			result.push({
+				PartitionKey: azure.ent.String(''),
+				RowKey: azure.ent.String(region + '-' + real),
+				Enabled: azure.ent.Boolean(false),
+				Region: azure.ent.String(region),
+				Realm: azure.ent.String(real)
+			});
+		});
+	});
+
+	var chunks = [];
+	while (result.length) {
+		chunks.push(result.splice(0, 100));
+	}
+
+	var batches = chunks.map(function(chunk) {
+		var batch = new azure.TableBatch();
+		chunk.forEach(function(item) {
+			batch.insertOrMergeEntity(item);
+		});
+		return batch;
+	});
+
+	return Promise.map(batches, function(batch) {
+		return azure.tables.executeBatchAsync('RealmFetches', batch);
+	}).then(function() {
+		res.send('ok');
+	}).catch(function(err) {
+		next(err);
+	});
+});
 
 // log errors
 app.use(log.errorLogger());

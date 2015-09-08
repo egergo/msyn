@@ -66,7 +66,7 @@ module.exports = function() {
 				result.push({
 					PartitionKey: azure.ent.String(''),
 					RowKey: azure.ent.String(region + '-' + real),
-					Enabled: azure.ent.Boolean(process.env.ENABLED_REALMS ? process.env.ENABLED_REALMS.indexOf(region + '-' + real) > -1 : true),
+					Enabled: azure.ent.Boolean(false),
 					Region: azure.ent.String(region),
 					Realm: azure.ent.String(real)
 				});
