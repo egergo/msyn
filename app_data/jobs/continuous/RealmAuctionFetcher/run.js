@@ -90,7 +90,7 @@ function processMessage(message) {
 						id: body.userId,
 						tables: azure.tables
 					})
-				});
+				}).run();
 
 			case 'fetchAuctionData':
 				return fetchAuctionData(body);
