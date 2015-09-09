@@ -12,3 +12,24 @@ RealmFetches
 | Realm | slug |
 | Enabled | if the realm should be fetched |
 | URL | url of the data |
+
+++ current processed timestamp (LastProcessed)
+
+
+
+XAuctions20150808 - daily auction data
+Partition: items-eu-mazrigos-timestamp
+
+
+
+Auctions
+
+Auctions-{region}-{realm}-{timestamp}
+
+Partition: items
+RowKey: itemId
+Auctions: json string of [auction]
+
+Partition: owners
+RowKey: owner name
+Auctions: ids? all auctions?

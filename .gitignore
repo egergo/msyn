@@ -3,9 +3,12 @@ build
 .nbrun
 .vagrant
 .c9
+.env
+
 
 /node_modules
 /*.sqlite
 /coverage
 /npm-debug.log
 /.settings
+/newrelic_agent.log

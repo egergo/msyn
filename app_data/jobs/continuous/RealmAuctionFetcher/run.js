@@ -24,15 +24,11 @@ var auctionStore = new AuctionStore({
 });
 
 if (false) {
-	return processFetchedAuction({
-		type: 'processFetchedAuction',
-		region: 'eu',
-		realm: 'lightbringer'
-	}).catch(function(err) {
-		console.error('bazge', err.stack);
-	}).then(function() {
-		console.log('done');
-	});
+	return processMessage({body: "{\"type\":\"processFetchedAuction\",\"region\":\"eu\",\"realm\":\"lightbringer\"}"});
+}
+
+if (false) {
+	return processMessage({body: "{\"type\":\"fetchAuctionData\",\"region\":\"eu\",\"realm\":\"lightbringer\",\"force\":true}"});
 }
 
 if (false) {
@@ -132,7 +128,7 @@ function fetchAuctionData(opt) {
 				shouldExit = true;
 			}
 
-			if (shouldExit) {
+			if (!opt.force && shouldExit) {
 				var err = new Error('not modified');
 				err.notModified = true;
 				throw err;

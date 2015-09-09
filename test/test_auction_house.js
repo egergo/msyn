@@ -1,3 +1,5 @@
+return;
+
 var sinon = require('sinon');
 var nock = require('nock');
 var fs = require('fs');

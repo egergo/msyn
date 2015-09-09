@@ -21,7 +21,7 @@
 			"aerie-peak"
 		],
 		"locale": "en_US",
-		"real": "ulduar"
+		"real": "aerie-peak"
 	},
 	"agamaggan": {
 		"name": "Agamaggan",
@@ -589,7 +589,7 @@
 			"sisters-of-elune"
 		],
 		"locale": "en_US",
-		"real": "naxxramas"
+		"real": "cenarion-circle"
 	},
 	"cenarius": {
 		"name": "Cenarius",
@@ -2306,7 +2306,7 @@
 			"sisters-of-elune"
 		],
 		"locale": "en_US",
-		"real": "naxxramas"
+		"real": "cenarion-circle"
 	},
 	"skullcrusher": {
 		"name": "Skullcrusher",

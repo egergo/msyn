@@ -21,6 +21,7 @@ describe('Auth', function() {
 	beforeEach(function() {
 		passport = new Passport;
 		auth = new Auth({
+			tables: {},
 			passport: passport,
 			secret: SECRET
 		});
@@ -53,7 +54,7 @@ describe('Auth', function() {
 			.expect(200)
 			.end(function(err, res) {
 				if (err) { done(err); }
-				res.body.id.should.be.equal(USER_ID);
+				res.body._id.should.be.equal('' + USER_ID);
 				done();
 			})
 	});

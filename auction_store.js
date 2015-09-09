@@ -176,7 +176,6 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 			var z = zlib.deflateRawSync(new Buffer(str));
 			var diff = process.hrtime(s);
 			var ms = (diff[0] * 1e9 + diff[1]) / 1e6;
-			console.log('ownerindex', 'raw', str.length, 'z', z.length, ms, 'ms');
 
 			// item batches
 			Object.keys(index.items).forEach(function itemsToBatches(itemId) {
@@ -200,8 +199,6 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 				}
 			});
 			currentBatch = undefined;
-
-			console.log('item batches', batches.length);
 
 			// owner batches
 			Object.keys(index.owners).forEach(function ownersToBatches(owner) {

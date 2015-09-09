@@ -58,8 +58,8 @@ describe('AuctionStore', function() {
 		// TODO: test if delta stored
 		var REGION = 'eu';
 		var REALM = 'lightbringer';
-		var LAST_MODIFIED = new Date();
-		var EXPECTED_NAME = auctionStore._getAuctionsTableName(REGION, REALM, LAST_MODIFIED);
+		var LAST_MODIFIED = new Date(1441794872336);
+		var EXPECTED_NAME = 'XAuctions20150910';
 
 		var lastModified = LAST_MODIFIED;
 		var auctionsRaw = {
@@ -83,11 +83,11 @@ describe('AuctionStore', function() {
 		return auctionStore.storeAuctions(auctions, REGION, REALM).then(function() {
 			tables.createTableIfNotExistsAsync.args[0][0].should.be.equal(EXPECTED_NAME);
 			tables.executeBatchAsync.args[0][0].should.be.equal(EXPECTED_NAME);
-			tables.executeBatchAsync.args[0][1].operations[0].entity.PartitionKey._.should.be.equal('items');
+			tables.executeBatchAsync.args[0][1].operations[0].entity.PartitionKey._.should.be.equal('eu-lightbringer-items-1441794872336');
 			tables.executeBatchAsync.args[0][1].operations[0].entity.RowKey._.should.be.equal('62669');
 			tables.executeBatchAsync.args[0][1].operations[1].entity.RowKey._.should.be.equal('87475');
 			tables.executeBatchAsync.args[1][0].should.be.equal(EXPECTED_NAME);
-			tables.executeBatchAsync.args[1][1].operations[0].entity.PartitionKey._.should.be.equal('owners');
+			tables.executeBatchAsync.args[1][1].operations[0].entity.PartitionKey._.should.be.equal('eu-lightbringer-owners-1441794872336');
 			tables.executeBatchAsync.args[1][1].operations[0].entity.RowKey._.should.be.equal('Perlan-Mazrigos');
 			tables.executeBatchAsync.args[1][1].operations[1].entity.RowKey._.should.be.equal('Ermizhad-Lightbringer');
 			blobs.createBlockBlobFromTextGzipAsync.args[0][1].should.contain('processed/');
