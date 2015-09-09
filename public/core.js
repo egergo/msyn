@@ -317,7 +317,7 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 	};
 
 	$scope.sendTest = function() {
-
+		$mdToast.show($mdToast.simple().position('top left').content('Coming Soon™'));
 	};
 })
 
