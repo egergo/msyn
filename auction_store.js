@@ -86,7 +86,7 @@ AuctionStore.prototype.getLastProcessedTime = function(region, realm) {
 	return this._azure.tables.retrieveEntityAsync(AuctionStore.CacheTableName, 'current-' + region + '-' + realm, '').spread(function(result) {
 		return result.lastProcessed._;
 	}).catch(function(err) {
-		if (err.message === 'NotFound') { return new Date(0); }
+		if (err.code === 'ResourceNotFound') { return new Date(0); }
 		throw err;
 	});
 };
