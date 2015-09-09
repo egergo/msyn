@@ -60,7 +60,7 @@ function LoginManager($rootScope, $mdDialog) {
 }
 
 LoginManager.prototype._handleMessage = function(e, messageEvent) {
-	console.log('message', e, messageEvent);
+	//console.log('message', e, messageEvent);
 	//this.$rootScope.$apply(function() {
 	try {
 		// TODO: check origin
@@ -139,15 +139,15 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 })
 
 .directive('errSrc', function() {
-  return {
-    link: function(scope, element, attrs) {
-      element.bind('error', function() {
-        if (attrs.src != attrs.errSrc) {
-          attrs.$set('src', attrs.errSrc);
-        }
-      });
-    }
-  }
+	return {
+		link: function(scope, element, attrs) {
+			element.bind('error', function() {
+				if (attrs.src != attrs.errSrc) {
+					attrs.$set('src', attrs.errSrc);
+				}
+			});
+		}
+	}
 })
 
 .config(function($routeProvider) {
@@ -262,9 +262,9 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 	$scope.loginManager = loginManager;
 
 
-  function openMenu() {
-    $timeout(function() { $mdSidenav('left').open(); });
-  }
+	function openMenu() {
+		$timeout(function() { $mdSidenav('left').open(); });
+	}
 })
 
 .controller('CharactersCtrl', function($scope, Characters, $rootScope) {
