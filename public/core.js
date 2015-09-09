@@ -3,6 +3,46 @@
 
 var angular = window.angular;
 
+function Disqus($window, $location, config) {
+	this.$window = $window;
+	this.$location = $location;
+	this._config = config;
+}
+
+Disqus.prototype._loadScript = function() {
+	self = this;
+	this.$window.disqus_shortname = this._config.disqusShortname;
+
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + self.$window.disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+};
+
+Disqus.prototype.changePage = function(opt) {
+	opt = opt || {};
+	opt.url = opt.url || this.$location.absUrl();
+
+	if (angular.isDefined(window.DISQUS)) {
+		DISQUS.reset({
+			reload: true,
+			config: function () {
+				this.page.identifier = opt.identifier;
+				this.page.url = opt.url;
+				this.page.title = opt.title;
+			}
+		});
+	} else {
+		this.$window.disqus_identifier = opt.identifier;
+		this.$window.disqus_url = opt.url;
+		this.$window.disqus_title = opt.title;
+		this._loadScript();
+	}
+};
+
+
+
 function LoginManager($rootScope, $mdDialog) {
 	this.$rootScope = $rootScope;
 	this.$mdDialog = $mdDialog;
@@ -69,6 +109,35 @@ LoginManager.prototype.logout = function() {
 
 angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 
+.directive('disqus', function($timeout, disqus) {
+	return {
+		restrict : 'E',
+		replace  : true,
+		scope    : {
+			identifier: '@',
+			title: '@'
+		},
+		template : '<div id="disqus_thread"></div>',
+		link: function link(scope) {
+			var reloadTimeout;
+
+			function startReload() {
+				if (reloadTimeout) { $timeout.cancel(reloadTimeout); }
+				reloadTimeout = $timeout(function() {
+					disqus.changePage({
+						identifier: scope.identifier,
+						title: scope.title
+					});
+					reloadTimeout = undefined;
+				}, 0);
+			}
+
+			scope.$watch('identifier', startReload);
+			scope.$watch('title', startReload);
+		}
+	};
+})
+
 .directive('errSrc', function() {
   return {
     link: function(scope, element, attrs) {
@@ -102,6 +171,10 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 		.otherwise({
 			redirectTo: '/'
 		});
+})
+
+.config(function($locationProvider) {
+	$locationProvider.hashPrefix('!');
 })
 
 .run(function($rootScope) {
@@ -143,6 +216,7 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 // })
 
 .service('loginManager', LoginManager)
+.service('disqus', Disqus)
 
 .factory('Characters', function($resource, loginManager) {
 	return $resource('/characters', null, {

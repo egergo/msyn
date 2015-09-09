@@ -84,7 +84,8 @@ app.get('/', function(req, res) {
 	res.render('index', {
 		init: {
 			defaultOrigin: process.env.DEFAULT_ORIGIN,
-			secureOrigin: process.env.SECURE_ORIGIN
+			secureOrigin: process.env.SECURE_ORIGIN,
+			disqusShortname: process.env.DISQUS_SHORTNAME
 		}
 	});
 });
