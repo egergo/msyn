@@ -158,8 +158,8 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 
 	function storeToTable() {
 		return Promise.bind(this).then(function() {
-			log.info({tableName: tableName}, 'creating table %s', tableName);
-			return self._azure.tables.createTableIfNotExistsAsync(tableName);
+			log.info({tableName: tableName}, 'creating table %s', tableName.table);
+			return self._azure.tables.createTableIfNotExistsAsync(tableName.table);
 		}).then(function() {
 			var index = auctions.index2;
 			var batches = [];
@@ -190,7 +190,7 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 					log.error({itemId: itemId, data: data.length}, 'item too long');
 				} else {
 					currentBatch.insertOrMergeEntity({
-						PartitionKey: self._azure.ent.String('items'),
+						PartitionKey: self._azure.ent.String(tableName.items),
 						RowKey: self._azure.ent.String(itemId),
 						Auctions: self._azure.ent.Binary(data)
 					});
@@ -216,7 +216,7 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 					log.error({owner: owner, length: data.length}, 'owner too long');
 				} else {
 					currentBatch.insertOrMergeEntity({
-						PartitionKey: self._azure.ent.String('owners'),
+						PartitionKey: self._azure.ent.String(tableName.owners),
 						RowKey: self._azure.ent.String(encodeURIComponent(owner)),
 						Auctions: self._azure.ent.Binary(data)
 					});
@@ -227,10 +227,10 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 			});
 			currentBatch = undefined;
 
-			log.info({batches: batches.length, tableName: tableName}, 'saving %s batches to %s...', batches.length, tableName);
+			log.info({batches: batches.length, tableName: tableName}, 'saving %s batches to %s...', batches.length, tableName.table);
 			return batches;
 		}).map(function(batch) {
-			return self._azure.tables.executeBatchAsync(tableName, batch);
+			return self._azure.tables.executeBatchAsync(tableName.table, batch);
 		}, {concurrency: 100}).then(function() {
 			log.info('batches saved');
 		});
@@ -238,10 +238,16 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 };
 
 AuctionStore.prototype._getAuctionsTableName = function(region, realm, date) {
-	realm = realm.replace(/[^a-zA-Z0-9]/g, '');
-	return util.format('Auctions%s%s%s', region, realm, date.getTime());
+	var month = '' + (date.getUTCMonth() + 1);
+	if (month.length === 1) { month = '0' + month; }
+	var day = '' + (date.getUTCDate() + 1);
+	if (day.length === 1) { day = '0' + day; }
+	return {
+		table: util.format('XAuctions%s%s%s', date.getUTCFullYear(), month, day),
+		items: encodeURIComponent(util.format('%s-%s-items-%s', region, realm, date.getTime())),
+		owners: encodeURIComponent(util.format('%s-%s-owners-%s', region, realm, date.getTime()))
+	};
 };
-
 /**
  * @param {string} region
  * @param {string} realm
