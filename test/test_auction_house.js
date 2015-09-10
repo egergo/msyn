@@ -15,10 +15,10 @@ var expect = chai.expect;
 var should = chai.should();
 
 var fix1 = {
-    "files": [{
-        "url": "http://eu.battle.net/auction-data/57304a565824f2d778f9ad106430c98c/auctions.json",
-        "lastModified": 1437479516000
-    }]
+	"files": [{
+		"url": "http://eu.battle.net/auction-data/57304a565824f2d778f9ad106430c98c/auctions.json",
+		"lastModified": 1437479516000
+	}]
 };
 
 nock.disableNetConnect();
@@ -27,9 +27,9 @@ nock('https://eu.api.battle.net')
 	.query(true)
 	.reply(200, {
 		files: [{
-	  	url: 'http://eu.battle.net/auction-data/57304a565824f2d778f9ad106430c98c/auctions.json',
-	    lastModified: 1437479516000
-	  }]
+			url: 'http://eu.battle.net/auction-data/57304a565824f2d778f9ad106430c98c/auctions.json',
+			lastModified: 1437479516000
+		}]
 	});
 
 nock('http://eu.battle.net')

@@ -43,6 +43,16 @@ module.exports = function(grunt) {
 					jshintrc: true
 				}
 			}
+		},
+
+		jscs: {
+			node: {
+				src: ['*.js', 'test/**.js', 'app_data/**.js', 'items/**.js', 'platform_services/**.js', 'realms/**.js'],
+				options: {
+					config: true,
+					verbose: true
+				}
+			}
 		}
 	});
 
@@ -50,8 +60,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks("grunt-jscs");
 
-	grunt.registerTask('default', ['test', 'cover']);
+	grunt.registerTask('check', ['jscs', 'jshint', 'test']);
 	grunt.registerTask('test', ['mochaTest']);
 	grunt.registerTask('cover', ['exec:cover']);
 };

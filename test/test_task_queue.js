@@ -150,23 +150,23 @@ describe('TaskQueue', function() {
 
 function serviceBusMessage(body, deliveryCount) {
 	return Promise.resolve([{
-    "body": body,
-    "brokerProperties": {
-      "DeliveryCount": deliveryCount || 1,
-      "EnqueuedSequenceNumber": 0,
-      "EnqueuedTimeUtc": "Fri, 07 Aug 2015 05:29:00 GMT",
-      "LockToken": "55a13e85-9f7f-415a-9f78-b3356c1df820",
-      "LockedUntilUtc": "Fri, 07 Aug 2015 05:29:30 GMT",
-      "MessageId": "035195b1b4694982bbb0fb95ec9c224a",
-      "SequenceNumber": 2028,
-      "State": "Active",
-      "TimeToLive": 1209600
-    },
-    "location": "https://mesellyounot-egergo.servicebus.windows.net/mytopic/messages/2028/55a13e85-9f7f-415a-9f78-b3356c1df820",
-    "contentType": "application/xml; charset=utf-8",
-    "customProperties": {
-      "connection": null
-    }
-  }, {}]);
+		"body": body,
+		"brokerProperties": {
+			"DeliveryCount": deliveryCount || 1,
+			"EnqueuedSequenceNumber": 0,
+			"EnqueuedTimeUtc": "Fri, 07 Aug 2015 05:29:00 GMT",
+			"LockToken": "55a13e85-9f7f-415a-9f78-b3356c1df820",
+			"LockedUntilUtc": "Fri, 07 Aug 2015 05:29:30 GMT",
+			"MessageId": "035195b1b4694982bbb0fb95ec9c224a",
+			"SequenceNumber": 2028,
+			"State": "Active",
+			"TimeToLive": 1209600
+		},
+		"location": "https://mesellyounot-egergo.servicebus.windows.net/mytopic/messages/2028/55a13e85-9f7f-415a-9f78-b3356c1df820",
+		"contentType": "application/xml; charset=utf-8",
+		"customProperties": {
+			"connection": null
+		}
+	}, {}]);
 }
 

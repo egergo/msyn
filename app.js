@@ -65,11 +65,11 @@ app.use(express.static('public'));
 
 var BnetStrategy = require('passport-bnet').Strategy;
 passport.use(new BnetStrategy({
-    clientID: process.env.BNET_ID,
-    clientSecret: process.env.BNET_SECRET,
-    callbackURL: process.env.BNET_CALLBACK,
-    scope: ['wow.profile'],
-    region: 'eu'
+	clientID: process.env.BNET_ID,
+	clientSecret: process.env.BNET_SECRET,
+	callbackURL: process.env.BNET_CALLBACK,
+	scope: ['wow.profile'],
+	region: 'eu'
 }, function(accessToken, refreshToken, profile, done) {
 	var user = new User({
 		id: profile.id,
@@ -450,7 +450,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-process.on('uncaughtException', function (err) {
+process.on('uncaughtException', function(err) {
 	log.error({err: err}, 'uncaught exception');
 	setTimeout(function() {
 		process.exit(1);

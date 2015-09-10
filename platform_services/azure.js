@@ -55,18 +55,18 @@ Azure.extendServiceBusWithBatching = function(serviceBus) {
 	var Constants = azureCommon.Constants;
 	var HeaderConstants = Constants.HeaderConstants;
 	serviceBus.sendQueueMessageBatch = function(path, message, callback) {
-	  var webResource = WebResource.post(path + '/Messages');
-	  webResource.withHeader(HeaderConstants.CONTENT_TYPE, 'application/vnd.microsoft.servicebus.json');
+		var webResource = WebResource.post(path + '/Messages');
+		webResource.withHeader(HeaderConstants.CONTENT_TYPE, 'application/vnd.microsoft.servicebus.json');
 
-	  var processResponseCallback = function (responseObject, next) {
-	    var finalCallback = function (returnObject) {
-	      callback(returnObject.error, returnObject.response);
-	    };
+		var processResponseCallback = function(responseObject, next) {
+			var finalCallback = function(returnObject) {
+				callback(returnObject.error, returnObject.response);
+			};
 
-	    next(responseObject, finalCallback);
-	  };
+			next(responseObject, finalCallback);
+		};
 
-	  this.performRequest(webResource, JSON.stringify(message), null, processResponseCallback);
+		this.performRequest(webResource, JSON.stringify(message), null, processResponseCallback);
 	};
 };
 

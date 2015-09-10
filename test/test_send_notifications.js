@@ -46,8 +46,8 @@ describe('SendNotifications', function() {
 
 		var auctionsRaw = {
 			auctions: {
-			  1: {"item": 10940,"owner": "Perlan-Mazrigos","quantity": 1,"buyoutPerItem": 1000,"timeLeft": 1,"timeLeftSince": "2015-09-06T10:27:52.000Z"},
-			  2: {"item": 10940,"owner": "Wobblegob-Lightbringer","quantity": 1,"buyoutPerItem": 100,"timeLeft": 1,"timeLeftSince": "2015-09-06T10:27:52.000Z"},
+				1: {"item": 10940,"owner": "Perlan-Mazrigos","quantity": 1,"buyoutPerItem": 1000,"timeLeft": 1,"timeLeftSince": "2015-09-06T10:27:52.000Z"},
+				2: {"item": 10940,"owner": "Wobblegob-Lightbringer","quantity": 1,"buyoutPerItem": 100,"timeLeft": 1,"timeLeftSince": "2015-09-06T10:27:52.000Z"},
 			},
 			priceChanges: {
 				10940: -50
@@ -60,11 +60,11 @@ describe('SendNotifications', function() {
 				},
 				relisted: {
 					2841: {
-        		2020133740: {"buyoutPerItem": 20080},
-        	}
-        }
+						2020133740: {"buyoutPerItem": 20080},
+					}
+				}
 			}
-    };
+		};
 		var auctions = new Auctions({
 			processed: auctionsRaw,
 			lastModified: LAST_PROCESSED
