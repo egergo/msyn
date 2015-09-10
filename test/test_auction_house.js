@@ -9,6 +9,7 @@ var util = require('util');
 var chai = require('chai');
 var zlib = require('zlib');
 var AuctionHouse = require('../auction_house.js');
+var Promise = require('bluebird');
 
 var expect = chai.expect;
 var should = chai.should();

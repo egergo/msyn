@@ -38,7 +38,10 @@ module.exports = function(grunt) {
 
 		jshint: {
 			node: {
-				src: ['*.js', 'test/**.js', 'app_data/**.js', 'items/**.js', 'platform_services/**.js', 'realms/**.js']
+				src: ['*.js', 'test/**.js', 'app_data/**.js', 'items/**.js', 'platform_services/**.js', 'realms/**.js'],
+				options: {
+					jshintrc: true
+				}
 			}
 		}
 	});

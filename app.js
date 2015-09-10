@@ -21,6 +21,8 @@ var Auctions = require('./auction_house').Auctions;
 var items = require('./items');
 var Azure = require('./platform_services/azure');
 
+var server;
+
 var app = express();
 app.use(log.requestLogger());
 app.enable('trust proxy');
@@ -373,7 +375,7 @@ app.post('/settings', passport.authenticate('jwt', {session: false}), function(r
 
 // TODO: use fail with error
 app.use('/admin', passport.authenticate('jwt', {session: false}), function(req, res, next) {
-	if (req.user.id != process.env.ADMIN_USER) {
+	if (req.user.id !== parseInt(process.env.ADMIN_USER)) {
 		res.statusCode = 401;
 		res.end(require('http').STATUS_CODES[res.statusCode]);
 	} else {
@@ -472,7 +474,7 @@ process.on('SIGINT', function(err) {
 
 var port = process.env.PORT || 3000;
 
-var server = app.listen(port, function(err) {
+server = app.listen(port, function(err) {
 	if (err) { return log.error({err: err}, 'listen error'); }
 	log.info({port: port}, 'listening on %s', port);
 });
