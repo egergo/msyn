@@ -44,7 +44,7 @@ Azure.createFromEnv = function() {
 		storageConnectionString: process.env.AZURE_STORAGE_CONNECTION_STRING,
 		serviceBusConnectionString: process.env.AZURE_SB_CONNECTION_STRING
 	});
-}
+};
 
 Azure.extendServiceBusWithBatching = function(serviceBus) {
 	/**
@@ -86,7 +86,7 @@ Azure.extendBlobsWithGzip = function(blobs) {
 		return zlib.gzipAsync(text).then(function(gzipped) {
 			return blobs.createBlockBlobFromTextAsync(container, path, gzipped, options);
 		});
-	}
+	};
 
 	function futureStream(stream) {
 		var bufs = [];

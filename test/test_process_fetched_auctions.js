@@ -73,10 +73,10 @@ describe('ProcessFetchedAuctions', function() {
 		var REGION = 'eu';
 		var REALM = 'lightbringer';
 		var LAST_PROCESSED = new Date(0);
-		var FIRST = new Date;
+		var FIRST = new Date();
 
 		var auctions = new Auctions({
-			lastModified: new Date,
+			lastModified: new Date(),
 			data: {
 				realms: [{slug: 'lightbringer', name: 'Lightbringer'}],
 				auctions: [

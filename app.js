@@ -49,7 +49,7 @@ Promise.promisifyAll(blobs);
 
 var azure = Azure.createFromEnv();
 
-var passport = new Passport;
+var passport = new Passport();
 app.use(passport.initialize());
 
 var auth = new Auth({
@@ -108,15 +108,13 @@ app.get('/characters', passport.authenticate('jwt', {session: false}), function(
 		res.send(characters);
 	}).catch(function(err) {
 		next(err);
-	})
+	});
 });
 
 app.get('/auctions', passport.authenticate('jwt', {session: false}), function(req, res, next) {
 	req.user.load().then(function(user) {
 		var toons = gatherToons(user);
 		return fetchAuctions(toons);
-
-		return 'OK';
 	}).then(function(result) {
 		res.send(result);
 	}).catch(function(err) {
@@ -210,7 +208,7 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 					lastModified: lastProcessed,
 					past: ah
 				});
-			})
+			});
 		});
 	}
 
@@ -230,7 +228,7 @@ app.get('/auctions', passport.authenticate('jwt', {session: false}), function(re
 					};
 				}
 				desc.characters.push(toon);
-			})
+			});
 		});
 		return result;
 	}
@@ -248,7 +246,7 @@ app.get('/auth/bnet/callback', function(req, res, next) {
 					accessToken: accessToken,
 					region: region
 				});
-			})
+			});
 			return Promise.settle(proms).then(function(results) {
 				var characters = {};
 				for (var x = 0; x < regions.length; x++) {

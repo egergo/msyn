@@ -1,4 +1,6 @@
-return;
+if (true) {
+	return;
+}
 
 var sinon = require('sinon');
 var nock = require('nock');
@@ -113,7 +115,7 @@ describe('AuctionHouse', function() {
 			should.exist(present._changes);
 			//present._changes.should.not.be.undefined;
 
-		})
+		});
 	});
 
 	it('load two fixated auctions and apply past', function() {

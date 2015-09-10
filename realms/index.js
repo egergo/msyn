@@ -52,5 +52,5 @@ function Region(region) {
 	});
 }
 
-module.exports = new Realms;
+module.exports = new Realms();
 module.exports.Realms = Realms;

@@ -22,7 +22,7 @@ function nameToAH(name, region) {
 
 function addMissingRealms(region, realms) {
 	if (region === 'eu') {
-		realms['suramar'] = {
+		realms.suramar = {
 			name: 'Suramar',
 			slug: 'suramar',
 			ah: 'Suramar',
@@ -141,7 +141,7 @@ function getRealRealmNames(region, realms) {
 			});
 		}).then(function(ah) {
 			ah = JSON.parse(ah);
-			var real = ah.realm.slug
+			var real = ah.realm.slug;
 			realms[slug].real = real;
 			console.log(region, slug, '->', real, ah.realm.name);
 			return slug;

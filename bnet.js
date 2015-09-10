@@ -44,7 +44,7 @@ function mapRegionToEndpoint(region) {
 	var result = endpoints[region];
 	if (!result) { throw new Error('unknow region: ' + region); }
 	return result;
-};
+}
 
 function fetchUserCharacters(opt) {
 	opt = opt || {};
@@ -78,7 +78,7 @@ function fetchUserCharacters(opt) {
 				return;
 			}
 
-			var guildRealmSlug = undefined;
+			var guildRealmSlug;
 			if (character.guild) {
 				var guildRealmName = character.guildRealm;
 				var guildRealm = realms[opt.region].byName[guildRealmName];

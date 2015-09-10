@@ -1,3 +1,5 @@
+/*jshint expr: true*/
+
 var chai = require('chai');
 var sinon = require('sinon');
 var supertest = require('supertest');
@@ -16,10 +18,10 @@ var SECRET = 'muchsecret';
 describe('Auth', function() {
 
 	var passport;
-	var auth
+	var auth;
 
 	beforeEach(function() {
-		passport = new Passport;
+		passport = new Passport();
 		auth = new Auth({
 			tables: {},
 			passport: passport,
@@ -56,7 +58,7 @@ describe('Auth', function() {
 				if (err) { done(err); }
 				res.body._id.should.be.equal('' + USER_ID);
 				done();
-			})
+			});
 	});
 
 });

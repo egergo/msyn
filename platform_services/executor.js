@@ -13,8 +13,6 @@ function Executor(opt) {
 	this._available = opt.concurrency;
 	this._id = 1;
 	this._busy = {};
-
-	this._waiter;
 }
 
 /**
@@ -39,7 +37,7 @@ Executor.prototype.wait = function(callback) {
 	}
 
 	return Promise.resolve(waitForAvailable());
-}
+};
 
 /**
  * Checks if the Executor has any available slots
@@ -48,7 +46,7 @@ Executor.prototype.wait = function(callback) {
  */
 Executor.prototype.isAvailable = function() {
 	return this._available > 0;
-}
+};
 
 /**
  * Run a task in a slot. A task is done when the promise gets resolved. Throws
@@ -76,6 +74,6 @@ Executor.prototype.execute = function(promise) {
 			waiter.resolve();
 		}
 	});
-}
+};
 
 module.exports = Executor;

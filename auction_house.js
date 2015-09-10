@@ -109,7 +109,7 @@ function Auctions(opt) {
 	}
 
 	Object.defineProperty(this, 'auctions', {
-		get: function() { return this._auctions }
+		get: function() { return this._auctions; }
 	});
 	Object.defineProperty(this, 'index', {
 		get: function() {
@@ -131,7 +131,7 @@ AuctionHouse.Auctions = Auctions;
 
 Auctions.prototype.getAuction = function(auctionId) {
 	var result = this._auctions[auctionId];
-	if (!result) { throw new Error('auction does not exist. auctionId: ' + auctionId) };
+	if (!result) { throw new Error('auction does not exist. auctionId: ' + auctionId); }
 	return result;
 };
 
@@ -166,7 +166,9 @@ Auctions.prototype.applyPast = function(past) {
 	var added = [];
 	var expired = [];
 
-	for (var x in b) {
+	var x;
+
+	for (x in b) {
 		if (!a[x]) {
 			added.push(x);
 		} else {
@@ -176,7 +178,7 @@ Auctions.prototype.applyPast = function(past) {
 		}
 	}
 
-	for (var x in a) {
+	for (x in a) {
 		if (!b[x]) {
 			if (a[x].timeLeft === 1) { // TODO: calculate properly
 				expired.push(x);
@@ -187,7 +189,7 @@ Auctions.prototype.applyPast = function(past) {
 	}
 
 	var priceChanges = {};
-	for (var x in this.index.items) {
+	for (x in this.index.items) {
 		var presentCheapest = this.getCheapestAuction(x);
 		var pastCheapest = past.getCheapestAuction(x);
 		if (pastCheapest) {
@@ -206,7 +208,7 @@ Auctions.prototype.getCheapestAuction = function(itemId) {
 		return undefined;
 	}
 	return this.getAuction(this.index.items[itemId][0]);
-}
+};
 
 /**
  * Converts the data format coming from the API into something more usable.
@@ -278,13 +280,13 @@ Auctions.makeIndex = function(auctions, indices) {
 		}
 	});
 
-	for (var x in items) {
+	Object.keys(items).forEach(function(x) {
 		items[x].sort(function(a, b) {
 			a = auctions[a];
 			b = auctions[b];
 			return a.buyoutPerItem - b.buyoutPerItem;
 		});
-	}
+	});
 
 	return {
 		items: items,
@@ -381,7 +383,7 @@ Auctions.makeChanges = function(a, b, remind, addind) {
 					owner: auction.owner,
 					quantity: auction.quantity,
 					buyoutPerItem: auction.buyoutPerItem
-				})
+				});
 			});
 		});
 	});

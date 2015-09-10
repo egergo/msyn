@@ -12,8 +12,6 @@ function User(opt) {
 	this._tables = opt.tables;
 	this._id = '' + opt.id;
 
-	this._accessTokenCache;
-
 	Object.defineProperty(this, 'id', {get: function() { return this._id; }});
 }
 
@@ -40,7 +38,7 @@ User.prototype.login = function(profile, accessToken) {
 		});
 	}).then(function() {
 		this._accessTokenCache = accessToken;
-	})
+	});
 };
 
 /**
@@ -58,7 +56,7 @@ User.prototype.getCharactersOnRealm = function(region, realm) {
 			return realms[character.region].bySlug[character.realm].real === realm;
 		});
 	});
-}
+};
 
 User.prototype.load = function() {
 	return this._tables.retrieveEntityAsync(User.TABLE_NAME, this._id, '').spread(function(user) {
@@ -99,7 +97,7 @@ User.prototype.saveSettings = function(modifier) {
 
 	function run() {
 		return self.getRaw().then(function(raw) {
-			var etag = raw['.metadata']['etag'];
+			var etag = raw['.metadata'].etag;
 			var settings = !raw.Settings ? {} : JSON.parse(raw.Settings._);
 			return Promise.resolve(modifier(settings)).then(function(settings) {
 				return self._tables.mergeEntityAsync(User.TABLE_NAME, {
@@ -119,7 +117,7 @@ User.prototype.saveSettings = function(modifier) {
 			throw err;
 		});
 	}
-}
+};
 
 /**
  * @typedef {object} Character

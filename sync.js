@@ -220,7 +220,7 @@ function sendNotifications(region, realm, items) {
 
 function sendNotificationToUser(region, realm, auctions, userId) {
 	return Promise.resolve().then(function() {
-		return redis.get(util.format('users:%s', userId))
+		return redis.get(util.format('users:%s', userId));
 	}).then(function(user) {
 		user = JSON.parse(user);
 		if (!user || !user.toons) { return; }

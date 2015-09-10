@@ -51,7 +51,7 @@ AuctionStore.prototype.loadCurrentProcessedAuctions = function(region, realm) {
 AuctionStore.prototype.loadProcessedAuctions = function(region, realm, date) {
 	var name = this._getStorageName(region, realm, AuctionStore.Type.Processed, date);
 	return this._azure.blobs.getBlobToBufferGzipAsync(name.container, name.path).spread(function(res) {
-		var res = JSON.parse(res);
+		res = JSON.parse(res);
 		if (res.auctions) {
 			return new Auctions({lastModified: date, processed: res});
 		} else {
@@ -107,9 +107,9 @@ AuctionStore.prototype.getFetchedAuctionsSince = function(region, realm, lastPro
 			return {
 				lastModified: entry.lastModified._
 			};
-		})
+		});
 	});
-}
+};
 
 /**
  * Store processed auctions and update lastProcessed date

@@ -1,3 +1,5 @@
+/*jshint expr: true*/
+
 var chai = require('chai');
 var sinon = require('sinon');
 var supertest = require('supertest');
@@ -28,7 +30,7 @@ describe('SendNotifications', function() {
 	var sendgridNock;
 	var sendgridNockRequest;
 
-	var LAST_PROCESSED = new Date;
+	var LAST_PROCESSED = new Date();
 	var WEBHOOK = 'https://hooks.slack.com/services/XXXXXXXX/XXXXXXXX/XXXXXXXXXXXXXXXX';
 
 	beforeEach(function() {

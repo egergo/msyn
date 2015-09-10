@@ -1,3 +1,7 @@
+// disable dot notation warnings
+/*jshint -W069 */
+/*jshint expr: true*/
+
 var chai = require('chai');
 var sinon = require('sinon');
 var supertest = require('supertest');
