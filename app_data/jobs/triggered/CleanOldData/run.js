@@ -21,7 +21,22 @@ module.exports = function() {
 				}
 			});
 		});
-	});
+	}).then(function() {
+		return processContainers(function(containers) {
+			return Promise.each(containers, function(entry) {
+				var name = entry.name;
+				var state = checkContainer(name);
+				if (state === 2) {
+					log.info({action: 'delete', name: name}, 'deleting container: %s', name);
+					return azure.containers.deleteContainerAsync(name).catch(function(err) {
+						log.error({name: name, err: err}, 'cannot delete container: %s', name);
+					});
+				} else if (!state) {
+					log.error({action: 'unknown', name: name}, 'unknown container: %s', name);
+				}
+			});
+		});
+	})
 
 	function processTables(cb, next) {
 		return azure.tables.listTablesSegmentedAsync(next).spread(function(res) {
@@ -31,6 +46,34 @@ module.exports = function() {
 				}
 			});
 		});
+	}
+
+	function processContainers(cb, next) {
+		return azure.blobs.listContainersSegmentedAsync(next).spread(function(res) {
+			return Promise.resolve(cb(res.entries)).then(function() {
+				if (res.continuationToken) {
+					return processContainers(cb, res.continuationToken);
+				}
+			});
+		});
+	}
+
+	/**
+	 * @returns 1 - keep, 2 - delete
+	 */
+	function checkContainer(name) {
+		var valids = [];
+		var m;
+		var now = new Date;
+		var sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+
+		if (valids.indexOf(name) !== -1) {
+			return 1;
+		} else if (m = name.match(/^xauctions([0-9]{4})([0-9]{2})([0-9]{2})$/)) {
+			var date = new Date(Date.UTC(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])));
+			if (date < sevenDaysAgo) { return 2; }
+			return 1;
+		}
 	}
 
 	/**
