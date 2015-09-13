@@ -28,8 +28,8 @@ AuctionStore.prototype.loadCurrentProcessedAuctions = function(region, realm) {
 	}).spread(function(result) {
 		return result.lastProcessed._;
 	}).then(function(lastProcessed) {
-		var storageName = this._getStorageName(region, realm, AuctionStore.Type.Processed, lastProcessed);
-		return this._azure.blobs.getBlobToBufferGzipAsync(storageName.container, storageName.path).spread(function(buf) {
+		var storageName = this._getStorageName(region, realm, lastProcessed);
+		return this._azure.blobs.getBlobToBufferGzipAsync(storageName.container, storageName.processed).spread(function(buf) {
 			return new Auctions({
 				lastModified: lastProcessed,
 				past: JSON.parse(buf)
@@ -49,8 +49,8 @@ AuctionStore.prototype.loadCurrentProcessedAuctions = function(region, realm) {
  * @param {date} date
  */
 AuctionStore.prototype.loadProcessedAuctions = function(region, realm, date) {
-	var name = this._getStorageName(region, realm, AuctionStore.Type.Processed, date);
-	return this._azure.blobs.getBlobToBufferGzipAsync(name.container, name.path).spread(function(res) {
+	var name = this._getStorageName(region, realm, date);
+	return this._azure.blobs.getBlobToBufferGzipAsync(name.container, name.processed).spread(function(res) {
 		res = JSON.parse(res);
 		if (res.auctions) {
 			return new Auctions({lastModified: date, processed: res});
@@ -68,8 +68,8 @@ AuctionStore.prototype.loadProcessedAuctions = function(region, realm, date) {
  * @param {date} date
  */
 AuctionStore.prototype.loadRawAuctions = function(region, realm, date) {
-	var name = this._getStorageName(region, realm, AuctionStore.Type.Raw, date);
-	return this._azure.blobs.getBlobToBufferGzipAsync(name.container, name.path).spread(function(res) {
+	var name = this._getStorageName(region, realm, date);
+	return this._azure.blobs.getBlobToBufferGzipAsync(name.container, name.raw).spread(function(res) {
 		return new Auctions({lastModified: date, data: JSON.parse(res)});
 	});
 };
@@ -151,10 +151,10 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 			priceChanges: auctions._priceChanges,
 			changes: auctions._changes
 		});
-		var name = self._getStorageName(region, realm, AuctionStore.Type.Processed, auctions._lastModified);
-		self._log.info('saving to %s: %s', name.container, name.path);
+		var name = self._getStorageName(region, realm, auctions._lastModified);
+		self._log.info('saving to %s: %s', name.container, name.processed);
 		return self._azure.blobs.lazyContainer(name.container, function() {
-			return self._azure.blobs.createBlockBlobFromTextGzipAsync(name.container, name.path, raw);
+			return self._azure.blobs.createBlockBlobFromTextGzipAsync(name.container, name.processed, raw);
 		});
 	}
 
@@ -253,23 +253,18 @@ AuctionStore.prototype._getAuctionsTableName = function(region, realm, date) {
  * @param {string} type
  * @param {date} date
  */
-AuctionStore.prototype._getStorageName = function(region, realm, type, date) {
+AuctionStore.prototype._getStorageName = function(region, realm, date) {
 	var month = '' + (date.getUTCMonth() + 1);
 	if (month.length === 1) { month = '0' + month; }
 	var day = '' + (date.getUTCDate() + 1);
 	if (day.length === 1) { day = '0' + day; }
-	var name = util.format('%s/%s/%s/%s.gz', type, region, realm, date.getTime());
 	return {
-		container: util.format('XAuctions%s%s%s', date.getUTCFullYear(), month, day),
-		path: name
+		container: util.format('xauctions%s%s%s', date.getUTCFullYear(), month, day),
+		raw: util.format('raw/%s/%s/%s.gz', region, realm, date.getTime()),
+		processed: util.format('processed/%s/%s/%s.gz', region, realm, date.getTime())
 	};
 };
 
 AuctionStore.CacheTableName = 'cache';
-
-AuctionStore.Type = {
-	Raw: 'auctions',
-	Processed: 'processed',
-};
 
 module.exports = AuctionStore;

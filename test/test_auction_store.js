@@ -65,6 +65,8 @@ describe('AuctionStore', function() {
 		var REALM = 'lightbringer';
 		var LAST_MODIFIED = new Date(1441794872336);
 		var EXPECTED_NAME = 'XAuctions20150910';
+		var CONTAINER = 'xauctions20150910';
+		var PROCESSED = 'processed/eu/lightbringer/1441794872336.gz';
 
 		var lastModified = LAST_MODIFIED;
 		var auctionsRaw = {
@@ -96,8 +98,8 @@ describe('AuctionStore', function() {
 			tables.executeBatchAsync.args[1][1].operations[0].entity.RowKey._.should.be.equal('Perlan-Mazrigos');
 			tables.executeBatchAsync.args[1][1].operations[1].entity.RowKey._.should.be.equal('Ermizhad-Lightbringer');
 
-			blobs.createBlockBlobFromTextGzipAsync.args[0][0].should.be.equal(EXPECTED_NAME);
-			blobs.createBlockBlobFromTextGzipAsync.args[0][1].should.be.equal('processed/eu/lightbringer/1441794872336.gz');
+			blobs.createBlockBlobFromTextGzipAsync.args[0][0].should.be.equal(CONTAINER);
+			blobs.createBlockBlobFromTextGzipAsync.args[0][1].should.be.equal(PROCESSED);
 
 			var items = JSON.parse(zlib.inflateRawSync(tables.executeBatchAsync.args[0][1].operations[0].entity.Auctions._));
 			items.length.should.equal(2);
@@ -111,10 +113,11 @@ describe('AuctionStore', function() {
 	it('#loadProcessedAuctions()', function() {
 		var REGION = 'eu';
 		var REALM = 'lightbringer';
-		var LAST_MODIFIED = new Date();
-		var EXPECTED_NAME = auctionStore._getStorageName(REGION, REALM, AuctionStore.Type.Processed, LAST_MODIFIED);
+		var LAST_MODIFIED = new Date(1441794872336);
+		var CONTAINER = 'xauctions20150910';
+		var PROCESSED = 'processed/eu/lightbringer/1441794872336.gz';
 
-		blobs.getBlobToBufferGzipAsync.withArgs(EXPECTED_NAME.container, EXPECTED_NAME.path).returns(Promise.resolve([JSON.stringify({
+		blobs.getBlobToBufferGzipAsync.withArgs(CONTAINER, PROCESSED).returns(Promise.resolve([JSON.stringify({
 			1: {item: 1, owner: 'Perlan-Mazrigos', quantity: 1, buyoutPerItem: 1, timeLeft: 10, timeLeftSince: LAST_MODIFIED.getTime()}
 		})]));
 
@@ -128,10 +131,11 @@ describe('AuctionStore', function() {
 	it('#loadRawAuctions()', function() {
 		var REGION = 'eu';
 		var REALM = 'lightbringer';
-		var LAST_MODIFIED = new Date();
-		var EXPECTED_NAME = auctionStore._getStorageName(REGION, REALM, AuctionStore.Type.Raw, LAST_MODIFIED);
+		var LAST_MODIFIED = new Date(1441794872336);
+		var CONTAINER = 'xauctions20150910';
+		var RAW = 'raw/eu/lightbringer/1441794872336.gz';
 
-		blobs.getBlobToBufferGzipAsync.withArgs(EXPECTED_NAME.container, EXPECTED_NAME.path).returns(Promise.resolve([JSON.stringify({
+		blobs.getBlobToBufferGzipAsync.withArgs(CONTAINER, RAW).returns(Promise.resolve([JSON.stringify({
 			realms: {slug: 'lightbringer', name: 'Lightbringer'},
 			auctions: [
 				{"auc":661631959,"item":87475,"owner":"Perlan","ownerRealm":"Mazrigos","bid":1694000,"buyout":2420000,"quantity":1,"timeLeft":"VERY_LONG","rand":0,"seed":0,"context":0},
