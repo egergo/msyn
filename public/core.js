@@ -153,6 +153,10 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 .config(function($routeProvider) {
 	$routeProvider
 		.when('/', {
+			templateUrl: 'intro.html',
+			controller: 'IntroCtrl'
+		})
+		.when('/characters', {
 			templateUrl: 'characters.html',
 			controller: 'CharactersCtrl'
 		})
@@ -319,6 +323,10 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 	$scope.sendTest = function() {
 		$mdToast.show($mdToast.simple().position('top left').content('Coming Soon™'));
 	};
+})
+
+.controller('IntroCtrl', function($scope, $rootScope) {
+	$rootScope.title = 'Introduction';
 })
 
 ;
