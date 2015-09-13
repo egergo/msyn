@@ -153,7 +153,9 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 		});
 		var name = self._getStorageName(region, realm, AuctionStore.Type.Processed, auctions._lastModified);
 		self._log.info('saving to %s: %s', name.container, name.path);
-		return self._azure.blobs.createBlockBlobFromTextGzipAsync(name.container, name.path, raw);
+		return self._azure.blobs.lazyContainer(name.container, function() {
+			return self._azure.blobs.createBlockBlobFromTextGzipAsync(name.container, name.path, raw);
+		});
 	}
 
 	function storeToTable() {
@@ -252,9 +254,13 @@ AuctionStore.prototype._getAuctionsTableName = function(region, realm, date) {
  * @param {date} date
  */
 AuctionStore.prototype._getStorageName = function(region, realm, type, date) {
-	var name = util.format('%s/%s/%s/%s/%s/%s/%s.gz', type, region, realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
+	var month = '' + (date.getUTCMonth() + 1);
+	if (month.length === 1) { month = '0' + month; }
+	var day = '' + (date.getUTCDate() + 1);
+	if (day.length === 1) { day = '0' + day; }
+	var name = util.format('%s/%s/%s/%s.gz', type, region, realm, date.getTime());
 	return {
-		container: 'realms',
+		container: util.format('XAuctions%s%s%s', date.getUTCFullYear(), month, day),
 		path: name
 	};
 };

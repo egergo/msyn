@@ -39,7 +39,10 @@ describe('AuctionStore', function() {
 
 		blobs = {
 			getBlobToBufferGzipAsync: sinon.stub(),
-			createBlockBlobFromTextGzipAsync: sinon.stub()
+			createBlockBlobFromTextGzipAsync: sinon.stub(),
+			lazyContainer: function(name, cb) {
+				return Promise.resolve(cb());
+			}
 		};
 
 		azure = {
@@ -92,7 +95,9 @@ describe('AuctionStore', function() {
 			tables.executeBatchAsync.args[1][1].operations[0].entity.PartitionKey._.should.be.equal('eu-lightbringer-owners-1441794872336');
 			tables.executeBatchAsync.args[1][1].operations[0].entity.RowKey._.should.be.equal('Perlan-Mazrigos');
 			tables.executeBatchAsync.args[1][1].operations[1].entity.RowKey._.should.be.equal('Ermizhad-Lightbringer');
-			blobs.createBlockBlobFromTextGzipAsync.args[0][1].should.contain('processed/');
+
+			blobs.createBlockBlobFromTextGzipAsync.args[0][0].should.be.equal(EXPECTED_NAME);
+			blobs.createBlockBlobFromTextGzipAsync.args[0][1].should.be.equal('processed/eu/lightbringer/1441794872336.gz');
 
 			var items = JSON.parse(zlib.inflateRawSync(tables.executeBatchAsync.args[0][1].operations[0].entity.Auctions._));
 			items.length.should.equal(2);
