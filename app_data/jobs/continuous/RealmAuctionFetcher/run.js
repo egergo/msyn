@@ -13,6 +13,8 @@ var TaskQueue = require('../../../../platform_services/task_queue');
 var Azure = require('../../../../platform_services/azure');
 var User = require('../../../../user');
 
+Promise.longStackTraces();
+
 var ProcessFetchedAuctions = require('./process_fetched_auctions');
 var SendNotifications = require('./send_notifications');
 
@@ -104,7 +106,7 @@ function fetchAuctionData(opt) {
 	}).then(function(status) {
 		return fetchAndSaveRealmToStorage(status.url).then(function(savedParams) {
 			var age = status.lastFetched ? savedParams.lastModified - status.lastFetched : undefined;
-			log.info({path:savedParams.path, age: age}, 'auction data saved to %s', savedParams.path)
+			log.info({age: age}, 'auction data saved')
 
 			return addToSnapshots(savedParams.path, savedParams.lastModified).then(function() {
 				return updateStatusTable(savedParams.lastModified);
@@ -171,12 +173,8 @@ function fetchAuctionData(opt) {
 			// 	throw new Error(util.format('realm name mismatch: region=%s realm=%s realms=%s', opt.region, opt.realm, JSON.stringify(auctions.realms)));
 			// }
 
-			var date = lastModified;
-			var name = util.format('auctions/%s/%s/%s/%s/%s/%s.gz', opt.region, opt.realm, date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getTime());
-			log.info('storing file. name:', name, 'originalSize:', auctionsRaw.length);
-			return azure.blobs.createBlockBlobFromTextGzipAsync('realms', name, auctionsRaw).then(function() {
+			return auctionStore.storeRawAuctions(opt.region, opt.realm, lastModified, auctionsRaw).then(function() {
 				return {
-					path: name,
 					lastModified: lastModified
 				};
 			});

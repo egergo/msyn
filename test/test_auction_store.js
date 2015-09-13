@@ -110,6 +110,19 @@ describe('AuctionStore', function() {
 		});
 	});
 
+	it('#storeRawAuctions()', function() {
+		var REGION = 'eu';
+		var REALM = 'lightbringer';
+		var LAST_MODIFIED = new Date(1441794872336);
+		var EXPECTED_NAME = 'xauctions20150910';
+		var RAW = 'raw/eu/lightbringer/1441794872336.gz';
+
+		return auctionStore.storeRawAuctions(REGION, REALM, LAST_MODIFIED, {}).then(function() {
+			blobs.createBlockBlobFromTextGzipAsync.args[0][0].should.be.equal(EXPECTED_NAME);
+			blobs.createBlockBlobFromTextGzipAsync.args[0][1].should.be.equal(RAW);
+		});
+	});
+
 	it('#loadProcessedAuctions()', function() {
 		var REGION = 'eu';
 		var REALM = 'lightbringer';

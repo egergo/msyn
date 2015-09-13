@@ -236,6 +236,15 @@ AuctionStore.prototype.storeAuctions = function(auctions, region, realm) {
 	}
 };
 
+AuctionStore.prototype.storeRawAuctions = function(region, realm, date, raw) {
+	var self = this;
+	var name = this._getStorageName(region, realm, date);
+	this._log.info('saving to %s: %s', name.container, name.raw);
+	return this._azure.blobs.lazyContainer(name.container, function() {
+		return self._azure.blobs.createBlockBlobFromTextGzipAsync(name.container, name.raw, raw);
+	});
+};
+
 AuctionStore.prototype._getAuctionsTableName = function(region, realm, date) {
 	var month = '' + (date.getUTCMonth() + 1);
 	if (month.length === 1) { month = '0' + month; }
