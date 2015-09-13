@@ -105,7 +105,7 @@ AuctionProcessor.prototype.run = function() {
 		// maybe an old file got deleted
 		// we need this clause to self-heal
 		if (err.message === 'NotFound') {
-			log.error({lastModified: this._lastModified, path: this._path, lastProcessed: this._lastProcessed}, 'fetched auction file not found');
+			this._log.error({lastModified: this._lastModified, path: this._path, lastProcessed: this._lastProcessed}, 'fetched auction file not found');
 			return;
 		}
 		throw err;
