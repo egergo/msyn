@@ -22,6 +22,7 @@ function Azure(opt) {
 
 	Azure.extendServiceBusWithBatching(serviceBus);
 	Azure.extendBlobsWithGzip(blobs);
+	Azure.extendBlobsWithLazyContainers(blobs);
 
 	Promise.promisifyAll(blobs);
 	Promise.promisifyAll(tables);
@@ -103,6 +104,24 @@ Azure.extendBlobsWithGzip = function(blobs) {
 		});
 		return resolver.promise;
 	}
+};
+
+/**
+ * Extends blobs with a function lazyContainer(container, cb). It invokes the callback that
+ * should run an operation on the container. If cb throws an error with code ContainerNotFound,
+ * it creates the container and re-invokes cb.
+ */
+Azure.extendBlobsWithLazyContainers = function(blobs) {
+	blobs.lazyContainer = function(container, cb) {
+		return Promise.bind(this).then(function() {
+			return cb();
+		}).catch(function(err) {
+			if (err.code !== 'ContainerNotFound') { throw err; }
+			return this.createContainerIfNotExistsAsync(container).then(function() {
+				return cb();
+			});
+		});
+	};
 };
 
 module.exports = Azure;
