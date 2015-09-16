@@ -230,6 +230,14 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 	});
 })
 
+.factory('User', function($resource, loginManager) {
+	return $resource('/user', null, {
+		get: {
+			headers: {authorization: function() { return 'Bearer ' + loginManager.token; }}
+		}
+	});
+})
+
 .factory('Auctions', function($resource, loginManager) {
 	return $resource('/auctions', null, {
 		get: {
@@ -259,12 +267,15 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 	});
 })
 
-.controller('MainCtrl', function($scope, $timeout, $mdSidenav, loginManager) {
+.controller('MainCtrl', function($scope, $timeout, $mdSidenav, loginManager, User) {
 	var self = this;
 
 	$scope.openMenu = openMenu;
 	$scope.loginManager = loginManager;
 
+	$scope.$watch('loginManager.isLoggedIn', function(value, oldValue) {
+		$scope.user = User.get();
+	});
 
 	function openMenu() {
 		$timeout(function() { $mdSidenav('left').open(); });

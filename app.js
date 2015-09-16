@@ -113,6 +113,21 @@ app.get('/characters', passport.authenticate('jwt', {session: false}), function(
 	});
 });
 
+app.get('/user', passport.authenticate('jwt', {session: false}), function(req, res, next) {
+	Promise.resolve().then(function() {
+		return req.user.getRaw();
+	}).then(function(raw) {
+		return {
+			id: req.user.id,
+			battletag: raw.battletag._
+		};
+	}).then(function(result) {
+		res.send(result);
+	}).catch(function(err) {
+		next(err);
+	});
+});
+
 app.get('/auctions', passport.authenticate('jwt', {session: false}), function(req, res, next) {
 	req.user.load().then(function(user) {
 		var toons = gatherToons(user);

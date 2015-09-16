@@ -82,8 +82,10 @@
 					</h2>
 
 					<span flex></span>
-
 					<div class="md-toolbar-item docs-tools" layout="row">
+
+						<md-button ng-if="user.battletag" ng-bind="user.battletag" ng-href="#!/characters"></md-button>
+
 						<md-button aria-label="Login" ng-hide="loginManager.isLoggedIn" ng-click="loginManager.startLogin()">Login</md-button>
 
 						<md-button aria-label="Login" ng-show="loginManager.isLoggedIn" ng-click="loginManager.logout()">Logout</md-button>
