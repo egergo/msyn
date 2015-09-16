@@ -79,8 +79,7 @@ User.prototype.load = function() {
  */
 User.prototype.getSettings = function() {
 	return this.getRaw().then(function(raw) {
-		if (!raw.Settings) { return {}; }
-		var settings = JSON.parse(raw.Settings._);
+		var settings = raw.Settings ? JSON.parse(raw.Settings._) : {};
 		if (settings.notificationsEnabled === undefined) { settings.notificationsEnabled = true; }
 		if (settings.minValue === undefined) { settings.minValue = 0; }
 		return settings;
