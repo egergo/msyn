@@ -38,8 +38,12 @@ SendNotifications.prototype.run = function() {
 	var self = this;
 
 	var notifiers;
+	var settings;
 
 	return Promise.bind(this).then(function() {
+		return this._checkIfNotificationsEnabled();
+	}).then(function(settingsArg) {
+		settings = settingsArg;
 		return this._createNotifiers();
 	}).then(function(notifiersArgs) {
 		notifiers = notifiersArgs;
@@ -58,7 +62,7 @@ SendNotifications.prototype.run = function() {
 		};
 
 		ahnames.forEach(function(ahname) {
-			var forChar = this._processForCharacter(ahname, auctions);
+			var forChar = this._processForCharacter(ahname, auctions, settings);
 			if (forChar) {
 				tonotify.characters[ahname] = forChar;
 			}
@@ -79,7 +83,21 @@ SendNotifications.prototype.run = function() {
 		if (err.message === 'NoNotifiers') { return; }
 		if (err.message === 'NoCharacters') { return; }
 		if (err.message === 'NoAuctions') { return; }
+		if (err.message === 'NotificationsDisabled') { return; }
 		throw err;
+	});
+};
+
+/**
+ * Check is user has enabled sending notifications.
+ *
+ * @return {Promise<settings>}
+ * @throws Error('NotificationsDisabled')
+ */
+SendNotifications.prototype._checkIfNotificationsEnabled = function() {
+	return this._user.getSettings().then(function(settings) {
+		if (!settings.notificationsEnabled) { throw new Error('NotificationsDisabled'); }
+		return settings;
 	});
 };
 
@@ -139,13 +157,25 @@ SendNotifications.prototype._loadCurrentAuctions = function() {
 	});
 };
 
-SendNotifications.prototype._processForCharacter = function(ahname, auctions) {
+SendNotifications.prototype._processForCharacter = function(ahname, auctions, settings) {
 	var self = this;
-
 	if (!auctions.index.owners[ahname]) { return; }
 
 	var items = {};
 	Object.keys(auctions.index.owners[ahname]).forEach(function(id) {
+
+		// return if the owner's most expensive auction for the item is
+		// below the notification threshold
+		var myMaxPrice;
+		auctions.index2.items[id].forEach(function(auction) {
+			if (auction.owner !== ahname) { return; }
+			if (!myMaxPrice || auction.buyoutPerItem > myMaxPrice) {
+				myMaxPrice = auction.buyoutPerItem;
+			}
+		});
+		if (myMaxPrice <= settings.minValue) { return; }
+
+
 		if (auctions._priceChanges && auctions._priceChanges[id]) {
 			items[id] = self._createItemNotification(auctions, id, ahname);
 		}

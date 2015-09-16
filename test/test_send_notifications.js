@@ -106,7 +106,8 @@ describe('SendNotifications', function() {
 	it('should send notifications', function() {
 		user.getSettings.returns(Promise.resolve({
 			slackWebhook: WEBHOOK,
-			email: 'egergo@mesellyounot.com'
+			email: 'egergo@mesellyounot.com',
+			notificationsEnabled: true
 		}));
 		user.getCharactersOnRealm.returns(Promise.resolve([{
 			name: 'Perlan',
@@ -123,7 +124,25 @@ describe('SendNotifications', function() {
 	});
 
 	it('should not send notifications when not notifiers enabled', function() {
-		user.getSettings.returns(Promise.resolve({}));
+		user.getSettings.returns(Promise.resolve({
+			notificationsEnabled: true
+		}));
+		user.getCharactersOnRealm.returns(Promise.resolve([{
+			name: 'Perlan',
+			region: 'eu',
+			realm: 'mazrigos'
+		}]));
+		auctionStore.getLastProcessedTime.returns(Promise.resolve(LAST_PROCESSED));
+
+		return sendNotifications.run().then(function() {
+			slackNock.isDone().should.be.false;
+		});
+	});
+
+	it('should not send notifications when notifications are not enabled', function() {
+		user.getSettings.returns(Promise.resolve({
+			notificationsEnabled: false
+		}));
 		user.getCharactersOnRealm.returns(Promise.resolve([{
 			name: 'Perlan',
 			region: 'eu',
@@ -138,6 +157,7 @@ describe('SendNotifications', function() {
 
 	it('should not send notifications when no character on realm', function() {
 		user.getSettings.returns(Promise.resolve({
+			notificationsEnabled: true,
 			slackWebhook: WEBHOOK
 		}));
 		user.getCharactersOnRealm.returns(Promise.resolve([]));
@@ -150,10 +170,29 @@ describe('SendNotifications', function() {
 
 	it('should not send notifications when nothing to notify', function() {
 		user.getSettings.returns(Promise.resolve({
+			notificationsEnabled: true,
 			slackWebhook: WEBHOOK
 		}));
 		user.getCharactersOnRealm.returns(Promise.resolve([{
 			name: 'Ermizhad',
+			region: 'eu',
+			realm: 'mazrigos'
+		}]));
+		auctionStore.getLastProcessedTime.returns(Promise.resolve(LAST_PROCESSED));
+
+		return sendNotifications.run().then(function() {
+			slackNock.isDone().should.be.false;
+		});
+	});
+
+	it('should not send notifications below price threshold', function() {
+		user.getSettings.returns(Promise.resolve({
+			slackWebhook: WEBHOOK,
+			notificationsEnabled: true,
+			minValue: 2000
+		}));
+		user.getCharactersOnRealm.returns(Promise.resolve([{
+			name: 'Perlan',
 			region: 'eu',
 			realm: 'mazrigos'
 		}]));

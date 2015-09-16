@@ -296,6 +296,7 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 	$scope.loaded = false;
 	$scope.settings = Settings.get();
 	$scope.settings.$promise.then(function() {
+		$scope.minValueInG = $scope.settings.minValue / 10000;
 		$scope.loaded = true;
 	}).catch(function(err) {
 		console.error(err);
@@ -308,6 +309,7 @@ angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
 
 		$scope.saving = true;
 		$q.when().then(function() {
+			$scope.settings.minValue = $scope.minValueInG * 10000;
 			return $scope.settings.$save();
 		}).then(function(res) {
 			$mdToast.show($mdToast.simple().position('top left').content('Settings saved'));

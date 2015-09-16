@@ -1,10 +1,10 @@
 <div class="doc-content" layout="row">
 
-	<md-content class="md-default-theme" flex="50" layout="column" ng-show="error">
+	<md-content class="md-default-theme" flex layout="column" ng-show="error">
 		{{error}}
 	</md-content>
 
-	<md-content class="md-default-theme" flex="50" layout="column" ng-show="loaded">
+	<md-content class="md-default-theme" flex layout="column" ng-show="loaded" style="max-width: 500px;">
 		<div>
 			<h3>Slack Notifications</h3>
 			<div layout="column">
@@ -29,7 +29,26 @@
 			</div>
 		</div>
 
-		<div layout-align="end" layout="row">
+		<div>
+			<h3>Items</h3>
+			<div layout>
+				<md-checkbox ng-model="settings.notificationsEnabled" aria-label="Notifications Enabled">
+          Notifications Enabled
+        </md-checkbox>
+			</div>
+			<div layout="column">
+				<p>Automatically send notifications for items above price:</p>
+				<div layout>
+					<div flex="20" layout layout-align="center center">Gold</div>
+					<md-slider flex ng-model="minValueInG" min="0" max="2000"></md-slider>
+					<div flex="20" layout layout-align="center center" style="min-width: 80px; padding-left: 20px;">
+						<input flex ng-model="minValueInG" style="text-align: center;"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div layout-align="end" layout="row" style="margin-top: 20px;">
 			<md-button ng-click="sendTest()">Send Test</md-button>
 			<md-button ng-click="save()" ng-disabled="saving" class="md-primary md-raised">Save</md-button>
 		</div>

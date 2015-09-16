@@ -364,6 +364,8 @@ app.post('/settings', passport.authenticate('jwt', {session: false}), function(r
 			settings.slackWebhook = req.body.slackWebhook;
 			settings.slackChannel = req.body.slackChannel;
 			settings.email = req.body.email;
+			settings.notificationsEnabled = req.body.notificationsEnabled;
+			settings.minValue = req.body.minValue;
 			return settings;
 		});
 	}).then(function(settings) {
