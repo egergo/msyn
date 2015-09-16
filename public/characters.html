@@ -6,9 +6,12 @@
 
 		<div ng-show="loginManager.isLoggedIn">
 			<md-list ng-show="characters.eu.characters">
-				<md-list-item ng-repeat="character in characters.eu.characters">
-					<img alt="{{ character.name }}" ng-src="https://eu.battle.net/static-render/eu/{{character.thumbnail}}" err-src="http://google.com/favicon.ico" class="md-avatar" />
-					<p>{{ character.name }} - {{character.guild}} - {{character.realm}}</p>
+				<md-list-item class="md-2-line" ng-repeat="character in characters.eu.characters">
+					<img alt="{{ character.name }}" ng-src="https://eu.battle.net/static-render/eu/{{character.thumbnail}}" err-src="/favicon.ico" class="md-avatar" />
+					<div class="md-list-item-text">
+						<h3>{{character.name}}</h3>
+						<p>Realm: {{character.realm}} <span ng-if="character.guild"> | Guild: {{character.guild}}</span>
+					</div>
 				</md-list-item>
 			</md-list>
 
