@@ -1,7 +1,8 @@
 <div class="doc-content">
 	<md-content class="md-default-theme">
-
-		<div layout="row" flex>
+		<p>Realms are automatically enabled as more users join Me Sell You Not.</p>
+		<div layout="row" flex ng-hide="realmStatus.$resolved">Loading...</div>
+		<div layout="row" flex ng-show="realmStatus.$resolved">
 			<div layout="column" flex="70" offset="15">
 				<div ng-repeat="region in ['eu', 'us', 'kr', 'tw']">
 					<h3>{{region}}</h3>
@@ -11,7 +12,7 @@
 							<td><time title="{{ realm.lastFetched | amDateFormat: 'dddd, MMMM Do YYYY, h:mm a' }}" am-time-ago="realm.lastFetched"></time></td>
 							<td>
 								<div ng-show="{{!realm.enabled}}">updates disabled</div>
-								<div ng-show="{{realm.lastFetched < realm.lastModified}}">update pending</div>
+								<div ng-show="{{realm.enabled && realm.lastFetched < realm.lastModified}}">update pending</div>
 							</td>
 						</tr>
 					</table>
