@@ -107,7 +107,7 @@ LoginManager.prototype.logout = function() {
 	});
 };
 
-angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment'])
+angular.module('msyn', ['ngRoute', 'ngMaterial', 'ngResource', 'angularMoment', 'angulartics', 'angulartics.google.analytics'])
 
 .directive('disqus', function($timeout, disqus) {
 	return {

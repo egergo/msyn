@@ -7,7 +7,8 @@
     "db-sync": "node db.js sync",
     "test": "node_modules/mocha/bin/mocha -R spec",
     "coverage": "./node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --recursive -R spec -r should",
-    "start": "node app.js"
+    "start": "node app.js",
+    "install": "grunt"
   },
   "engines": {
     "node": "0.12.x",
@@ -18,6 +19,7 @@
     "errorhandler": "^1.4.2",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.1",
     "grunt-contrib-jshint": "^0.11.3",
     "grunt-exec": "^0.4.6",
     "grunt-jscs": "^2.1.0",
@@ -33,6 +35,8 @@
     "supertest": "^1.0.1"
   },
   "dependencies": {
+    "angulartics": "^0.20.1",
+    "angulartics-google-analytics": "^0.1.1",
     "azure-common": "^0.9.13",
     "azure-sb": "^0.10.1",
     "azure-storage": "^0.4.5",

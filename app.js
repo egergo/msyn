@@ -62,6 +62,7 @@ var auth = new Auth({
 auth.init();
 
 app.use(express.static('public'));
+app.use(express.static('build/public'));
 
 var BnetStrategy = require('passport-bnet').Strategy;
 passport.use(new BnetStrategy({

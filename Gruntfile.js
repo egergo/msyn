@@ -53,15 +53,30 @@ module.exports = function(grunt) {
 					verbose: true
 				}
 			}
-		}
+		},
+
+		concat: {
+			options: {
+				sourceMap: true
+			},
+			dist: {
+				src: [
+					'node_modules/angulartics/src/angulartics.js',
+					'node_modules/angulartics-google-analytics/lib/angulartics-google-analytics.js'
+				],
+				dest: 'build/public/main.js'
+			}
+		},
 	});
 
 	grunt.loadNpmTasks('grunt-mocha-test');
 	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks("grunt-jscs");
 
+	grunt.registerTask('default', ['concat']);
 	grunt.registerTask('check', ['jscs', 'jshint', 'test']);
 	grunt.registerTask('test', ['mochaTest']);
 	grunt.registerTask('cover', ['exec:cover']);
