@@ -67,11 +67,17 @@ TaskQueue.prototype.run = function(callback) {
 				self._log.warn({err: err, message: message}, 'could not delete message', err.stack);
 			});
 		}).catch(function(err) {
+			if (err.name === 'TransientError') {
+				if (err.cause) {
+					err = err.cause;
+				}
+			} else {
+				self._log.error({err: err, message: message}, 'error executing message callback');
+			}
 			error = err;
-			self._log.error({err: err, message: message}, 'error executing message callback');
 			if (process.env.STOP_ON_ERROR === '1') { process.exit(1); }
 			if (message.brokerProperties.DeliveryCount >= 5) {
-				self._log.error({message: message}, 'removing poison message');
+				self._log.error({message: message, err: err}, 'removing poison message');
 				return self._serviceBus.deleteMessageAsync(message).catch(function(err) {
 					self._log.warn({err: err, message: message}, 'could not delete message:', err.stack);
 				});

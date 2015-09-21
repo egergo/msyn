@@ -248,6 +248,8 @@ function fetchRealm(opt) {
 				url: file.url,
 				lastModified: new Date(file.lastModified)
 			};
+		}).catch(function(err) {
+			throw transientError(err);
 		});
 	}
 
@@ -295,6 +297,8 @@ function fetchRealm(opt) {
 					lastModified: lastModified
 				};
 			});
+		}).catch(function(err) {
+			throw transientError(err);
 		});
 	}
 
@@ -333,6 +337,12 @@ function fetchRealm(opt) {
 		});
 	}
 
+	function transientError(cause) {
+		var err = new Error();
+		err.name = 'TransientError';
+		err.cause = cause;
+		return err;
+	}
 
 }
 

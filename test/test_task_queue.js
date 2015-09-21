@@ -96,6 +96,27 @@ describe('TaskQueue', function() {
 		});
 	});
 
+	it('should handle transient errors', function() {
+		serviceBus.receiveQueueMessageAsync.onCall(0).returns(serviceBusMessage('first'));
+		serviceBus.receiveQueueMessageAsync.onCall(1).returns(serviceBusMessage('second'));
+
+		var callback = sinon.spy(function(message) {
+			if (message.body === 'second') {
+				done.resolve();
+			} else {
+				var err = new Error();
+				err.name = 'TransientError';
+				err.cause = new Error('no network');
+				throw err;
+			}
+		});
+		taskQueue.run(callback);
+
+		return done.promise.then(function() {
+			serviceBus.unlockMessageAsync.args[0][0].body.should.be.equal('first');
+		});
+	});
+
 	it('should drop poison message', function() {
 		serviceBus.receiveQueueMessageAsync.onCall(0).returns(serviceBusMessage('first', 5));
 		serviceBus.receiveQueueMessageAsync.onCall(1).returns(serviceBusMessage('second'));
