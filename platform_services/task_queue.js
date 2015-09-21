@@ -86,7 +86,7 @@ TaskQueue.prototype.run = function(callback) {
 			self._log.debug({ms: ms, all: delay + ms}, 'message processed');
 
 			// async run
-			reportMessage(delay, ms, message, error, result);
+			// reportMessage(delay, ms, message, error, result);
 		});
 	}
 
