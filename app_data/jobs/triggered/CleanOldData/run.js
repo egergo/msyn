@@ -62,12 +62,14 @@ module.exports = function() {
 	 * @returns 1 - keep, 2 - delete
 	 */
 	function checkContainer(name) {
-		var valids = [];
+		var valids = ['public'];
 		var m;
 		var now = new Date;
 		var sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
 
 		if (valids.indexOf(name) !== -1) {
+			return 1;
+		} else if (name.indexOf('waws') === 0) {
 			return 1;
 		} else if (m = name.match(/^xauctions([0-9]{4})([0-9]{2})([0-9]{2})$/)) {
 			var date = new Date(Date.UTC(parseInt(m[1]), parseInt(m[2]) - 1, parseInt(m[3])));
