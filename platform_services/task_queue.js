@@ -16,6 +16,11 @@ function TaskQueue(opt) {
 	this._log = opt.log;
 }
 
+/**
+ * Tasks must finish faster than this.
+ */
+TaskQueue.TASK_TIMEOUT = 5 * 60 * 1000;
+
 TaskQueue.prototype.run = function(callback) {
 	if (!this._executor) { throw new Error('opt.executor must be defined in the constructor to use this'); }
 
@@ -61,7 +66,7 @@ TaskQueue.prototype.run = function(callback) {
 
 		return Promise.resolve().then(function() {
 			return callback(message);
-		}).then(function(res) {
+		}).timeout(TaskQueue.TASK_TIMEOUT).then(function(res) {
 			result = res;
 			return self._serviceBus.deleteMessageAsync(message).catch(function(err) {
 				self._log.warn({err: err, message: message}, 'could not delete message', err.stack);
