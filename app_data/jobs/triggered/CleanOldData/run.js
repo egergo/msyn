@@ -28,7 +28,7 @@ module.exports = function() {
 				var state = checkContainer(name);
 				if (state === 2) {
 					log.info({action: 'delete', name: name}, 'deleting container: %s', name);
-					return azure.containers.deleteContainerAsync(name).catch(function(err) {
+					return azure.blobs.deleteContainerAsync(name).catch(function(err) {
 						log.error({name: name, err: err}, 'cannot delete container: %s', name);
 					});
 				} else if (!state) {
